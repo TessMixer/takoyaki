@@ -703,6 +703,9 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 
+// ── VISION API KEY ──
+const VISION_API_KEY = 'AIzaSyD4fHISnEaElcGeElt6LI4zd26am8rwLeo'; // ← ใส่ key ของคุณตรงนี้
+
 // ── STATE ──
 let role = 'owner';
 let userName = '';
@@ -1103,7 +1106,6 @@ async function handleFile(file) {
   const reader=new FileReader();
   reader.onload=async ev=>{
     const base64=ev.target.result.split(',')[1];
-    const mediaType=file.type||'image/jpeg';
     document.getElementById('preview-img').src=ev.target.result;
     document.getElementById('preview-box').style.display='block';
     dropZone.style.display='none';
@@ -1112,31 +1114,42 @@ async function handleFile(file) {
     document.getElementById('save-form').style.display='none';
     const ab=document.getElementById('analyzing-bar');
     ab.style.display='flex';
-    const msgs=['กำลังวิเคราะห์สลิป...','อ่านตัวเลขจำนวนเงิน...','ตรวจสอบข้อมูลธนาคาร...','เกือบเสร็จแล้ว...'];
+    const msgs=['กำลังอ่านสลิป...','ดึงข้อมูลจำนวนเงิน...','ตรวจสอบรายละเอียด...','เกือบเสร็จแล้ว...'];
     let mi=0;
-    const ticker=setInterval(()=>{mi=(mi+1)%msgs.length;document.getElementById('analyze-msg').textContent=msgs[mi];},1000);
+    const ticker=setInterval(()=>{mi=(mi+1)%msgs.length;document.getElementById('analyze-msg').textContent=msgs[mi];},900);
     try {
-      const resp=await fetch('https://api.anthropic.com/v1/messages',{
-        method:'POST',headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:[
-          {type:'image',source:{type:'base64',media_type:mediaType,data:base64}},
-          {type:'text',text:'วิเคราะห์สลิปโอนเงินนี้ ตอบกลับเป็น JSON เท่านั้น ไม่มี markdown ไม่มี backtick รูปแบบ: {"amount":<ตัวเลข>,"date":"<วันที่เวลา>","type":"<ประเภท เช่น พร้อมเพย์>","bank":"<ธนาคาร/ผู้รับ>","sender":"<ผู้โอน>","ref":"<เลขอ้างอิง>","note":"<สังเกตอื่น>"}'}
-        ]}]})
-      });
+      // Google Vision API — OCR อ่าน text จากรูป
+      const visionResp = await fetch(
+        `https://vision.googleapis.com/v1/images:annotate?key=${VISION_API_KEY}`,
+        {
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({
+            requests:[{
+              image:{content:base64},
+              features:[{type:'TEXT_DETECTION',maxResults:1}]
+            }]
+          })
+        }
+      );
       clearInterval(ticker); ab.style.display='none';
-      const data=await resp.json();
-      if(data.error) throw new Error(data.error.message);
-      const txt=data.content.filter(b=>b.type==='text').map(b=>b.text).join('');
-      let parsed; try{parsed=JSON.parse(txt.trim());}catch{throw new Error('ไม่สามารถอ่านสลิปได้ กรุณาถ่ายรูปใหม่');}
-      currentAIResult=parsed;
-      const amt=parsed.amount?Number(parsed.amount):0;
-      document.getElementById('res-amount').textContent=amt?'฿'+fmtDec(amt):'—';
-      document.getElementById('res-date').textContent=parsed.date||'—';
-      document.getElementById('res-type').textContent=parsed.type||'—';
-      document.getElementById('res-bank').textContent=parsed.bank||'—';
-      document.getElementById('res-sender').textContent=parsed.sender||'—';
-      document.getElementById('res-ref').textContent=parsed.ref||'—';
-      document.getElementById('edit-amount').value=amt||'';
+      const vData = await visionResp.json();
+      if(vData.error) throw new Error(vData.error.message);
+      const fullText = vData.responses?.[0]?.fullTextAnnotation?.text || '';
+      if(!fullText) throw new Error('ไม่พบข้อความในรูป กรุณาถ่ายรูปใหม่ให้ชัดขึ้น');
+
+      // Parse ข้อมูลจาก OCR text
+      const parsed = parseSlipText(fullText);
+      currentAIResult = parsed;
+
+      const amt = parsed.amount ? Number(parsed.amount) : 0;
+      document.getElementById('res-amount').textContent = amt ? '฿'+fmtDec(amt) : '—';
+      document.getElementById('res-date').textContent = parsed.date || '—';
+      document.getElementById('res-type').textContent = parsed.type || '—';
+      document.getElementById('res-bank').textContent = parsed.bank || '—';
+      document.getElementById('res-sender').textContent = parsed.sender || '—';
+      document.getElementById('res-ref').textContent = parsed.ref || '—';
+      document.getElementById('edit-amount').value = amt || '';
       document.getElementById('result-box').style.display='block';
       document.getElementById('save-form').style.display='block';
     } catch(err) {
@@ -1146,6 +1159,64 @@ async function handleFile(file) {
     }
   };
   reader.readAsDataURL(file);
+}
+
+// ── PARSE SLIP TEXT จาก OCR ──
+function parseSlipText(text) {
+  const lines = text.split('\n').map(l=>l.trim()).filter(Boolean);
+
+  // จำนวนเงิน — หา pattern เช่น 300.00, 1,500.00
+  let amount = null;
+  const amtPatterns = [
+    /จำนวน[:\s]*([\d,]+\.?\d*)\s*บาท/i,
+    /amount[:\s]*([\d,]+\.?\d*)/i,
+    /(\d{1,3}(?:,\d{3})*\.\d{2})\s*บาท/,
+    /(\d{1,3}(?:,\d{3})*\.\d{2})/,
+  ];
+  for (const p of amtPatterns) {
+    const m = text.match(p);
+    if (m) { amount = parseFloat(m[1].replace(/,/g,'')); break; }
+  }
+
+  // วันที่/เวลา
+  let date = null;
+  const dateM = text.match(/(\d{1,2}[\/\-\.]\d{1,2}[\/\-\.]\d{2,4}[\s,]*\d{1,2}:\d{2}(?::\d{2})?)/);
+  if (dateM) date = dateM[1];
+  else {
+    const dM = text.match(/(\d{1,2})\s*(ม\.ค\.|ก\.พ\.|มี\.ค\.|เม\.ย\.|พ\.ค\.|มิ\.ย\.|ก\.ค\.|ส\.ค\.|ก\.ย\.|ต\.ค\.|พ\.ย\.|ธ\.ค\.)\s*(\d{2,4})/);
+    if (dM) date = dM[0];
+  }
+
+  // ประเภทการชำระ
+  let type = '—';
+  if (/พร้อมเพย์|promptpay|prompt pay/i.test(text)) type = 'พร้อมเพย์';
+  else if (/โอนเงิน|โอน/i.test(text)) type = 'โอนเงิน';
+  else if (/qr|คิวอาร์/i.test(text)) type = 'QR Code';
+  else if (/บัตร|card/i.test(text)) type = 'บัตรเครดิต/เดบิต';
+
+  // ธนาคาร
+  let bank = null;
+  const banks = [
+    ['กสิกรไทย','KBANK','K+'], ['กรุงไทย','KTB','เป๋าตัง'],
+    ['ไทยพาณิชย์','SCB'], ['กรุงเทพ','BBL'],
+    ['ทหารไทย','TTB'], ['ออมสิน','GSB'],
+    ['กรุงศรี','BAY'], ['ทิสโก้','TISCO'],
+  ];
+  for (const b of banks) {
+    if (b.some(n=>new RegExp(n,'i').test(text))) { bank = b[0]; break; }
+  }
+
+  // ผู้โอน — หาชื่อ นาย/นาง/น.ส.
+  let sender = null;
+  const senderM = text.match(/(นาย|นาง|น\.ส\.|นางสาว)\s*[\u0E00-\u0E7F\s]+/);
+  if (senderM) sender = senderM[0].trim().split('\n')[0];
+
+  // เลขอ้างอิง
+  let ref = null;
+  const refM = text.match(/(?:ref|เลขที่|reference|รายการ)[:\s#]*([A-Z0-9]{8,})/i);
+  if (refM) ref = refM[1];
+
+  return { amount, date, type, bank, sender, ref, note: type !== '—' ? '' : 'อ่านได้บางส่วน กรุณาตรวจสอบ' };
 }
 
 window.saveRecord = async function() {
