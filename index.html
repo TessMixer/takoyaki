@@ -122,6 +122,9 @@ html,body{height:100%;font-family:var(--font);background:var(--gray1);color:var(
 .bar-fill{height:100%;border-radius:5px;background:var(--o400);transition:width .5s ease;}
 .bar-fill.today{background:var(--o600);}
 .bar-amt{font-size:10px;color:var(--gray4);width:44px;text-align:right;flex-shrink:0;}
+.period-tabs{display:flex;background:var(--gray1);border-radius:8px;padding:2px;gap:2px;}
+.period-tab{border:none;background:transparent;padding:4px 11px;border-radius:6px;font-size:11px;cursor:pointer;color:var(--gray5);font-family:inherit;}
+.period-tab.active{background:#fff;color:var(--o500);font-weight:700;box-shadow:0 1px 3px rgba(0,0,0,.12);}
 
 /* ── ALERT ── */
 .alert-banner{background:var(--r50);border:1px solid var(--r100);border-radius:var(--r-md);padding:10px 13px;margin-bottom:11px;display:flex;align-items:center;gap:9px;cursor:pointer;}
@@ -413,7 +416,7 @@ textarea.form-input{resize:none;font-size:12px;}
             <div class="card-header"><div class="card-title"><span class="ct-icon">💹</span> กำไร-ต้นทุนวันนี้</div></div>
             <div class="profit-row"><span class="pr-label">รายได้รวม</span><span class="pr-val income" id="pf-revenue">฿0</span></div>
             <div class="profit-row"><span class="pr-label">ต้นทุนวัตถุดิบ (35%)</span><span class="pr-val cost" id="pf-cost">฿0</span></div>
-            <div class="profit-row"><span class="pr-label">ค่าแรงโดยประมาณ</span><span class="pr-val cost" id="pf-labor">-฿800</span></div>
+            <div class="profit-row"><span class="pr-label">ค่าแรงโดยประมาณ</span><span class="pr-val cost" id="pf-labor">฿0</span></div>
             <div class="profit-row"><span class="pr-label"><strong>กำไรสุทธิ</strong></span><span class="pr-val profit" id="pf-net">฿0</span></div>
           </div>
         </div>
@@ -533,10 +536,18 @@ textarea.form-input{resize:none;font-size:12px;}
       <div class="page-content">
         <div class="summary-strip" id="report-strip"></div>
         <div class="card">
-          <div class="card-header">
-            <div class="card-title"><span class="ct-icon">📈</span> ยอดขาย 7 วัน</div>
-            <select class="form-input" id="report-branch-filter" style="width:auto;padding:4px 9px;font-size:11px;" onchange="renderReport()"></select>
+          <div class="card-header" style="flex-wrap:wrap;gap:8px;">
+            <div class="card-title"><span class="ct-icon">📈</span> <span id="report-period-title">ยอดขาย 7 วัน</span></div>
+            <div style="display:flex;gap:6px;align-items:center;margin-left:auto;">
+              <div class="period-tabs">
+                <button class="period-tab active" onclick="setReportPeriod('day',this)">วัน</button>
+                <button class="period-tab" onclick="setReportPeriod('month',this)">เดือน</button>
+                <button class="period-tab" onclick="setReportPeriod('year',this)">ปี</button>
+              </div>
+              <select class="form-input" id="report-branch-filter" style="width:auto;padding:4px 9px;font-size:11px;" onchange="renderReport()"></select>
+            </div>
           </div>
+          <div id="report-date-picker" style="display:flex;gap:6px;padding:4px 0 8px;flex-wrap:wrap;"></div>
           <div id="report-chart"></div>
         </div>
         <div class="card">
@@ -545,10 +556,26 @@ textarea.form-input{resize:none;font-size:12px;}
         </div>
         <div class="card owner-only">
           <div class="card-header"><div class="card-title"><span class="ct-icon">💹</span> สรุปกำไร</div></div>
-          <div class="profit-row"><span class="pr-label">รายได้ (7 วัน)</span><span class="pr-val income" id="rp-revenue">฿0</span></div>
+          <div class="profit-row"><span class="pr-label" id="rp-lbl-revenue">รายได้ (7 วัน)</span><span class="pr-val income" id="rp-revenue">฿0</span></div>
           <div class="profit-row"><span class="pr-label">ต้นทุนวัตถุดิบ</span><span class="pr-val cost" id="rp-cost">฿0</span></div>
-          <div class="profit-row"><span class="pr-label">ค่าแรง (7 วัน)</span><span class="pr-val cost" id="rp-labor">฿0</span></div>
+          <div class="profit-row"><span class="pr-label" id="rp-lbl-labor">ค่าแรง (7 วัน)</span><span class="pr-val cost" id="rp-labor">฿0</span></div>
           <div class="profit-row"><span class="pr-label"><strong>กำไรสุทธิ</strong></span><span class="pr-val profit" id="rp-net">฿0</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHECKIN LOG -->
+    <div class="page" id="page-checkin-log">
+      <div class="page-content">
+        <div class="card">
+          <div class="card-header" style="flex-wrap:wrap;gap:8px;">
+            <div class="card-title"><span class="ct-icon">🕐</span> ประวัติการเข้างาน</div>
+            <div style="display:flex;gap:6px;margin-left:auto;">
+              <select id="cl-month-filter" class="form-input" style="width:auto;font-size:12px;padding:4px 8px;" onchange="renderCheckinLog()"></select>
+              <select id="cl-year-filter" class="form-input" style="width:auto;font-size:12px;padding:4px 8px;" onchange="renderCheckinLog()"></select>
+            </div>
+          </div>
+          <div id="checkin-log-list"></div>
         </div>
       </div>
     </div>
@@ -565,7 +592,10 @@ textarea.form-input{resize:none;font-size:12px;}
           <div id="stock-list"></div>
         </div>
         <div class="card owner-only">
-          <div class="card-header"><div class="card-title"><span class="ct-icon">💸</span> ต้นทุนต่อหน่วย</div></div>
+          <div class="card-header">
+            <div class="card-title"><span class="ct-icon">💸</span> ต้นทุนต่อหน่วย</div>
+            <button class="card-action" onclick="openModal('modal-add-stock')">+ เพิ่ม</button>
+          </div>
           <div id="cost-list"></div>
         </div>
       </div>
@@ -592,6 +622,13 @@ textarea.form-input{resize:none;font-size:12px;}
         </div>
         <div class="card">
           <div class="card-header">
+            <div class="card-title"><span class="ct-icon">🏪</span> จัดการสาขา</div>
+            <button class="card-action" onclick="openAddBranch()">+ เพิ่มสาขา</button>
+          </div>
+          <div id="branch-mgmt-list"></div>
+        </div>
+        <div class="card">
+          <div class="card-header">
             <div class="card-title"><span class="ct-icon">👷</span> รายชื่อพนักงาน & Account</div>
             <button class="card-action" onclick="openAddUser()">+ สร้าง Account</button>
           </div>
@@ -601,7 +638,10 @@ textarea.form-input{resize:none;font-size:12px;}
         <div class="card">
           <div class="card-header">
             <div class="card-title"><span class="ct-icon">🍽</span> เมนูและราคา</div>
-            <button class="card-action" onclick="openAddMenu()">+ เพิ่มเมนู</button>
+            <div style="display:flex;gap:6px;">
+              <button class="card-action" onclick="openAddMenu()">+ เพิ่มเมนู</button>
+              <button class="card-action" style="background:var(--gray1);color:var(--gray5);" onclick="resetMenusStock()">↺ โหลดค่าเริ่มต้น</button>
+            </div>
           </div>
           <div id="menu-list"></div>
         </div>
@@ -633,6 +673,24 @@ textarea.form-input{resize:none;font-size:12px;}
     <button class="save-btn" onclick="confirmAddMenu()">บันทึก ✓</button>
   </div>
 </div>
+<!-- MODAL: สาขา -->
+<div class="modal-overlay" id="modal-branch" onclick="closeModal('modal-branch')">
+  <div class="modal-sheet" onclick="event.stopPropagation()">
+    <div class="modal-handle"></div>
+    <div class="modal-title" id="branch-modal-title">เพิ่มสาขา</div>
+    <input type="hidden" id="bm-id">
+    <div class="form-label">ชื่อสาขา</div>
+    <input class="form-input" type="text" id="bm-name" placeholder="เช่น สาขาลาดพร้าว">
+    <div class="form-label">สถานะ</div>
+    <select class="form-input" id="bm-open">
+      <option value="true">🟢 เปิดให้บริการ</option>
+      <option value="false">⚫ ปิดชั่วคราว</option>
+    </select>
+    <div class="login-err" id="bm-err" style="margin-top:8px;min-height:18px;"></div>
+    <button class="save-btn" id="bm-btn" onclick="confirmBranch()">บันทึก ✓</button>
+  </div>
+</div>
+
 <!-- MODAL: เพิ่ม User Account (admin สร้างให้) -->
 <div class="modal-overlay" id="modal-add-user" onclick="closeModal('modal-add-user')">
   <div class="modal-sheet" onclick="event.stopPropagation()">
@@ -695,6 +753,19 @@ textarea.form-input{resize:none;font-size:12px;}
   </div>
 </div>
 
+<div class="modal-overlay" id="modal-edit-stock" onclick="closeModal('modal-edit-stock')">
+  <div class="modal-sheet" onclick="event.stopPropagation()">
+    <div class="modal-handle"></div>
+    <div class="modal-title">แก้ไขวัตถุดิบ</div>
+    <div class="form-label">ชื่อ</div><input class="form-input" type="text" id="es-name">
+    <div class="form-label">Emoji</div><input class="form-input" type="text" id="es-icon" maxlength="2" style="width:60px;">
+    <div class="form-label">หน่วย</div><input class="form-input" type="text" id="es-unit">
+    <div class="form-label">จำนวนสูงสุด</div><input class="form-input" type="number" id="es-max">
+    <div class="form-label">ราคาต่อหน่วย (฿)</div><input class="form-input" type="number" id="es-cost">
+    <button class="save-btn" onclick="confirmEditStock()">บันทึก ✓</button>
+  </div>
+</div>
+
 <!-- FIREBASE SDK -->
 <script type="module">
 import { initializeApp, deleteApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
@@ -735,15 +806,12 @@ let staffCheckinTime = null;
 let authTab = 'login';
 
 let records = [];
+let checkinLogs = [];
 let menus = [];
 let stock = [];
 let employees = [];
 
-const BRANCHES = [
-  { id:'b1', name:'สาขาเซ็นทรัล', open:true },
-  { id:'b2', name:'สาขา Emquartier', open:true },
-  { id:'b3', name:'สาขาสยาม', open:false },
-];
+let BRANCHES = [];
 
 // ── HELPERS ──
 function today() { return new Date().toLocaleDateString('th-TH'); }
@@ -829,6 +897,18 @@ async function loadFirestoreData() {
     const metaSnap = await getDoc(doc(db,'_meta','seeded'));
     const alreadySeeded = metaSnap.exists();
 
+    // BRANCHES — load + seed ครั้งแรก + real-time
+    const brSnap = await getDocs(collection(db,'branches'));
+    if (brSnap.empty && !alreadySeeded) { await seedBranches(); }
+    else { BRANCHES = brSnap.docs.map(d=>({id:d.id,...d.data()})); }
+    onSnapshot(collection(db,'branches'), snap => {
+      if(snap.empty) return;
+      BRANCHES = snap.docs.map(d=>({id:d.id,...d.data()}));
+      buildBranchSelects();
+      if(document.getElementById('page-menu')?.classList.contains('active')) renderBranchMgmt();
+      if(document.getElementById('page-home')?.classList.contains('active')) renderHome();
+    });
+
     // MENUS — initial load + seed ครั้งแรกเท่านั้น
     const mSnap = await getDocs(collection(db,'menus'));
     if (mSnap.empty && !alreadySeeded) { await seedMenus(); }
@@ -874,10 +954,15 @@ async function loadFirestoreData() {
 
     // USERS — real-time listener (เช็คอิน/เช็คเอาท์)
     onSnapshot(collection(db,'users'), async snap => {
-      // refresh staff page ถ้าเปิดอยู่
       if(document.getElementById('page-staff')?.classList.contains('active')) await renderStaff();
-      // refresh home ถ้าเป็น owner (แสดงจำนวนเช็คอิน)
       if(role==='owner') await renderHome();
+    });
+
+    // CHECKIN LOGS — real-time listener
+    const clq = query(collection(db,'checkin_logs'), orderBy('ts','desc'));
+    onSnapshot(clq, snap => {
+      checkinLogs = snap.docs.map(d=>({id:d.id,...d.data()}));
+      if(document.getElementById('page-checkin-log')?.classList.contains('active')) renderCheckinLog();
     });
 
   } catch(e) {
@@ -888,19 +973,26 @@ async function loadFirestoreData() {
 
 function loadDemoData() {
   menus = [
-    {id:'m1',emoji:'🐙',name:'ทาโกยากิ 6 ชิ้น',price:65,cost:20},
-    {id:'m2',emoji:'🐙',name:'ทาโกยากิ 12 ชิ้น',price:120,cost:38},
-    {id:'m3',emoji:'🧀',name:'ไส้ชีส',price:75,cost:25},
-    {id:'m4',emoji:'✨',name:'เซ็ตพิเศษ',price:200,cost:65},
-    {id:'m5',emoji:'🥚',name:'เพิ่มไข่',price:15,cost:5},
+    {id:'m1',emoji:'🐙',name:'ทาโกยากิ 4 ลูก',price:25,cost:11},
+    {id:'m2',emoji:'🐙',name:'ทาโกยากิ 6 ลูก',price:35,cost:16},
+    {id:'m3',emoji:'🐙',name:'ทาโกยากิ 8 ลูก',price:45,cost:21},
+    {id:'m4',emoji:'🐙',name:'ทาโกยากิ 10+1 ลูก',price:55,cost:29},
   ];
   stock = [
-    {id:'s1',icon:'🌾',name:'แป้งทาโกยากิ',unit:'กก.',amount:8,max:20,costPerUnit:45},
-    {id:'s2',icon:'🐙',name:'หมึกยักษ์',unit:'กก.',amount:3,max:10,costPerUnit:220},
-    {id:'s3',icon:'🧴',name:'ซอสมายองเนส',unit:'ขวด',amount:4,max:12,costPerUnit:65},
-    {id:'s4',icon:'🍶',name:'ซอสทาโกยากิ',unit:'ขวด',amount:2,max:10,costPerUnit:120},
-    {id:'s5',icon:'🧀',name:'ชีสพิซซ่า',unit:'ถุง',amount:5,max:15,costPerUnit:85},
-    {id:'s6',icon:'🥚',name:'ไข่ไก่',unit:'ฟอง',amount:30,max:120,costPerUnit:4},
+    {id:'s1', icon:'🌾',name:'แป้ง Takonamor 1.5kg',      unit:'ถุง',    amount:0,max:10,costPerUnit:125},
+    {id:'s2', icon:'🥚',name:'ไข่ไก่เบอร์ 3',              unit:'แผง',   amount:0,max:3, costPerUnit:120},
+    {id:'s3', icon:'🥛',name:'นมคาร์เนชั่น',               unit:'กระป๋อง',amount:0,max:2, costPerUnit:35},
+    {id:'s4', icon:'🍶',name:'ซอสทาโกยากิ Takonamor 5L',  unit:'แกลลอน',amount:0,max:2, costPerUnit:600},
+    {id:'s5', icon:'🫙',name:'มายองเนส Fresh O 860g',      unit:'ถุง',    amount:0,max:2, costPerUnit:64},
+    {id:'s6', icon:'🌿',name:'สาหร่ายโรยหน้า',             unit:'แพ็ค',  amount:0,max:5, costPerUnit:140},
+    {id:'s7', icon:'🛍️',name:'ถุงหัวโลโก้',                unit:'แพ็ค',  amount:0,max:5, costPerUnit:40},
+    {id:'s8', icon:'🐙',name:'ปลาหมึกยักษ์ aro 1kg',      unit:'ถุง',    amount:0,max:3, costPerUnit:79},
+    {id:'s9', icon:'🌭',name:'ไส้กรอกแฟรงค์ aro 1kg',     unit:'ถุง',    amount:0,max:5, costPerUnit:119},
+    {id:'s10',icon:'🦀',name:'ปูอัด Kani 500g',            unit:'ถุง',    amount:0,max:5, costPerUnit:95},
+    {id:'s11',icon:'🌊',name:'สาหร่ายวากาเมะ aro 1kg',    unit:'ถุง',    amount:0,max:5, costPerUnit:139},
+    {id:'s12',icon:'🦐',name:'กุ้ง 120 ตัว',               unit:'แพ็ค',  amount:0,max:5, costPerUnit:270},
+    {id:'s13',icon:'🫙',name:'น้ำมันทอด 3L',               unit:'ขวด',   amount:0,max:5, costPerUnit:150},
+    {id:'s14',icon:'🔥',name:'แก๊ส LPG 15kg',              unit:'ถัง',   amount:0,max:2, costPerUnit:420},
   ];
   employees = [
     {id:'e1',name:'น้องมิน',role:'พนักงานขาย',branch:'b1',checkedIn:false,checkinTime:null},
@@ -911,26 +1003,62 @@ function loadDemoData() {
 }
 
 // ── SEED ──
+async function seedBranches() {
+  const seed = [
+    {id:'b1', name:'สาขาเซ็นทรัล', open:true},
+    {id:'b2', name:'สาขา Emquartier', open:true},
+    {id:'b3', name:'สาขาสยาม', open:false},
+  ];
+  for(const b of seed) {
+    await setDoc(doc(db,'branches',b.id), {name:b.name, open:b.open});
+    BRANCHES.push(b);
+  }
+}
 async function seedMenus() {
   const seed = [
-    {emoji:'🐙',name:'ทาโกยากิ 6 ชิ้น',price:65,cost:20},
-    {emoji:'🐙',name:'ทาโกยากิ 12 ชิ้น',price:120,cost:38},
-    {emoji:'🧀',name:'ไส้ชีส',price:75,cost:25},
-    {emoji:'✨',name:'เซ็ตพิเศษ',price:200,cost:65},
-    {emoji:'🥚',name:'เพิ่มไข่',price:15,cost:5},
+    {emoji:'🐙',name:'ทาโกยากิ 4 ลูก', price:25,cost:11},
+    {emoji:'🐙',name:'ทาโกยากิ 6 ลูก', price:35,cost:16},
+    {emoji:'🐙',name:'ทาโกยากิ 8 ลูก', price:45,cost:21},
+    {emoji:'🐙',name:'ทาโกยากิ 10+1 ลูก',price:55,cost:29},
   ];
   for (const m of seed) { const r = await addDoc(collection(db,'menus'),m); menus.push({id:r.id,...m}); }
 }
 async function seedStock() {
   const seed = [
-    {icon:'🌾',name:'แป้งทาโกยากิ',unit:'กก.',amount:8,max:20,costPerUnit:45},
-    {icon:'🐙',name:'หมึกยักษ์',unit:'กก.',amount:3,max:10,costPerUnit:220},
-    {icon:'🧴',name:'ซอสมายองเนส',unit:'ขวด',amount:4,max:12,costPerUnit:65},
-    {icon:'🍶',name:'ซอสทาโกยากิ',unit:'ขวด',amount:2,max:10,costPerUnit:120},
-    {icon:'🧀',name:'ชีสพิซซ่า',unit:'ถุง',amount:5,max:15,costPerUnit:85},
-    {icon:'🥚',name:'ไข่ไก่',unit:'ฟอง',amount:30,max:120,costPerUnit:4},
+    {icon:'🌾',name:'แป้ง Takonamor 1.5kg',      unit:'ถุง',    amount:0,max:10,costPerUnit:125},
+    {icon:'🥚',name:'ไข่ไก่เบอร์ 3',              unit:'แผง',   amount:0,max:3, costPerUnit:120},
+    {icon:'🥛',name:'นมคาร์เนชั่น',               unit:'กระป๋อง',amount:0,max:2, costPerUnit:35},
+    {icon:'🍶',name:'ซอสทาโกยากิ Takonamor 5L',  unit:'แกลลอน',amount:0,max:2, costPerUnit:600},
+    {icon:'🫙',name:'มายองเนส Fresh O 860g',      unit:'ถุง',    amount:0,max:2, costPerUnit:64},
+    {icon:'🌿',name:'สาหร่ายโรยหน้า',             unit:'แพ็ค',  amount:0,max:5, costPerUnit:140},
+    {icon:'🛍️',name:'ถุงหัวโลโก้',                unit:'แพ็ค',  amount:0,max:5, costPerUnit:40},
+    {icon:'🐙',name:'ปลาหมึกยักษ์ aro 1kg',      unit:'ถุง',    amount:0,max:3, costPerUnit:79},
+    {icon:'🌭',name:'ไส้กรอกแฟรงค์ aro 1kg',     unit:'ถุง',    amount:0,max:5, costPerUnit:119},
+    {icon:'🦀',name:'ปูอัด Kani 500g',            unit:'ถุง',    amount:0,max:5, costPerUnit:95},
+    {icon:'🌊',name:'สาหร่ายวากาเมะ aro 1kg',    unit:'ถุง',    amount:0,max:5, costPerUnit:139},
+    {icon:'🦐',name:'กุ้ง 120 ตัว',               unit:'แพ็ค',  amount:0,max:5, costPerUnit:270},
+    {icon:'🫙',name:'น้ำมันทอด 3L',               unit:'ขวด',   amount:0,max:5, costPerUnit:150},
+    {icon:'🔥',name:'แก๊ส LPG 15kg',              unit:'ถัง',   amount:0,max:2, costPerUnit:420},
   ];
   for (const s of seed) { const r = await addDoc(collection(db,'stock'),s); stock.push({id:r.id,...s}); }
+}
+let _resetting = false;
+async function resetMenusStock() {
+  if(_resetting) return;
+  if(!confirm('ล้างเมนูและสต็อกทั้งหมด แล้วโหลดข้อมูลจริงใหม่?')) return;
+  _resetting = true;
+  try {
+    const mSnap = await getDocs(collection(db,'menus'));
+    for(const d of mSnap.docs) await deleteDoc(doc(db,'menus',d.id));
+    const sSnap = await getDocs(collection(db,'stock'));
+    for(const d of sSnap.docs) await deleteDoc(doc(db,'stock',d.id));
+    menus=[]; stock=[];
+    await seedMenus();
+    await seedStock();
+    renderMenuPage();
+    renderStock();
+    alert('โหลดข้อมูลเมนูและสต็อกเรียบร้อย');
+  } finally { _resetting = false; }
 }
 async function seedEmployees() {
   const seed = [
@@ -950,8 +1078,16 @@ function launchApp() {
   document.getElementById('tb-sub').textContent = userName+' · '+getBranch(userBranch).name;
   document.getElementById('tb-role-badge').textContent = role==='owner'?'👑 เจ้าของร้าน':'👷 พนักงาน';
   buildNav(); buildBranchSelects(); buildMenuGrid();
-  setPageTitle('home');
-  renderHome();
+  if(role==='staff') {
+    document.getElementById('page-home')?.classList.remove('active');
+    document.getElementById('page-scan')?.classList.add('active');
+    document.getElementById('nav-home')?.classList.remove('active');
+    document.getElementById('nav-scan')?.classList.add('active');
+    setPageTitle('scan');
+  } else {
+    setPageTitle('home');
+    renderHome();
+  }
   renderScanHistory();
   updateTime(); setInterval(updateTime, 15000);
 }
@@ -963,6 +1099,7 @@ const NAV_OWNER = [
   {id:'report',icon:'📊',label:'รายงาน'},
   {id:'gallery',icon:'🖼',label:'รูปสลิป'},
   {id:'stock',icon:'📦',label:'สต็อก',dot:true},
+  {id:'checkin-log',icon:'🕐',label:'การเข้างาน'},
   {id:'menu',icon:'⚙️',label:'การจัดการ'},
 ];
 const NAV_STAFF = [
@@ -971,6 +1108,7 @@ const NAV_STAFF = [
   {id:'report',icon:'📊',label:'รายงาน'},
   {id:'gallery',icon:'🖼',label:'รูปสลิป'},
   {id:'stock',icon:'📦',label:'สต็อก'},
+  {id:'checkin-log',icon:'🕐',label:'การเข้างาน'},
 ];
 
 const PAGE_META = {
@@ -978,8 +1116,9 @@ const PAGE_META = {
   scan:    {icon:'📷', title:'สแกนสลิปรับเงิน'},
   report:  {icon:'📊', title:'รายงานยอดขาย'},
   gallery: {icon:'🖼', title:'รูปสลิปรายวัน'},
-  stock:   {icon:'📦', title:'สต็อกวัตถุดิบ'},
-  menu:    {icon:'⚙️', title:'การจัดการ'},
+  stock:        {icon:'📦', title:'สต็อกวัตถุดิบ'},
+  'checkin-log':{icon:'🕐', title:'ประวัติการเข้างาน'},
+  menu:         {icon:'⚙️', title:'การจัดการ'},
 };
 function setPageTitle(name) {
   const m = PAGE_META[name] || {icon:'📄', title:name};
@@ -993,10 +1132,11 @@ window.switchPage = async function(name, el) {
   const pg=document.getElementById('page-'+name); if(pg) pg.classList.add('active');
   el.classList.add('active');
   setPageTitle(name);
-  if(name==='report') renderReport();
+  if(name==='report') { initReportPicker(); renderReport(); }
+  if(name==='checkin-log') renderCheckinLog();
   if(name==='gallery') renderGallery();
   if(name==='stock') renderStock();
-  if(name==='menu') { await renderStaff(); renderMenuPage(); }
+  if(name==='menu') { renderBranchMgmt(); await renderStaff(); renderMenuPage(); }
   if(name==='home') await renderHome();
 };
 
@@ -1041,7 +1181,7 @@ window.toggleMenu = function(el) { el.classList.toggle('sel'); };
 // ── HOME ──
 async function renderHome() {
   const rev=todayRevenue(); const orders=todayRecords().length;
-  const cost=rev*0.35; const labor=800; const profit=rev-cost-labor;
+  const cost=rev*0.35; const labor=rev>0?800:0; const profit=rev-cost-labor;
   const checkedIn = employees.filter(e=>e.checkedIn).length;
   const openBranches=BRANCHES.filter(b=>b.open).length;
   if(role==='owner') {
@@ -1057,7 +1197,8 @@ async function renderHome() {
     document.getElementById('ov-staff-in').textContent=checkedIn;
     document.getElementById('ov-branches').textContent=openBranches+'/'+BRANCHES.length;
     document.getElementById('pf-revenue').textContent='฿'+fmtDec(rev);
-    document.getElementById('pf-cost').textContent='-฿'+fmtDec(cost);
+    document.getElementById('pf-cost').textContent=rev>0?'-฿'+fmtDec(cost):'฿0';
+    document.getElementById('pf-labor').textContent=rev>0?'-฿'+fmt(labor):'฿0';
     document.getElementById('pf-net').textContent='฿'+fmtDec(profit);
     renderAlerts(); renderBranchList(); renderHomeChart();
   } else {
@@ -1113,8 +1254,13 @@ window.staffCheckinToggle = async function(empId) {
     const newTime = newCheckedIn ? now.toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'}) : null;
     setSyncStatus(true);
     await updateDoc(doc(db,'users',userUid), { checkedIn: newCheckedIn, checkinTime: newTime });
+    await addDoc(collection(db,'checkin_logs'), {
+      userId: userUid, userName: u.name||userName,
+      branchId: u.branch||userBranch, branchName: getBranch(u.branch||userBranch).name||'',
+      type: newCheckedIn?'checkin':'checkout', time: newTime||now.toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'}),
+      date: now.toLocaleDateString('th-TH'), ts: serverTimestamp()
+    });
     setSyncStatus(false);
-    // update local
     const idx = employees.findIndex(e=>e.id===empId);
     if(idx>=0){ employees[idx].checkedIn=newCheckedIn; employees[idx].checkinTime=newTime; }
     renderHome();
@@ -1547,56 +1693,140 @@ window.deleteRecord = async function(id) {
 };
 
 // ── REPORT ──
+let reportPeriod = 'day';
+const _thaiMonthNames=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+function initReportPicker() {
+  const dp=document.getElementById('report-date-picker'); if(!dp) return;
+  const now=new Date(); const ty=now.getFullYear()+543; const tm=now.getMonth()+1;
+  if(reportPeriod==='day') {
+    const todayStr=now.toISOString().split('T')[0];
+    dp.innerHTML=`<input type="date" id="rp-date-pick" class="form-input" style="width:auto;font-size:12px;padding:4px 8px;" value="${todayStr}" onchange="renderReport()">`;
+  } else if(reportPeriod==='month') {
+    const mOpts=_thaiMonthNames.map((m,i)=>`<option value="${i+1}"${i+1===tm?' selected':''}>${m}</option>`).join('');
+    const yOpts=[-1,0,1].map(o=>{const y=ty+o;return`<option value="${y}"${o===0?' selected':''}>${y}</option>`;}).join('');
+    dp.innerHTML=`<select id="rp-month-pick" class="form-input" style="width:auto;font-size:12px;padding:4px 8px;" onchange="renderReport()">${mOpts}</select><select id="rp-year-pick" class="form-input" style="width:auto;font-size:12px;padding:4px 8px;" onchange="renderReport()">${yOpts}</select>`;
+  } else {
+    const yOpts=[-2,-1,0,1].map(o=>{const y=ty+o;return`<option value="${y}"${o===0?' selected':''}>${y}</option>`;}).join('');
+    dp.innerHTML=`<select id="rp-year-pick" class="form-input" style="width:auto;font-size:12px;padding:4px 8px;" onchange="renderReport()">${yOpts}</select>`;
+  }
+}
+window.setReportPeriod = function(p, btn) {
+  reportPeriod = p;
+  document.querySelectorAll('.period-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  initReportPicker();
+  renderReport();
+};
 window.renderReport = function renderReport() {
-  // staff เห็นแค่สาขาตัวเอง — ไม่มี dropdown เลือกสาขา
   let recs;
   if(role==='staff') {
     recs = records.filter(r=>r.branchId===userBranch);
     const sel = document.getElementById('report-branch-filter');
     if(sel) sel.style.display='none';
+    // staff เห็นแค่ tab วัน และไม่มี date picker
+    const tabs = document.querySelector('.period-tabs');
+    if(tabs) tabs.style.display='none';
+    const dp = document.getElementById('report-date-picker');
+    if(dp) dp.style.display='none';
+    reportPeriod = 'day';
   } else {
+    const tabs = document.querySelector('.period-tabs');
+    if(tabs) tabs.style.display='';
+    const dp2 = document.getElementById('report-date-picker');
+    if(dp2) dp2.style.display='';
     const filterBranch=document.getElementById('report-branch-filter')?.value||'all';
     recs = filterBranch==='all' ? records : records.filter(r=>r.branchId===filterBranch);
   }
-  // ไม่แสดงข้อมูล demo ให้ staff
-  const showDemo = role==='owner';
-  const days=['จ','อ','พ','พฤ','ศ','ส','อา'];
-  const now=new Date(); const todayIdx=(now.getDay()===0)?6:now.getDay()-1;
-  const weekData=[];
-  for(let i=6;i>=0;i--){
-    const d=new Date(now); d.setDate(d.getDate()-i);
-    const ds=d.toLocaleDateString('th-TH');
-    const realVal=recs.filter(r=>r.date===ds).reduce((s,r)=>s+r.amount,0);
-    const v=realVal;
-    weekData.push({day:days[(d.getDay()===0)?6:d.getDay()-1],val:v,isToday:i===0});
+  const now=new Date();
+  const todayThaiYear=now.getFullYear()+543;
+  const todayThaiMonth=now.getMonth()+1;
+  let chartData=[], periodLabel='', stripDays=1, filteredRecs=[];
+
+  if(reportPeriod==='day') {
+    const dateVal=document.getElementById('rp-date-pick')?.value||now.toISOString().split('T')[0];
+    const [yr,mo,dy]=dateVal.split('-').map(Number);
+    const ty=yr+543;
+    const thaiDs=`${dy}/${mo}/${ty}`;
+    filteredRecs=recs.filter(r=>r.date===thaiDs);
+    const grandTotal=filteredRecs.reduce((s,r)=>s+r.amount,0);
+    const isToday=dateVal===now.toISOString().split('T')[0];
+    periodLabel=`${dy} ${_thaiMonthNames[mo-1]} ${ty}`; stripDays=1;
+    document.getElementById('report-period-title').textContent='ยอดขาย '+periodLabel;
+    document.getElementById('report-strip').innerHTML=`
+      <div class="ss-card accent"><div class="ss-val">฿${fmt(grandTotal)}</div><div class="ss-lbl">${isToday?'วันนี้':periodLabel}</div></div>
+      <div class="ss-card"><div class="ss-val">${filteredRecs.length}</div><div class="ss-lbl">ออร์เดอร์</div></div>
+      <div class="ss-card"><div class="ss-val">฿${filteredRecs.length?fmt(grandTotal/filteredRecs.length):0}</div><div class="ss-lbl">เฉลี่ย/order</div></div>`;
+    document.getElementById('report-chart').innerHTML=filteredRecs.length
+      ? filteredRecs.map(r=>`<div class="profit-row" style="gap:8px;padding:6px 0;border-bottom:1px solid var(--gray1);">
+          <span class="pr-label" style="flex:1;">${getBranch(r.branchId).name||'—'}</span>
+          <span style="font-size:11px;color:var(--gray4);flex:2;">${r.menus?r.menus.join(', '):''}</span>
+          <span class="pr-val income">฿${fmt(r.amount)}</span></div>`).join('')
+      : '<div class="empty-state"><div class="empty-icon">📋</div>ไม่มีออร์เดอร์วันนี้</div>';
+    const mc={};
+    filteredRecs.forEach(r=>r.menus&&r.menus.forEach(m=>{mc[m]=(mc[m]||0)+1;}));
+    const sorted=Object.entries(mc).sort((a,b)=>b[1]-a[1]);
+    const tml=document.getElementById('top-menu-list');
+    if(!sorted.length){tml.innerHTML='<div class="empty-state"><div class="empty-icon">📊</div>ยังไม่มีข้อมูล</div>';}
+    else tml.innerHTML=sorted.slice(0,5).map(([m,cnt],i)=>`<div class="history-item"><div class="hi-icon">${['🥇','🥈','🥉','🏅','🎖'][i]}</div><div class="hi-info"><div class="hi-menu">${m}</div><div class="hi-meta">${cnt} ออร์เดอร์</div></div></div>`).join('');
+    if(role==='owner'){
+      const cost=grandTotal*0.35; const labor=grandTotal>0?487:0; const net=grandTotal-cost-labor;
+      document.getElementById('rp-lbl-revenue').textContent='รายได้ ('+periodLabel+')';
+      document.getElementById('rp-lbl-labor').textContent='ต้นทุนคงที่ ('+periodLabel+')';
+      document.getElementById('rp-revenue').textContent='฿'+fmtDec(grandTotal);
+      document.getElementById('rp-cost').textContent=grandTotal>0?'-฿'+fmtDec(cost):'฿0';
+      document.getElementById('rp-labor').textContent=grandTotal>0?'-฿'+fmt(labor):'฿0';
+      document.getElementById('rp-net').textContent='฿'+fmtDec(net);
+    }
+    return;
   }
-  const grandTotal=weekData.reduce((s,d)=>s+d.val,0);
+
+  if(reportPeriod==='month') {
+    const selM=Number(document.getElementById('rp-month-pick')?.value)||todayThaiMonth;
+    const selY=Number(document.getElementById('rp-year-pick')?.value)||todayThaiYear;
+    const gregY=selY-543;
+    const daysInMonth=new Date(gregY,selM,0).getDate();
+    for(let day=1;day<=daysInMonth;day++){
+      const ds=`${day}/${selM}/${selY}`;
+      const isToday=(day===now.getDate()&&selM===todayThaiMonth&&selY===todayThaiYear);
+      chartData.push({lbl:String(day),val:recs.filter(r=>r.date===ds).reduce((s,r)=>s+r.amount,0),hi:isToday});
+    }
+    periodLabel=_thaiMonthNames[selM-1]+' '+selY; stripDays=daysInMonth;
+    filteredRecs=recs.filter(r=>{const p=r.date.split('/');return Number(p[1])===selM&&Number(p[2])===selY;});
+  } else {
+    const selY=Number(document.getElementById('rp-year-pick')?.value)||todayThaiYear;
+    for(let m=1;m<=12;m++){
+      const val=recs.filter(r=>{const p=r.date.split('/');return Number(p[1])===m&&Number(p[2])===selY;}).reduce((s,r)=>s+r.amount,0);
+      chartData.push({lbl:_thaiMonthNames[m-1],val,hi:m===todayThaiMonth&&selY===todayThaiYear});
+    }
+    periodLabel='ปี '+selY; stripDays=365;
+    filteredRecs=recs.filter(r=>{const p=r.date.split('/');return Number(p[2])===selY;});
+  }
+
+  document.getElementById('report-period-title').textContent='ยอดขาย '+periodLabel;
+  const grandTotal=chartData.reduce((s,d)=>s+d.val,0);
   document.getElementById('report-strip').innerHTML=`
-    <div class="ss-card accent"><div class="ss-val">฿${fmt(grandTotal)}</div><div class="ss-lbl">7 วันสะสม</div></div>
-    <div class="ss-card"><div class="ss-val">฿${fmt(grandTotal/7)}</div><div class="ss-lbl">เฉลี่ย/วัน</div></div>
-    <div class="ss-card"><div class="ss-val">${recs.length}</div><div class="ss-lbl">ออร์เดอร์</div></div>
-    <div class="ss-card"><div class="ss-val">฿${recs.length?fmt(grandTotal/recs.length):0}</div><div class="ss-lbl">เฉลี่ย/order</div></div>
-  `;
-  const maxV=Math.max(...weekData.map(d=>d.val),1);
-  document.getElementById('report-chart').innerHTML=weekData.map(d=>`
-    <div class="bar-row"><span class="bar-day">${d.day}</span>
-    <div class="bar-track"><div class="bar-fill${d.isToday?' today':''}" style="width:${Math.round(d.val/maxV*100)}%"></div></div>
+    <div class="ss-card accent"><div class="ss-val">฿${fmt(grandTotal)}</div><div class="ss-lbl">${periodLabel}</div></div>
+    <div class="ss-card"><div class="ss-val">฿${fmt(stripDays?grandTotal/stripDays:0)}</div><div class="ss-lbl">เฉลี่ย/วัน</div></div>
+    <div class="ss-card"><div class="ss-val">${filteredRecs.length}</div><div class="ss-lbl">ออร์เดอร์</div></div>
+    <div class="ss-card"><div class="ss-val">฿${filteredRecs.length?fmt(grandTotal/filteredRecs.length):0}</div><div class="ss-lbl">เฉลี่ย/order</div></div>`;
+  const maxV=Math.max(...chartData.map(d=>d.val),1);
+  document.getElementById('report-chart').innerHTML=chartData.map(d=>`
+    <div class="bar-row"><span class="bar-day" style="width:${reportPeriod==='year'?28:20}px">${d.lbl}</span>
+    <div class="bar-track"><div class="bar-fill${d.hi?' today':''}" style="width:${Math.round(d.val/maxV*100)}%"></div></div>
     <span class="bar-amt">฿${fmt(d.val)}</span></div>`).join('');
   const mc={};
-  recs.forEach(r=>r.menus&&r.menus.forEach(m=>{mc[m]=(mc[m]||0)+1;}));
+  filteredRecs.forEach(r=>r.menus&&r.menus.forEach(m=>{mc[m]=(mc[m]||0)+1;}));
   const sorted=Object.entries(mc).sort((a,b)=>b[1]-a[1]);
   const tml=document.getElementById('top-menu-list');
   if(!sorted.length){tml.innerHTML='<div class="empty-state"><div class="empty-icon">📊</div>ยังไม่มีข้อมูล</div>';}
-  else tml.innerHTML=sorted.slice(0,5).map(([m,cnt],i)=>`
-    <div class="history-item">
-      <div class="hi-icon">${['🥇','🥈','🥉','🏅','🎖'][i]}</div>
-      <div class="hi-info"><div class="hi-menu">${m}</div><div class="hi-meta">${cnt} ออร์เดอร์</div></div>
-    </div>`).join('');
+  else tml.innerHTML=sorted.slice(0,5).map(([m,cnt],i)=>`<div class="history-item"><div class="hi-icon">${['🥇','🥈','🥉','🏅','🎖'][i]}</div><div class="hi-info"><div class="hi-menu">${m}</div><div class="hi-meta">${cnt} ออร์เดอร์</div></div></div>`).join('');
   if(role==='owner'){
-    const cost=grandTotal*0.35; const labor=800*7; const net=grandTotal-cost-labor;
+    const cost=grandTotal*0.35; const labor=grandTotal>0?487*stripDays:0; const net=grandTotal-cost-labor;
+    document.getElementById('rp-lbl-revenue').textContent='รายได้ ('+periodLabel+')';
+    document.getElementById('rp-lbl-labor').textContent='ต้นทุนคงที่ ('+periodLabel+')';
     document.getElementById('rp-revenue').textContent='฿'+fmtDec(grandTotal);
-    document.getElementById('rp-cost').textContent='-฿'+fmtDec(cost);
-    document.getElementById('rp-labor').textContent='-฿'+fmt(labor);
+    document.getElementById('rp-cost').textContent=grandTotal>0?'-฿'+fmtDec(cost):'฿0';
+    document.getElementById('rp-labor').textContent=grandTotal>0?'-฿'+fmt(labor):'฿0';
     document.getElementById('rp-net').textContent='฿'+fmtDec(net);
   }
 }
@@ -1619,8 +1849,13 @@ function renderStock() {
   }).join('');
   if(role==='owner'){
     const cl=document.getElementById('cost-list');
-    if(cl) cl.innerHTML=stock.map(s=>`
-      <div class="profit-row"><span class="pr-label">${s.icon} ${s.name}</span><span class="pr-val" style="color:var(--gray6);">฿${s.costPerUnit}/${s.unit}</span></div>`).join('');
+    if(cl) cl.innerHTML=stock.map((s,i)=>`
+      <div class="profit-row" style="gap:8px;">
+        <span class="pr-label" style="flex:1;">${s.icon} ${s.name}</span>
+        <span style="color:var(--gray4);font-size:12px;white-space:nowrap;">฿${s.costPerUnit}/${s.unit}</span>
+        <button class="restock-btn" style="background:var(--o100);color:var(--o600);" onclick="openEditStock(${i})">✏️ แก้ไข</button>
+        <button class="restock-btn" style="background:#fee2e2;color:#dc2626;" onclick="deleteStock(${i})">🗑 ลบ</button>
+      </div>`).join('');
   }
 }
 
@@ -1646,6 +1881,150 @@ window.confirmAddStock = async function() {
   if(userUid!=='demo'){setSyncStatus(true);const r=await addDoc(collection(db,'stock'),item);stock.push({id:r.id,...item});setSyncStatus(false);}
   else stock.push({id:'s'+Date.now(),...item});
   closeModal('modal-add-stock'); renderStock();
+};
+
+let editStockIdx = -1;
+window.openEditStock = function(i) {
+  editStockIdx = i; const s = stock[i];
+  document.getElementById('es-name').value = s.name;
+  document.getElementById('es-icon').value = s.icon;
+  document.getElementById('es-unit').value = s.unit;
+  document.getElementById('es-max').value = s.max;
+  document.getElementById('es-cost').value = s.costPerUnit;
+  openModal('modal-edit-stock');
+};
+window.confirmEditStock = async function() {
+  const s = stock[editStockIdx];
+  const updates = {
+    name: document.getElementById('es-name').value.trim() || s.name,
+    icon: document.getElementById('es-icon').value || s.icon,
+    unit: document.getElementById('es-unit').value.trim() || s.unit,
+    max: Number(document.getElementById('es-max').value) || s.max,
+    costPerUnit: Number(document.getElementById('es-cost').value) || 0,
+  };
+  Object.assign(s, updates);
+  if(userUid!=='demo'){ setSyncStatus(true); await updateDoc(doc(db,'stock',s.id), updates); setSyncStatus(false); }
+  closeModal('modal-edit-stock'); renderStock();
+};
+window.deleteStock = async function(i) {
+  if(!confirm('ลบ "'+stock[i].name+'" ออกจากสต็อก?')) return;
+  if(userUid!=='demo'){ setSyncStatus(true); await deleteDoc(doc(db,'stock',stock[i].id)); setSyncStatus(false); }
+  stock.splice(i,1);
+  renderStock();
+};
+
+// ── CHECKIN LOG ──
+function renderCheckinLog() {
+  const now = new Date();
+  const ty = now.getFullYear()+543;
+  const tm = now.getMonth()+1;
+  const mEl = document.getElementById('cl-month-filter');
+  const yEl = document.getElementById('cl-year-filter');
+  if(!mEl || !yEl) return;
+
+  // init selects if empty
+  if(!mEl.options.length) {
+    const mn = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+    mEl.innerHTML = '<option value="0">ทุกเดือน</option>' + mn.map((m,i)=>`<option value="${i+1}"${i+1===tm?' selected':''}>${m}</option>`).join('');
+    yEl.innerHTML = [-1,0].map(o=>{const y=ty+o;return`<option value="${y}"${o===0?' selected':''}>${y}</option>`;}).join('');
+  }
+  const selM = Number(mEl.value);
+  const selY = Number(yEl.value);
+
+  let logs = checkinLogs;
+  // staff เห็นแค่ของตัวเอง
+  if(role==='staff') logs = logs.filter(l=>l.userId===userUid);
+  // filter by year
+  logs = logs.filter(l=>{ const p=l.date?.split('/'); return p && Number(p[2])===selY; });
+  // filter by month
+  if(selM>0) logs = logs.filter(l=>{ const p=l.date?.split('/'); return p && Number(p[1])===selM; });
+
+  const el = document.getElementById('checkin-log-list');
+  if(!logs.length){ el.innerHTML='<div class="empty-state"><div class="empty-icon">🕐</div>ไม่มีประวัติ</div>'; return; }
+
+  // group by date
+  const byDate = {};
+  logs.forEach(l=>{ (byDate[l.date]=byDate[l.date]||[]).push(l); });
+  el.innerHTML = Object.entries(byDate).map(([date, items])=>`
+    <div style="margin-bottom:12px;">
+      <div style="font-size:11px;font-weight:700;color:var(--gray4);padding:6px 0 4px;border-bottom:1px solid var(--gray1);">${date}</div>
+      ${items.map(l=>`
+        <div class="profit-row" style="gap:8px;padding:7px 0;">
+          <span style="font-size:18px;">${l.type==='checkin'?'✅':'🚪'}</span>
+          <div style="flex:1;">
+            <div style="font-size:13px;font-weight:600;">${l.userName||'—'}</div>
+            <div style="font-size:11px;color:var(--gray4);">${l.branchName||''}</div>
+          </div>
+          <span style="font-size:11px;font-weight:700;color:${l.type==='checkin'?'var(--g600)':'var(--red600)'};">
+            ${l.type==='checkin'?'เช็คอิน':'เช็คเอาท์'}
+          </span>
+          <span style="font-size:12px;color:var(--gray5);min-width:40px;text-align:right;">${l.time||''}</span>
+        </div>`).join('')}
+    </div>`).join('');
+}
+
+// ── BRANCH MANAGEMENT ──
+function renderBranchMgmt() {
+  const el = document.getElementById('branch-mgmt-list');
+  if(!el) return;
+  if(!BRANCHES.length) {
+    el.innerHTML='<div class="empty-state"><div class="empty-icon">🏪</div>ยังไม่มีสาขา</div>'; return;
+  }
+  el.innerHTML = BRANCHES.map(b=>`
+    <div class="branch-item">
+      <div class="branch-dot ${b.open?'open':'closed'}"></div>
+      <div class="branch-info">
+        <div class="branch-name">${b.name}</div>
+        <div class="branch-meta">${b.open?'🟢 เปิดให้บริการ':'⚫ ปิดชั่วคราว'}</div>
+      </div>
+      <div style="display:flex;gap:6px;align-items:center;">
+        <button class="mi-btn" onclick="openEditBranch('${b.id}','${(b.name||'').replace(/'/g,"\\'")}',${b.open})">✏️ แก้ไข</button>
+        <button class="mi-btn" style="color:var(--red600);border-color:#F09595;" onclick="deleteBranch('${b.id}','${(b.name||'').replace(/'/g,"\\'")}')">🗑 ลบ</button>
+      </div>
+    </div>`).join('');
+}
+
+window.openAddBranch = function() {
+  document.getElementById('bm-id').value='';
+  document.getElementById('bm-name').value='';
+  document.getElementById('bm-open').value='true';
+  document.getElementById('bm-err').textContent='';
+  document.getElementById('branch-modal-title').textContent='เพิ่มสาขา';
+  openModal('modal-branch');
+};
+window.openEditBranch = function(id, name, open) {
+  document.getElementById('bm-id').value=id;
+  document.getElementById('bm-name').value=name;
+  document.getElementById('bm-open').value=String(open);
+  document.getElementById('bm-err').textContent='';
+  document.getElementById('branch-modal-title').textContent='แก้ไขสาขา';
+  openModal('modal-branch');
+};
+window.confirmBranch = async function() {
+  const id   = document.getElementById('bm-id').value;
+  const name = document.getElementById('bm-name').value.trim();
+  const open = document.getElementById('bm-open').value==='true';
+  const btn  = document.getElementById('bm-btn');
+  const err  = document.getElementById('bm-err');
+  err.textContent='';
+  if(!name){ err.textContent='กรอกชื่อสาขา'; return; }
+  btn.disabled=true; btn.textContent='กำลังบันทึก...';
+  try {
+    setSyncStatus(true);
+    if(id) { await updateDoc(doc(db,'branches',id), {name, open}); }
+    else   { await addDoc(collection(db,'branches'), {name, open}); }
+    setSyncStatus(false);
+    closeModal('modal-branch');
+  } catch(e) { err.textContent=e.message; setSyncStatus(false); }
+  btn.disabled=false; btn.textContent='บันทึก ✓';
+};
+window.deleteBranch = async function(id, name) {
+  if(!confirm('ลบสาขา "'+name+'" ?\n\nประวัติการขายที่ผูกกับสาขานี้จะยังอยู่ในระบบ')) return;
+  try {
+    setSyncStatus(true);
+    await deleteDoc(doc(db,'branches',id));
+    setSyncStatus(false);
+  } catch(e) { alert('เกิดข้อผิดพลาด: '+e.message); setSyncStatus(false); }
 };
 
 window.openAddUser = function() {
@@ -1843,6 +2222,12 @@ window.staffCheckinToggleFromUser = async function(uid) {
     const newTime = newCheckedIn ? now.toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'}) : null;
     setSyncStatus(true);
     await updateDoc(doc(db,'users',uid), { checkedIn: newCheckedIn, checkinTime: newTime });
+    await addDoc(collection(db,'checkin_logs'), {
+      userId: uid, userName: u.name||uid,
+      branchId: u.branch||'', branchName: getBranch(u.branch).name||'',
+      type: newCheckedIn?'checkin':'checkout', time: newTime||now.toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'}),
+      date: now.toLocaleDateString('th-TH'), ts: serverTimestamp()
+    });
     setSyncStatus(false);
     renderStaff();
   } catch(e) { console.error(e); setSyncStatus(false); }
@@ -1862,6 +2247,7 @@ function renderMenuPage() {
     </div>`).join('');
 }
 
+window.resetMenusStock = resetMenusStock;
 window.openAddMenu = function() { editMenuIndex=-1; ['nm-name','nm-price','nm-cost'].forEach(id=>document.getElementById(id).value=''); document.getElementById('nm-emoji').value='🐙'; openModal('modal-add-menu'); };
 window.openEditMenu = function(i) { editMenuIndex=i; const m=menus[i]; document.getElementById('nm-name').value=m.name; document.getElementById('nm-emoji').value=m.emoji; document.getElementById('nm-price').value=m.price; document.getElementById('nm-cost').value=m.cost; openModal('modal-add-menu'); };
 window.confirmAddMenu = async function() {
