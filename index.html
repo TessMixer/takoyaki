@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>🐙 ทาโกยากิ ฮานะ</title>
+<title>🐙 ทาโกยากิหน้ามอ</title>
 <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -289,10 +289,30 @@ textarea.form-input{resize:none;font-size:12px;}
 .fb-dot.ok{background:var(--g400);}
 .fb-dot.err{background:var(--red400);}
 
+/* ── GALLERY ── */
+.gallery-filter{display:flex;gap:7px;margin-bottom:11px;align-items:center;}
+.gallery-filter select{flex:1;}
+.gallery-day{margin-bottom:16px;}
+.gallery-day-hd{display:flex;align-items:baseline;justify-content:space-between;padding:6px 2px 8px;border-bottom:2px solid var(--o100);margin-bottom:9px;}
+.gdh-date{font-size:13px;font-weight:700;color:var(--gray7);}
+.gdh-meta{font-size:11px;color:var(--gray4);}
+.gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.gallery-card{border-radius:var(--r-md);overflow:hidden;background:var(--white);box-shadow:var(--shadow);cursor:pointer;position:relative;}
+.gallery-card:active{opacity:.8;}
+.gallery-thumb{width:100%;aspect-ratio:3/4;object-fit:cover;display:block;background:var(--gray1);}
+.gallery-no-slip{width:100%;aspect-ratio:3/4;display:flex;align-items:center;justify-content:center;background:var(--gray1);font-size:26px;}
+.gallery-card-info{padding:5px 7px 7px;}
+.gci-amount{font-size:12px;font-weight:700;color:var(--o600);}
+.gci-time{font-size:10px;color:var(--gray4);}
+.gci-branch{font-size:9px;color:var(--gray4);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.gallery-card .no-slip-badge{position:absolute;top:5px;right:5px;background:rgba(0,0,0,.45);color:#fff;font-size:9px;padding:2px 5px;border-radius:10px;}
+
 .owner-only{display:none;}
 .owner-mode .owner-only{display:block;}
+.owner-mode .page.owner-only:not(.active){display:none;}
 .staff-only{display:none;}
 .staff-mode .staff-only{display:block;}
+.staff-mode .page.staff-only:not(.active){display:none;}
 </style>
 </head>
 <body>
@@ -300,7 +320,7 @@ textarea.form-input{resize:none;font-size:12px;}
 <!-- INIT LOADING -->
 <div id="init-loading">
   <div class="il-logo">🐙</div>
-  <div class="il-title">ทาโกยากิ ฮานะ</div>
+  <div class="il-title">ทาโกยากิหน้ามอ</div>
   <div class="il-sub" id="il-msg">กำลังเชื่อมต่อ Firebase...</div>
   <div class="il-spin"></div>
 </div>
@@ -308,7 +328,7 @@ textarea.form-input{resize:none;font-size:12px;}
 <!-- LOGIN -->
 <div id="login-screen">
   <div class="login-logo">🐙</div>
-  <div class="login-title">ทาโกยากิ ฮานะ</div>
+  <div class="login-title">ทาโกยากิหน้ามอ</div>
   <div class="login-sub">ระบบจัดการร้านสาขา</div>
   <div class="login-card">
     <div class="login-label">อีเมล</div>
@@ -328,7 +348,7 @@ textarea.form-input{resize:none;font-size:12px;}
     <div class="tb-left">
       <span class="tb-logo">🐙</span>
       <div>
-        <div class="tb-title">ทาโกยากิ ฮานะ</div>
+        <div class="tb-title">ทาโกยากิหน้ามอ</div>
         <div class="tb-sub" id="tb-sub">—</div>
       </div>
     </div>
@@ -337,6 +357,11 @@ textarea.form-input{resize:none;font-size:12px;}
       <div class="tb-badge" id="tb-role-badge">—</div>
       <button class="tb-logout" onclick="doLogout()">ออก</button>
     </div>
+  </div>
+
+  <div id="page-title-bar" style="background:var(--white);border-bottom:1px solid var(--gray2);padding:8px 14px;display:flex;align-items:center;gap:7px;flex-shrink:0;">
+    <span id="ptb-icon" style="font-size:15px;">🏠</span>
+    <span id="ptb-title" style="font-size:13px;font-weight:700;color:var(--gray7);">หน้าหลัก</span>
   </div>
 
   <div class="scroll-area">
@@ -432,17 +457,16 @@ textarea.form-input{resize:none;font-size:12px;}
         <div class="card" id="scan-main-card">
           <div class="card-header"><div class="card-title"><span class="ct-icon">📷</span> สแกนสลิปรับเงิน</div></div>
           <div id="fb-status-scan" class="fb-status"><div class="fb-dot ok"></div>Firestore พร้อมใช้งาน · รูปสลิปเก็บใน Firestore (Base64)</div>
-          <div class="upload-zone" id="drop-zone">
-            <input type="file" id="file-input" accept="image/*">
-            <div class="uz-emoji">🧾</div>
-            <div class="uz-title">ถ่ายหรืออัปโหลดรูปสลิป</div>
+          <div class="upload-zone" id="drop-zone" onclick="document.getElementById('camera-input').click()">
+            <div class="uz-emoji">📸</div>
+            <div class="uz-title">แตะเพื่อถ่ายรูปสลิป</div>
             <div class="uz-sub">PromptPay · โอนธนาคาร · บัตรเครดิต · QR</div>
             <div class="uz-btns">
-              <button class="uz-btn" onclick="document.getElementById('file-input').click();event.stopPropagation();">📂 เลือกรูป</button>
-              <button class="uz-btn outline" onclick="document.getElementById('camera-input').click();event.stopPropagation();">📸 ถ่ายรูป</button>
+              <button class="uz-btn" onclick="document.getElementById('camera-input').click();event.stopPropagation();">📸 เปิดกล้อง</button>
             </div>
           </div>
           <input type="file" id="camera-input" accept="image/*" capture="environment" style="display:none">
+          <input type="file" id="file-input" accept="image/*" style="display:none">
           <div class="preview-box" id="preview-box">
             <img id="preview-img" src="" alt="slip">
             <button class="preview-change" onclick="resetScan()">เปลี่ยนรูป ✕</button>
@@ -544,8 +568,20 @@ textarea.form-input{resize:none;font-size:12px;}
       </div>
     </div>
 
-    <!-- STAFF -->
-    <div class="page owner-only" id="page-staff">
+    <!-- GALLERY -->
+    <div class="page" id="page-gallery">
+      <div class="page-content">
+        <div class="gallery-filter">
+          <select class="form-input" id="gallery-branch-filter" onchange="renderGallery()" style="padding:7px 10px;font-size:12px;"></select>
+          <select class="form-input" id="gallery-month-filter" onchange="renderGallery()" style="width:auto;padding:7px 10px;font-size:12px;"></select>
+        </div>
+        <div class="summary-strip" id="gallery-strip"></div>
+        <div id="gallery-content"></div>
+      </div>
+    </div>
+
+    <!-- การจัดการ (รวม พนักงาน + เมนู) -->
+    <div class="page" id="page-menu">
       <div class="page-content">
         <div class="stat-row">
           <div class="stat-card"><div class="stat-icon">✅</div><div class="stat-val" id="st-checkedin">0</div><div class="stat-lbl">เช็คอินแล้ว</div></div>
@@ -559,12 +595,6 @@ textarea.form-input{resize:none;font-size:12px;}
           <div style="font-size:11px;color:var(--gray4);margin-bottom:10px;">รายชื่อจาก Account ที่สร้างไว้ในระบบ</div>
           <div id="user-list"></div>
         </div>
-      </div>
-    </div>
-
-    <!-- MENU -->
-    <div class="page owner-only" id="page-menu">
-      <div class="page-content">
         <div class="card">
           <div class="card-header">
             <div class="card-title"><span class="ct-icon">🍽</span> เมนูและราคา</div>
@@ -653,11 +683,7 @@ textarea.form-input{resize:none;font-size:12px;}
       <option value="owner">👑 Admin (เจ้าของร้าน)</option>
     </select>
     <div class="form-label">สาขา</div>
-    <select class="form-input" id="eu-branch">
-      <option value="b1">สาขาเซ็นทรัล</option>
-      <option value="b2">สาขา Emquartier</option>
-      <option value="b3">สาขาสยาม</option>
-    </select>
+    <select class="form-input" id="eu-branch"></select>
     <div style="height:1px;background:var(--gray2);margin:14px 0;"></div>
     <div class="form-label">รหัสผ่านใหม่ (ปล่อยว่างถ้าไม่เปลี่ยน)</div>
     <input class="form-input" type="password" id="eu-password" placeholder="รหัสผ่านใหม่ อย่างน้อย 6 ตัว">
@@ -704,7 +730,7 @@ const db = getFirestore(app);
 
 
 // ── VISION API KEY ──
-const VISION_API_KEY = 'AIzaSyD4fHISnEaElcGeElt6LI4zd26am8rwLeo'; // ← ใส่ key ของคุณตรงนี้
+const VISION_API_KEY = 'YOUR_GOOGLE_VISION_API_KEY'; // ← ใส่ key ของคุณตรงนี้
 
 // ── STATE ──
 let role = 'owner';
@@ -733,7 +759,12 @@ const weeklyDemo = [3200,3900,2800,4200,4700,4100,0];
 
 // ── HELPERS ──
 function today() { return new Date().toLocaleDateString('th-TH'); }
-function todayRecords() { return records.filter(r=>r.date===today()); }
+function myRecords() {
+  // staff เห็นเฉพาะสาขาตัวเอง, owner เห็นทั้งหมด
+  if(role==='staff') return records.filter(r=>r.branchId===userBranch);
+  return records;
+}
+function todayRecords() { return myRecords().filter(r=>r.date===today()); }
 function todayRevenue() { return todayRecords().reduce((s,r)=>s+r.amount,0); }
 function fmt(n) { return Math.round(n).toLocaleString('th-TH'); }
 function fmtDec(n) { return Number(n).toLocaleString('th-TH',{minimumFractionDigits:2,maximumFractionDigits:2}); }
@@ -806,15 +837,27 @@ onAuthStateChanged(auth, async user => {
 async function loadFirestoreData() {
   setSyncStatus(true);
   try {
-    // MENUS
+    // MENUS — initial load + seed, then real-time
     const mSnap = await getDocs(collection(db,'menus'));
     if (mSnap.empty) { await seedMenus(); }
     else { menus = mSnap.docs.map(d=>({id:d.id,...d.data()})); }
+    onSnapshot(collection(db,'menus'), snap => {
+      if(snap.empty) return;
+      menus = snap.docs.map(d=>({id:d.id,...d.data()}));
+      buildMenuGrid();
+      if(document.getElementById('page-menu')?.classList.contains('active')) renderMenuPage();
+    });
 
-    // STOCK
+    // STOCK — initial load + seed, then real-time
     const sSnap = await getDocs(collection(db,'stock'));
     if (sSnap.empty) { await seedStock(); }
     else { stock = sSnap.docs.map(d=>({id:d.id,...d.data()})); }
+    onSnapshot(collection(db,'stock'), snap => {
+      if(snap.empty) return;
+      stock = snap.docs.map(d=>({id:d.id,...d.data()}));
+      renderAlerts();
+      if(document.getElementById('page-stock')?.classList.contains('active')) renderStock();
+    });
 
     // EMPLOYEES
     const eSnap = await getDocs(collection(db,'employees'));
@@ -823,10 +866,21 @@ async function loadFirestoreData() {
 
     // RECORDS — real-time listener
     const rq = query(collection(db,'records'), orderBy('ts','desc'));
-    onSnapshot(rq, snap => {
+    onSnapshot(rq, async snap => {
       records = snap.docs.map(d=>({id:d.id,...d.data()}));
-      renderHome(); renderScanHistory();
+      await renderHome();
+      renderScanHistory();
+      if(document.getElementById('page-report')?.classList.contains('active')) renderReport();
+      if(document.getElementById('page-gallery')?.classList.contains('active')) renderGallery();
       setSyncStatus(false);
+    });
+
+    // USERS — real-time listener (เช็คอิน/เช็คเอาท์)
+    onSnapshot(collection(db,'users'), async snap => {
+      // refresh staff page ถ้าเปิดอยู่
+      if(document.getElementById('page-staff')?.classList.contains('active')) await renderStaff();
+      // refresh home ถ้าเป็น owner (แสดงจำนวนเช็คอิน)
+      if(role==='owner') await renderHome();
     });
 
   } catch(e) {
@@ -899,7 +953,9 @@ function launchApp() {
   document.getElementById('tb-sub').textContent = userName+' · '+getBranch(userBranch).name;
   document.getElementById('tb-role-badge').textContent = role==='owner'?'👑 เจ้าของร้าน':'👷 พนักงาน';
   buildNav(); buildBranchSelects(); buildMenuGrid();
-  renderHome(); renderScanHistory();
+  setPageTitle('home');
+  renderHome();
+  renderScanHistory();
   updateTime(); setInterval(updateTime, 15000);
 }
 
@@ -908,27 +964,43 @@ const NAV_OWNER = [
   {id:'home',icon:'🏠',label:'หน้าหลัก'},
   {id:'scan',icon:'📷',label:'สแกนสลิป'},
   {id:'report',icon:'📊',label:'รายงาน'},
+  {id:'gallery',icon:'🖼',label:'รูปสลิป'},
   {id:'stock',icon:'📦',label:'สต็อก',dot:true},
-  {id:'staff',icon:'👥',label:'พนักงาน'},
-  {id:'menu',icon:'🍽',label:'เมนู'},
+  {id:'menu',icon:'⚙️',label:'การจัดการ'},
 ];
 const NAV_STAFF = [
   {id:'home',icon:'🏠',label:'หน้าหลัก'},
   {id:'scan',icon:'📷',label:'สแกนสลิป'},
   {id:'report',icon:'📊',label:'รายงาน'},
+  {id:'gallery',icon:'🖼',label:'รูปสลิป'},
   {id:'stock',icon:'📦',label:'สต็อก'},
 ];
+
+const PAGE_META = {
+  home:    {icon:'🏠', title:'หน้าหลัก'},
+  scan:    {icon:'📷', title:'สแกนสลิปรับเงิน'},
+  report:  {icon:'📊', title:'รายงานยอดขาย'},
+  gallery: {icon:'🖼', title:'รูปสลิปรายวัน'},
+  stock:   {icon:'📦', title:'สต็อกวัตถุดิบ'},
+  menu:    {icon:'⚙️', title:'การจัดการ'},
+};
+function setPageTitle(name) {
+  const m = PAGE_META[name] || {icon:'📄', title:name};
+  document.getElementById('ptb-icon').textContent = m.icon;
+  document.getElementById('ptb-title').textContent = m.title;
+}
 
 window.switchPage = async function(name, el) {
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   const pg=document.getElementById('page-'+name); if(pg) pg.classList.add('active');
   el.classList.add('active');
+  setPageTitle(name);
   if(name==='report') renderReport();
+  if(name==='gallery') renderGallery();
   if(name==='stock') renderStock();
-  if(name==='staff') { await renderStaff(); }
-  if(name==='menu') renderMenuPage();
-  if(name==='home') renderHome();
+  if(name==='menu') { await renderStaff(); renderMenuPage(); }
+  if(name==='home') await renderHome();
 };
 
 function buildNav() {
@@ -949,8 +1021,12 @@ function updateTime() {
 function buildBranchSelects() {
   ['scan-branch-select','ne-branch','nu-branch','report-branch-filter'].forEach(id=>{
     const el=document.getElementById(id); if(!el) return;
+    // staff เห็นแค่สาขาตัวเอง ยกเว้น report filter (ซ่อนไปแล้วใน renderReport)
+    const branchList = (role==='staff' && id!=='report-branch-filter')
+      ? BRANCHES.filter(b=>b.id===userBranch)
+      : BRANCHES;
     const opts=id==='report-branch-filter'?'<option value="all">ทุกสาขา</option>':'';
-    el.innerHTML=opts+BRANCHES.map(b=>`<option value="${b.id}">${b.name}</option>`).join('');
+    el.innerHTML=opts+branchList.map(b=>`<option value="${b.id}">${b.name}</option>`).join('');
     if(id==='scan-branch-select') el.value=userBranch;
   });
 }
@@ -974,7 +1050,12 @@ async function renderHome() {
   if(role==='owner') {
     document.getElementById('ov-revenue').textContent='฿'+fmt(rev);
     document.getElementById('ov-orders').textContent=orders;
-    document.getElementById('ov-change').textContent='+12% vs เมื่อวาน';
+    const yesterday=new Date(); yesterday.setDate(yesterday.getDate()-1);
+    const yds=yesterday.toLocaleDateString('th-TH');
+    const ydOrders=records.filter(r=>r.date===yds).length;
+    const changeEl=document.getElementById('ov-change');
+    if(ydOrders>0){const diff=Math.round((orders-ydOrders)/ydOrders*100);changeEl.textContent=(diff>=0?'+':'')+diff+'% vs เมื่อวาน';changeEl.style.color=diff>=0?'var(--g600)':'var(--red600)';}
+    else changeEl.textContent=orders>0?'วันแรกที่มีออร์เดอร์':'—';
     document.getElementById('ov-profit').textContent='฿'+fmt(profit);
     document.getElementById('ov-staff-in').textContent=checkedIn;
     document.getElementById('ov-branches').textContent=openBranches+'/'+BRANCHES.length;
@@ -1309,7 +1390,7 @@ window.resetAll = function() {
 };
 
 function renderScanHistory() {
-  const recs=todayRecords();
+  const recs=todayRecords(); // ใช้ todayRecords() ที่ filter สาขาให้แล้ว
   const total=recs.reduce((s,r)=>s+r.amount,0);
   document.getElementById('scan-total-tag').textContent='฿'+fmt(total);
   const el=document.getElementById('scan-history-list');
@@ -1328,6 +1409,97 @@ function renderScanHistory() {
     </div>`).join('');
 }
 
+// ── GALLERY ──
+function buildGalleryFilters() {
+  const branchSel = document.getElementById('gallery-branch-filter');
+  const monthSel  = document.getElementById('gallery-month-filter');
+  if(!branchSel || !monthSel) return;
+
+  // branch filter (owner เห็นทุกสาขา, staff เห็นแค่สาขาตัวเอง)
+  if(role==='owner') {
+    branchSel.style.display='';
+    branchSel.innerHTML='<option value="all">ทุกสาขา</option>'+BRANCHES.map(b=>`<option value="${b.id}">${b.name}</option>`).join('');
+  } else {
+    branchSel.style.display='none';
+  }
+
+  // month filter — สร้างจาก records ที่มีอยู่
+  const months = [...new Set(records.map(r => {
+    const parts = r.date?.split('/');
+    return parts ? parts[2]+'/'+parts[1].padStart(2,'0') : null;
+  }).filter(Boolean))].sort((a,b)=>b.localeCompare(a));
+
+  monthSel.innerHTML = '<option value="all">ทุกเดือน</option>' +
+    months.map(m => {
+      const [y,mo] = m.split('/');
+      return `<option value="${m}">${mo}/${y}</option>`;
+    }).join('');
+}
+
+function renderGallery() {
+  buildGalleryFilters();
+  const branchFilter = document.getElementById('gallery-branch-filter')?.value || 'all';
+  const monthFilter  = document.getElementById('gallery-month-filter')?.value  || 'all';
+
+  let recs = role==='staff' ? records.filter(r=>r.branchId===userBranch) : records;
+  if(branchFilter !== 'all') recs = recs.filter(r=>r.branchId===branchFilter);
+  if(monthFilter  !== 'all') {
+    const [fy,fm] = monthFilter.split('/');
+    recs = recs.filter(r=>{
+      const parts = r.date?.split('/');
+      return parts && parts[2]===fy && parts[1].padStart(2,'0')===fm;
+    });
+  }
+
+  // summary strip
+  const totalAmt = recs.reduce((s,r)=>s+r.amount,0);
+  const withSlip = recs.filter(r=>r.slipBase64).length;
+  document.getElementById('gallery-strip').innerHTML=`
+    <div class="ss-card accent"><div class="ss-val">฿${fmt(totalAmt)}</div><div class="ss-lbl">ยอดรวม</div></div>
+    <div class="ss-card"><div class="ss-val">${recs.length}</div><div class="ss-lbl">รายการ</div></div>
+    <div class="ss-card"><div class="ss-val">${withSlip}</div><div class="ss-lbl">มีรูปสลิป</div></div>
+    <div class="ss-card"><div class="ss-val">${recs.length-withSlip}</div><div class="ss-lbl">ไม่มีรูป</div></div>
+  `;
+
+  // group by date (order preserved from Firestore orderBy ts desc)
+  const byDate = {};
+  recs.forEach(r=>{ if(!byDate[r.date]) byDate[r.date]=[]; byDate[r.date].push(r); });
+  const dates = Object.keys(byDate);
+
+  const el = document.getElementById('gallery-content');
+  if(!dates.length){
+    el.innerHTML='<div class="empty-state"><div class="empty-icon">🖼</div>ยังไม่มีรายการ</div>';
+    return;
+  }
+
+  el.innerHTML = dates.map(date => {
+    const dayRecs = byDate[date];
+    const dayTotal = dayRecs.reduce((s,r)=>s+r.amount,0);
+    const daySlips = dayRecs.filter(r=>r.slipBase64).length;
+    return `
+      <div class="gallery-day">
+        <div class="gallery-day-hd">
+          <div class="gdh-date">📅 ${date}</div>
+          <div class="gdh-meta">${dayRecs.length} รายการ · ฿${fmt(dayTotal)} · รูป ${daySlips}/${dayRecs.length}</div>
+        </div>
+        <div class="gallery-grid">
+          ${dayRecs.map(r=>`
+            <div class="gallery-card" ${r.slipBase64?`onclick="showSlipModal('${r.id}')"`:'style="cursor:default"'}>
+              ${r.slipBase64
+                ? `<img class="gallery-thumb" src="${r.slipBase64}" alt="slip" loading="lazy">`
+                : `<div class="gallery-no-slip">💴</div>`}
+              ${!r.slipBase64?'<span class="no-slip-badge">ไม่มีรูป</span>':''}
+              <div class="gallery-card-info">
+                <div class="gci-amount">฿${fmt(r.amount)}</div>
+                <div class="gci-time">${r.time} น.</div>
+                <div class="gci-branch">${r.branchName||''}</div>
+              </div>
+            </div>`).join('')}
+        </div>
+      </div>`;
+  }).join('');
+}
+
 window.deleteRecord = async function(id) {
   if(!confirm('ลบรายการนี้?')) return;
   if(userUid!=='demo') { setSyncStatus(true); await deleteDoc(doc(db,'records',id)); setSyncStatus(false); }
@@ -1336,15 +1508,26 @@ window.deleteRecord = async function(id) {
 
 // ── REPORT ──
 function renderReport() {
-  const filterBranch=document.getElementById('report-branch-filter')?.value||'all';
-  const recs=filterBranch==='all'?records:records.filter(r=>r.branchId===filterBranch);
+  // staff เห็นแค่สาขาตัวเอง — ไม่มี dropdown เลือกสาขา
+  let recs;
+  if(role==='staff') {
+    recs = records.filter(r=>r.branchId===userBranch);
+    const sel = document.getElementById('report-branch-filter');
+    if(sel) sel.style.display='none';
+  } else {
+    const filterBranch=document.getElementById('report-branch-filter')?.value||'all';
+    recs = filterBranch==='all' ? records : records.filter(r=>r.branchId===filterBranch);
+  }
+  // ไม่แสดงข้อมูล demo ให้ staff
+  const showDemo = role==='owner';
   const days=['จ','อ','พ','พฤ','ศ','ส','อา'];
   const now=new Date(); const todayIdx=(now.getDay()===0)?6:now.getDay()-1;
   const weekData=[];
   for(let i=6;i>=0;i--){
     const d=new Date(now); d.setDate(d.getDate()-i);
     const ds=d.toLocaleDateString('th-TH');
-    const v=recs.filter(r=>r.date===ds).reduce((s,r)=>s+r.amount,0)||(i>0?weeklyDemo[6-i]:0);
+    const realVal=recs.filter(r=>r.date===ds).reduce((s,r)=>s+r.amount,0);
+    const v=realVal||(showDemo&&i>0?weeklyDemo[6-i]:0);
     weekData.push({day:days[(d.getDay()===0)?6:d.getDay()-1],val:v,isToday:i===0});
   }
   const grandTotal=weekData.reduce((s,d)=>s+d.val,0);
@@ -1512,7 +1695,9 @@ window.openEditUser = function(uid, name, email, role, branch) {
   document.getElementById('eu-email-display').textContent = email;
   document.getElementById('eu-name').value = name;
   document.getElementById('eu-role').value = role;
-  document.getElementById('eu-branch').value = branch;
+  const euBranch = document.getElementById('eu-branch');
+  euBranch.innerHTML = BRANCHES.map(b=>`<option value="${b.id}">${b.name}</option>`).join('');
+  euBranch.value = branch;
   document.getElementById('eu-password').value = '';
   document.getElementById('eu-err').textContent = '';
   openModal('modal-edit-user');
@@ -1576,10 +1761,10 @@ async function renderStaff() {
     const snap = await getDocs(collection(db,'users'));
     const allUsers = snap.docs.map(d=>({uid:d.id,...d.data()}));
     const staffUsers = allUsers.filter(u=>u.role==='staff');
-    const checkedInCount = allUsers.filter(u=>u.checkedIn).length;
+    const checkedInCount = staffUsers.filter(u=>u.checkedIn).length;
 
     document.getElementById('st-checkedin').textContent = checkedInCount;
-    document.getElementById('st-total-emp').textContent = allUsers.length;
+    document.getElementById('st-total-emp').textContent = staffUsers.length;
 
     // user-list แสดงทุกคนพร้อมสถานะเช็คอิน
     const el = document.getElementById('user-list');
