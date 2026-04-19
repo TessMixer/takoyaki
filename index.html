@@ -826,9 +826,13 @@ onAuthStateChanged(auth, async user => {
 async function loadFirestoreData() {
   setSyncStatus(true);
   try {
-    // MENUS — initial load + seed, then real-time
+    // ตรวจ flag ว่าเคย seed ไปแล้วหรือยัง
+    const metaSnap = await getDoc(doc(db,'_meta','seeded'));
+    const alreadySeeded = metaSnap.exists();
+
+    // MENUS — initial load + seed ครั้งแรกเท่านั้น
     const mSnap = await getDocs(collection(db,'menus'));
-    if (mSnap.empty) { await seedMenus(); }
+    if (mSnap.empty && !alreadySeeded) { await seedMenus(); }
     else { menus = mSnap.docs.map(d=>({id:d.id,...d.data()})); }
     onSnapshot(collection(db,'menus'), snap => {
       if(snap.empty) return;
@@ -837,9 +841,9 @@ async function loadFirestoreData() {
       if(document.getElementById('page-menu')?.classList.contains('active')) renderMenuPage();
     });
 
-    // STOCK — initial load + seed, then real-time
+    // STOCK — initial load + seed ครั้งแรกเท่านั้น
     const sSnap = await getDocs(collection(db,'stock'));
-    if (sSnap.empty) { await seedStock(); }
+    if (sSnap.empty && !alreadySeeded) { await seedStock(); }
     else { stock = sSnap.docs.map(d=>({id:d.id,...d.data()})); }
     onSnapshot(collection(db,'stock'), snap => {
       if(snap.empty) return;
@@ -850,8 +854,13 @@ async function loadFirestoreData() {
 
     // EMPLOYEES
     const eSnap = await getDocs(collection(db,'employees'));
-    if (eSnap.empty) { await seedEmployees(); }
+    if (eSnap.empty && !alreadySeeded) { await seedEmployees(); }
     else { employees = eSnap.docs.map(d=>({id:d.id,...d.data()})); }
+
+    // บันทึก flag ว่า seed แล้ว (ทำครั้งแรกเท่านั้น)
+    if (!alreadySeeded) {
+      await setDoc(doc(db,'_meta','seeded'), { at: serverTimestamp() });
+    }
 
     // RECORDS — real-time listener
     const rq = query(collection(db,'records'), orderBy('ts','desc'));
