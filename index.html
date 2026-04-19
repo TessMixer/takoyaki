@@ -633,20 +633,6 @@ textarea.form-input{resize:none;font-size:12px;}
     <button class="save-btn" onclick="confirmAddMenu()">บันทึก ✓</button>
   </div>
 </div>
-<div class="modal-overlay" id="modal-add-emp" onclick="closeModal('modal-add-emp')">
-  <div class="modal-sheet" onclick="event.stopPropagation()">
-    <div class="modal-handle"></div>
-    <div class="modal-title">เพิ่มพนักงาน</div>
-    <div class="form-label">ชื่อ (ต้องตรงกับชื่อใน Account)</div>
-    <input class="form-input" type="text" id="ne-name" placeholder="ชื่อ-นามสกุล">
-    <div class="form-label">ตำแหน่ง</div>
-    <input class="form-input" type="text" id="ne-role" placeholder="พนักงานขาย">
-    <div class="form-label">สาขา</div>
-    <select class="form-input" id="ne-branch"></select>
-    <button class="save-btn" onclick="confirmAddEmp()">เพิ่ม ✓</button>
-  </div>
-</div>
-
 <!-- MODAL: เพิ่ม User Account (admin สร้างให้) -->
 <div class="modal-overlay" id="modal-add-user" onclick="closeModal('modal-add-user')">
   <div class="modal-sheet" onclick="event.stopPropagation()">
@@ -1112,6 +1098,7 @@ window.staffCheckinToggle = async function(empId) {
   // empId is actually userUid for staff
   try {
     const snap = await getDoc(doc(db,'users',userUid));
+    if(!snap.exists()) return;
     const u = snap.data();
     const now = new Date();
     const newCheckedIn = !u.checkedIn;
@@ -1468,7 +1455,7 @@ function buildGalleryFilters() {
     }).join('');
 }
 
-function renderGallery() {
+window.renderGallery = function renderGallery() {
   buildGalleryFilters();
   const branchFilter = document.getElementById('gallery-branch-filter')?.value || 'all';
   const monthFilter  = document.getElementById('gallery-month-filter')?.value  || 'all';
@@ -1539,7 +1526,7 @@ window.deleteRecord = async function(id) {
 };
 
 // ── REPORT ──
-function renderReport() {
+window.renderReport = function renderReport() {
   // staff เห็นแค่สาขาตัวเอง — ไม่มี dropdown เลือกสาขา
   let recs;
   if(role==='staff') {
@@ -1715,7 +1702,7 @@ async function renderUserList() {
         </div>
         <div class="emp-status" style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">
           <span class="tag ${u.role==='owner'?'orange':'gray'}">${u.role==='owner'?'👑 Admin':'👷 พนักงาน'}</span>
-          <button class="mi-btn" onclick="openEditUser('${d.id}','${u.name||''}','${u.email||''}','${u.role||'staff'}','${u.branch||'b1'}')">✏️ แก้ไข</button>
+          <button class="mi-btn" onclick="openEditUser('${d.id}','${(u.name||'').replace(/'/g,"\\'")}','${u.email||''}','${u.role||'staff'}','${u.branch||'b1'}')">✏️ แก้ไข</button>
         </div>
       </div>`;
     }).join('');
@@ -1828,6 +1815,7 @@ async function renderStaff() {
 window.staffCheckinToggleFromUser = async function(uid) {
   try {
     const snap = await getDoc(doc(db,'users',uid));
+    if(!snap.exists()) return;
     const u = snap.data();
     const now = new Date();
     const newCheckedIn = !u.checkedIn;
