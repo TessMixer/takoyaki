@@ -467,6 +467,9 @@ textarea.form-input{resize:none;font-size:12px;}
           </div>
           <input type="file" id="camera-input" accept="image/*" capture="environment" style="display:none">
           <input type="file" id="file-input" accept="image/*" style="display:none">
+          <div style="text-align:center;margin-top:10px;">
+            <button class="uz-btn outline" style="width:100%;padding:11px;" onclick="openCashEntry()">💵 บันทึกเงินสด (ไม่มีสลิป)</button>
+          </div>
           <div class="preview-box" id="preview-box">
             <img id="preview-img" src="" alt="slip">
             <button class="preview-change" onclick="resetScan()">เปลี่ยนรูป ✕</button>
@@ -730,7 +733,7 @@ const db = getFirestore(app);
 
 
 // ── VISION API KEY ──
-const VISION_API_KEY = 'YOUR_GOOGLE_VISION_API_KEY'; // ← ใส่ key ของคุณตรงนี้
+const VISION_API_KEY = 'AIzaSyD4fHISnEaElcGeElt6LI4zd26am8rwLeo';
 
 // ── STATE ──
 let role = 'owner';
@@ -1236,7 +1239,11 @@ async function handleFile(file) {
     } catch(err) {
       clearInterval(ticker); ab.style.display='none';
       const eb=document.getElementById('error-box');
-      eb.style.display='block'; eb.textContent='⚠️ '+(err.message||'เกิดข้อผิดพลาด');
+      eb.style.display='block';
+      eb.innerHTML=`⚠️ OCR ไม่สำเร็จ: ${err.message||'เกิดข้อผิดพลาด'}<br><span style="font-size:11px;color:var(--gray5);">กรอกยอดเงินด้านล่างแทนได้เลย</span>`;
+      currentAIResult = {amount:null, date:null, type:'ไม่ระบุ', bank:null, sender:null, ref:null};
+      document.getElementById('edit-amount').value = '';
+      document.getElementById('save-form').style.display='block';
     }
   };
   reader.readAsDataURL(file);
@@ -1368,8 +1375,33 @@ window.saveRecord = async function() {
   btn.disabled=false; btn.textContent='💾 บันทึกและเก็บสลิป → Firestore';
 };
 
-window.resetScan = function() {
+window.openCashEntry = function() {
+  document.getElementById('drop-zone').style.display='none';
   document.getElementById('preview-box').style.display='none';
+  document.getElementById('error-box').style.display='none';
+  document.getElementById('result-box').style.display='none';
+  document.getElementById('analyzing-bar').style.display='none';
+  currentAIResult = {amount:null, date:null, type:'เงินสด', bank:null, sender:null, ref:null};
+  currentImageFile = null;
+  document.getElementById('edit-amount').value='';
+  document.getElementById('note-input').value='';
+  document.querySelectorAll('#scan-menu-grid .menu-chip').forEach(c=>c.classList.remove('sel'));
+  // แสดง cash badge แทน preview
+  const pb = document.getElementById('preview-box');
+  pb.innerHTML=`<div style="background:var(--g50);border:1px solid var(--g100);border-radius:var(--r-md);padding:14px 16px;display:flex;align-items:center;gap:10px;">
+    <span style="font-size:28px;">💵</span>
+    <div><div style="font-size:13px;font-weight:700;color:var(--g800);">บันทึกเงินสด</div>
+    <div style="font-size:11px;color:var(--g600);">ไม่มีสลิป — กรอกยอดเงินด้านล่าง</div></div>
+    <button class="preview-change" style="background:rgba(0,0,0,.3);" onclick="resetScan()">✕</button>
+  </div>`;
+  pb.style.display='block';
+  document.getElementById('save-form').style.display='block';
+};
+
+window.resetScan = function() {
+  const pb = document.getElementById('preview-box');
+  pb.style.display='none';
+  pb.innerHTML=`<img id="preview-img" src="" alt="slip"><button class="preview-change" onclick="resetScan()">เปลี่ยนรูป ✕</button>`;
   document.getElementById('result-box').style.display='none';
   document.getElementById('save-form').style.display='none';
   document.getElementById('error-box').style.display='none';
