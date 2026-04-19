@@ -793,6 +793,7 @@ const db = getFirestore(app);
 const VISION_API_KEY = 'AIzaSyD4fHISnEaElcGeElt6LI4zd26am8rwLeo';
 
 // ── STATE ──
+const _unsubs = []; // onSnapshot unsubscribe functions
 let role = 'owner';
 let userName = '';
 let userBranch = 'b1';
@@ -859,12 +860,13 @@ window.doAuth = async function() {
 };
 
 window.doLogout = async function() {
+  _unsubs.forEach(u=>u()); _unsubs.length=0;
   await signOut(auth);
   document.getElementById('app').classList.remove('show');
   document.getElementById('login-screen').classList.add('show');
   document.getElementById('auth-email').value='';
   document.getElementById('auth-password').value='';
-  records=[]; menus=[]; stock=[]; employees=[];
+  records=[]; menus=[]; stock=[]; employees=[]; checkinLogs=[];
 };
 
 // ── AUTH STATE ──
@@ -901,35 +903,35 @@ async function loadFirestoreData() {
     const brSnap = await getDocs(collection(db,'branches'));
     if (brSnap.empty && !alreadySeeded) { await seedBranches(); }
     else { BRANCHES = brSnap.docs.map(d=>({id:d.id,...d.data()})); }
-    onSnapshot(collection(db,'branches'), snap => {
+    _unsubs.push(onSnapshot(collection(db,'branches'), snap => {
       if(snap.empty) return;
       BRANCHES = snap.docs.map(d=>({id:d.id,...d.data()}));
       buildBranchSelects();
       if(document.getElementById('page-menu')?.classList.contains('active')) renderBranchMgmt();
       if(document.getElementById('page-home')?.classList.contains('active')) renderHome();
-    });
+    }));
 
     // MENUS — initial load + seed ครั้งแรกเท่านั้น
     const mSnap = await getDocs(collection(db,'menus'));
     if (mSnap.empty && !alreadySeeded) { await seedMenus(); }
     else { menus = mSnap.docs.map(d=>({id:d.id,...d.data()})); }
-    onSnapshot(collection(db,'menus'), snap => {
+    _unsubs.push(onSnapshot(collection(db,'menus'), snap => {
       if(snap.empty) return;
       menus = snap.docs.map(d=>({id:d.id,...d.data()}));
       buildMenuGrid();
       if(document.getElementById('page-menu')?.classList.contains('active')) renderMenuPage();
-    });
+    }));
 
     // STOCK — initial load + seed ครั้งแรกเท่านั้น
     const sSnap = await getDocs(collection(db,'stock'));
     if (sSnap.empty && !alreadySeeded) { await seedStock(); }
     else { stock = sSnap.docs.map(d=>({id:d.id,...d.data()})); }
-    onSnapshot(collection(db,'stock'), snap => {
+    _unsubs.push(onSnapshot(collection(db,'stock'), snap => {
       if(snap.empty) return;
       stock = snap.docs.map(d=>({id:d.id,...d.data()}));
       renderAlerts();
       if(document.getElementById('page-stock')?.classList.contains('active')) renderStock();
-    });
+    }));
 
     // EMPLOYEES
     const eSnap = await getDocs(collection(db,'employees'));
@@ -943,27 +945,27 @@ async function loadFirestoreData() {
 
     // RECORDS — real-time listener
     const rq = query(collection(db,'records'), orderBy('ts','desc'));
-    onSnapshot(rq, async snap => {
+    _unsubs.push(onSnapshot(rq, async snap => {
       records = snap.docs.map(d=>({id:d.id,...d.data()}));
       await renderHome();
       renderScanHistory();
       if(document.getElementById('page-report')?.classList.contains('active')) renderReport();
       if(document.getElementById('page-gallery')?.classList.contains('active')) renderGallery();
       setSyncStatus(false);
-    });
+    }));
 
     // USERS — real-time listener (เช็คอิน/เช็คเอาท์)
-    onSnapshot(collection(db,'users'), async snap => {
+    _unsubs.push(onSnapshot(collection(db,'users'), async snap => {
       if(document.getElementById('page-staff')?.classList.contains('active')) await renderStaff();
       if(role==='owner') await renderHome();
-    });
+    }));
 
     // CHECKIN LOGS — real-time listener
     const clq = query(collection(db,'checkin_logs'), orderBy('ts','desc'));
-    onSnapshot(clq, snap => {
+    _unsubs.push(onSnapshot(clq, snap => {
       checkinLogs = snap.docs.map(d=>({id:d.id,...d.data()}));
       if(document.getElementById('page-checkin-log')?.classList.contains('active')) renderCheckinLog();
-    });
+    }));
 
   } catch(e) {
     console.error(e);
