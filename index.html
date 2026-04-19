@@ -744,7 +744,6 @@ const BRANCHES = [
   { id:'b2', name:'สาขา Emquartier', open:true },
   { id:'b3', name:'สาขาสยาม', open:false },
 ];
-const weeklyDemo = [3200,3900,2800,4200,4700,4100,0];
 
 // ── HELPERS ──
 function today() { return new Date().toLocaleDateString('th-TH'); }
@@ -1150,7 +1149,20 @@ function renderBranchList() {
 function renderHomeChart() {
   const days=['จ','อ','พ','พฤ','ศ','ส','อา'];
   const now=new Date(); const todayIdx=(now.getDay()===0)?6:now.getDay()-1;
-  const data=[...weeklyDemo]; data[todayIdx]=todayRevenue()||data[todayIdx];
+  // สร้าง array ข้อมูลยอดขายแต่ละวันในสัปดาห์นี้ (จ-อา) จาก records จริง
+  const data=Array(7).fill(0);
+  records.forEach(r=>{
+    if(!r.date) return;
+    // หาว่า record นี้อยู่วันไหนของสัปดาห์ปัจจุบัน
+    const parts=r.date.split('/');
+    if(parts.length<3) return;
+    // แปลง Buddhist year → Gregorian
+    const recDate=new Date(Number(parts[2])-543, Number(parts[1])-1, Number(parts[0]));
+    const diff=Math.round((recDate-new Date(now.getFullYear(),now.getMonth(),now.getDate()))/(86400000));
+    if(diff>0||diff<-6) return; // เฉพาะ 7 วันล่าสุด
+    const dayIdx=(recDate.getDay()===0)?6:recDate.getDay()-1;
+    data[dayIdx]+=r.amount;
+  });
   const maxV=Math.max(...data,1);
   document.getElementById('home-chart').innerHTML=data.map((v,i)=>`
     <div class="bar-row">
@@ -1555,7 +1567,7 @@ window.renderReport = function renderReport() {
     const d=new Date(now); d.setDate(d.getDate()-i);
     const ds=d.toLocaleDateString('th-TH');
     const realVal=recs.filter(r=>r.date===ds).reduce((s,r)=>s+r.amount,0);
-    const v=realVal||(showDemo&&i>0?weeklyDemo[6-i]:0);
+    const v=realVal;
     weekData.push({day:days[(d.getDay()===0)?6:d.getDay()-1],val:v,isToday:i===0});
   }
   const grandTotal=weekData.reduce((s,d)=>s+d.val,0);
