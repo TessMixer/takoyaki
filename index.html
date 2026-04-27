@@ -331,6 +331,49 @@ textarea.form-input{resize:none;font-size:12px;}
 .cs-val.profit{color:var(--g600);font-size:17px;font-weight:700;}
 .actual-tag{display:inline-block;font-size:9px;font-weight:700;padding:1px 6px;border-radius:8px;background:var(--g50);color:var(--g600);margin-left:4px;vertical-align:middle;border:1px solid var(--g100);}
 .est-tag{display:inline-block;font-size:9px;font-weight:700;padding:1px 6px;border-radius:8px;background:var(--gray1);color:var(--gray4);margin-left:4px;vertical-align:middle;}
+.periodic-badge{display:inline-block;font-size:9px;font-weight:700;padding:1px 6px;border-radius:8px;background:#EEF2FF;color:#4F46E5;margin-left:4px;vertical-align:middle;}
+.daily-badge{display:inline-block;font-size:9px;font-weight:700;padding:1px 6px;border-radius:8px;background:var(--g50);color:var(--g600);margin-left:4px;vertical-align:middle;}
+.periodic-row{display:flex;align-items:center;gap:9px;padding:9px 0;border-bottom:1px solid var(--gray1);}
+.periodic-row:last-child{border-bottom:none;}
+.pr-name-block{flex:1;}
+.pr-item-name{font-size:12px;font-weight:600;color:var(--gray7);}
+.pr-item-meta{font-size:10px;color:var(--gray4);margin-top:1px;}
+.pr-daily-cost{font-size:13px;font-weight:700;color:#4F46E5;white-space:nowrap;}
+.dc-section-hd{font-size:11px;font-weight:700;color:var(--gray5);padding:8px 0 5px;border-bottom:1px solid var(--gray2);margin-bottom:4px;margin-top:11px;}
+
+/* Cash Flow styles */
+.cf-summary{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px;}
+.cf-sum-card{background:var(--white);border:1px solid var(--gray2);border-radius:var(--r-md);padding:10px 8px;text-align:center;}
+.cf-sum-card.income{border-color:var(--g200);background:var(--g50);}
+.cf-sum-card.expense{border-color:#FEE2E2;background:#FFF5F5;}
+.cf-sum-card.balance{border-color:#E0E7FF;background:#EEF2FF;}
+.cf-sum-val{font-size:16px;font-weight:800;line-height:1.2;}
+.cf-sum-val.income{color:var(--g600);}
+.cf-sum-val.expense{color:var(--red600);}
+.cf-sum-val.balance-pos{color:#4F46E5;}
+.cf-sum-val.balance-neg{color:var(--red600);}
+.cf-sum-lbl{font-size:10px;color:var(--gray4);margin-top:3px;}
+.cf-date-nav{display:flex;align-items:center;gap:8px;margin-bottom:12px;}
+.cf-date-nav button{background:var(--gray1);border:none;border-radius:var(--r-sm);padding:6px 10px;cursor:pointer;font-size:14px;color:var(--gray6);}
+.cf-date-nav button:hover{background:var(--gray2);}
+.cf-date-nav input{flex:1;font-family:var(--font);font-size:13px;}
+.cf-section-hd{font-size:11px;font-weight:700;color:var(--gray5);padding:8px 0 5px;border-bottom:1px solid var(--gray2);margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;}
+.cf-income-item{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--gray1);}
+.cf-income-item:last-child{border-bottom:none;}
+.cf-income-name{flex:1;font-size:12px;color:var(--gray6);}
+.cf-income-amt{font-size:13px;font-weight:700;color:var(--g600);}
+.cf-expense-item{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--gray1);}
+.cf-expense-item:last-child{border-bottom:none;}
+.cf-cat-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.cf-exp-info{flex:1;}
+.cf-exp-name{font-size:12px;font-weight:600;color:var(--gray7);}
+.cf-exp-meta{font-size:10px;color:var(--gray4);margin-top:1px;}
+.cf-exp-amt{font-size:13px;font-weight:700;color:var(--red600);white-space:nowrap;}
+.cf-del-btn{background:none;border:none;font-size:14px;cursor:pointer;padding:2px 6px;color:var(--gray4);border-radius:4px;}
+.cf-del-btn:hover{background:#FEE2E2;color:var(--red600);}
+.cf-cat-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:2px;}
+.cf-cat-chip{background:var(--gray1);border:1.5px solid var(--gray2);border-radius:20px;padding:5px 11px;font-size:12px;cursor:pointer;font-family:var(--font);}
+.cf-cat-chip.active{background:#EEF2FF;border-color:#4F46E5;color:#4F46E5;font-weight:700;}
 </style>
 </head>
 <body>
@@ -432,6 +475,7 @@ textarea.form-input{resize:none;font-size:12px;}
             <div class="profit-row"><span class="pr-label">รายได้รวม</span><span class="pr-val income" id="pf-revenue">฿0</span></div>
             <div class="profit-row"><span class="pr-label" id="pf-cost-lbl">ต้นทุนวัตถุดิบ (35%)</span><span class="pr-val cost" id="pf-cost">฿0</span></div>
             <div class="profit-row"><span class="pr-label" id="pf-labor-lbl">ค่าแรงโดยประมาณ</span><span class="pr-val cost" id="pf-labor">฿0</span></div>
+            <div class="profit-row" id="pf-periodic-row" style="display:none;"><span class="pr-label" id="pf-periodic-lbl">ต้นทุนคงที่/วัน <span class="periodic-badge">🔄</span></span><span class="pr-val cost" id="pf-periodic">฿0</span></div>
             <div class="profit-row"><span class="pr-label"><strong>กำไรสุทธิ</strong></span><span class="pr-val profit" id="pf-net">฿0</span></div>
           </div>
           <div class="card owner-only">
@@ -585,7 +629,11 @@ textarea.form-input{resize:none;font-size:12px;}
           <div class="profit-row"><span class="pr-label" id="rp-lbl-revenue">รายได้ (7 วัน)</span><span class="pr-val income" id="rp-revenue">฿0</span></div>
           <div class="profit-row"><span class="pr-label">ต้นทุนวัตถุดิบ</span><span class="pr-val cost" id="rp-cost">฿0</span></div>
           <div class="profit-row"><span class="pr-label" id="rp-lbl-labor">ค่าแรง (7 วัน)</span><span class="pr-val cost" id="rp-labor">฿0</span></div>
+          <div class="profit-row" id="rp-expense-row" style="display:none;"><span class="pr-label" id="rp-lbl-expense">รายจ่ายอื่น</span><span class="pr-val cost" id="rp-expense">฿0</span></div>
           <div class="profit-row"><span class="pr-label"><strong>กำไรสุทธิ</strong></span><span class="pr-val profit" id="rp-net">฿0</span></div>
+          <div id="rp-cost-per-ball-row" style="display:none;margin-top:6px;padding-top:8px;border-top:1px solid var(--gray1);">
+            <div class="profit-row"><span class="pr-label">ต้นทุน/ลูก เฉลี่ย <span style="font-size:9px;background:#E0F2FE;color:#0284C7;padding:1px 5px;border-radius:8px;font-weight:700;">🔵 จริง</span></span><span class="pr-val" style="color:#0284C7;font-weight:700;" id="rp-cost-per-ball">—</span></div>
+          </div>
         </div>
       </div>
     </div>
@@ -674,6 +722,35 @@ textarea.form-input{resize:none;font-size:12px;}
       </div>
     </div>
 
+    <!-- CASH FLOW -->
+    <div class="page" id="page-cashflow">
+      <div class="page-content">
+        <div class="cf-date-nav">
+          <button onclick="cfShiftDay(-1)">◀</button>
+          <input class="form-input" type="date" id="cf-date-pick" onchange="renderCashflow()">
+          <button onclick="cfShiftDay(1)">▶</button>
+        </div>
+        <div class="cf-summary" id="cf-summary"></div>
+        <div class="card">
+          <div class="cf-section-hd">
+            <span>💚 รายรับ</span>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span id="cf-income-total" style="font-size:13px;font-weight:800;color:var(--g600);">฿0</span>
+              <button class="card-action" onclick="openAddIncome()">+ รายรับ</button>
+            </div>
+          </div>
+          <div id="cf-income-list"></div>
+        </div>
+        <div class="card">
+          <div class="cf-section-hd">
+            <span>🔴 รายจ่าย</span>
+            <button class="card-action" onclick="openAddExpense()">+ เพิ่ม</button>
+          </div>
+          <div id="cf-expense-list"></div>
+        </div>
+      </div>
+    </div>
+
   </div>
   <div class="bottom-nav" id="bottom-nav"></div>
 </div>
@@ -683,8 +760,19 @@ textarea.form-input{resize:none;font-size:12px;}
   <div class="modal-sheet" onclick="event.stopPropagation()">
     <div class="modal-handle"></div>
     <div class="modal-title" id="restock-title">เติมสต็อก</div>
-    <div class="form-label">จำนวนที่เติม</div>
-    <div class="form-row"><input class="form-input" type="number" id="restock-amount" placeholder="0" min="0"><span class="form-unit" id="restock-unit">กก.</span></div>
+    <div class="form-label">จำนวนที่เติม/ซื้อ</div>
+    <div class="form-row"><input class="form-input" type="number" id="restock-amount" placeholder="0" min="0" oninput="updateRestockDailyCost()"><span class="form-unit" id="restock-unit">กก.</span></div>
+    <div id="restock-periodic-section" style="display:none;">
+      <div style="background:#EEF2FF;border:1px solid #C7D2FE;border-radius:var(--r-sm);padding:9px 12px;margin:10px 0 8px;font-size:11px;color:#4338CA;">
+        🔄 ต้นทุนคงที่แบบรอบ — ระบบจะหารต้นทุนให้เท่าๆ กันแต่ละวัน
+      </div>
+      <div class="form-label">คาดว่าใช้ได้กี่วัน</div>
+      <div class="form-row">
+        <input class="form-input" type="number" id="restock-est-days" placeholder="7" min="1" style="max-width:90px;" oninput="updateRestockDailyCost()">
+        <span class="form-unit">วัน</span>
+      </div>
+      <div id="restock-daily-preview" style="font-size:12px;color:#4F46E5;font-weight:600;margin-top:5px;min-height:18px;"></div>
+    </div>
     <button class="save-btn" onclick="confirmRestock()" style="margin-top:14px;">เติมสต็อก ✓</button>
   </div>
 </div>
@@ -775,6 +863,18 @@ textarea.form-input{resize:none;font-size:12px;}
     <div class="form-label">จำนวนปัจจุบัน</div><input class="form-input" type="number" id="ns-amount" placeholder="10">
     <div class="form-label">จำนวนสูงสุด</div><input class="form-input" type="number" id="ns-max" placeholder="20">
     <div class="form-label">ราคาต่อหน่วย (฿)</div><input class="form-input" type="number" id="ns-cost" placeholder="45">
+    <div class="form-label">ประเภทการใช้</div>
+    <select class="form-input" id="ns-type" onchange="toggleNsPeriodicFields()">
+      <option value="daily">📅 รายวัน (แป้ง, ไข่, ปลาหมึก ฯลฯ)</option>
+      <option value="periodic">🔄 เป็นรอบ (แก๊ส, น้ำมัน, ซอส ฯลฯ)</option>
+    </select>
+    <div id="ns-periodic-section" style="display:none;">
+      <div class="form-label">คาดว่าใช้ได้กี่วันต่อ 1 หน่วย</div>
+      <div class="form-row">
+        <input class="form-input" type="number" id="ns-est-days" placeholder="7" min="1" style="max-width:90px;">
+        <span class="form-unit">วัน</span>
+      </div>
+    </div>
     <button class="save-btn" onclick="confirmAddStock()">เพิ่มวัตถุดิบ ✓</button>
   </div>
 </div>
@@ -788,6 +888,18 @@ textarea.form-input{resize:none;font-size:12px;}
     <div class="form-label">หน่วย</div><input class="form-input" type="text" id="es-unit">
     <div class="form-label">จำนวนสูงสุด</div><input class="form-input" type="number" id="es-max">
     <div class="form-label">ราคาต่อหน่วย (฿)</div><input class="form-input" type="number" id="es-cost">
+    <div class="form-label">ประเภทการใช้</div>
+    <select class="form-input" id="es-type" onchange="toggleEsPeriodicFields()">
+      <option value="daily">📅 รายวัน</option>
+      <option value="periodic">🔄 เป็นรอบ (แก๊ส, น้ำมัน ฯลฯ)</option>
+    </select>
+    <div id="es-periodic-section" style="display:none;">
+      <div class="form-label">คาดว่าใช้ได้กี่วันต่อ 1 หน่วย</div>
+      <div class="form-row">
+        <input class="form-input" type="number" id="es-est-days" placeholder="7" min="1" style="max-width:90px;">
+        <span class="form-unit">วัน</span>
+      </div>
+    </div>
     <button class="save-btn" onclick="confirmEditStock()">บันทึก ✓</button>
   </div>
 </div>
@@ -810,6 +922,12 @@ textarea.form-input{resize:none;font-size:12px;}
     <div class="form-label" style="margin-top:13px;">📦 วัตถุดิบที่ใช้วันนี้</div>
     <div style="font-size:11px;color:var(--gray4);margin-bottom:6px;">กรอกจำนวนที่ใช้จริง (เว้นว่างหรือใส่ 0 ถ้าไม่ได้ใช้)</div>
     <div id="dc-stock-list" style="max-height:210px;overflow-y:auto;"></div>
+    <div class="form-label" style="margin-top:13px;">🔵 ลูกที่ทำได้ทั้งหมดวันนี้</div>
+    <div class="form-row">
+      <input class="form-input" type="number" id="dc-balls-made" placeholder="0" min="0" step="1" style="max-width:110px;" oninput="updateDcPreview()">
+      <span class="form-unit">ลูก</span>
+      <span style="font-size:11px;color:var(--gray4);" id="dc-balls-hint"></span>
+    </div>
     <div class="form-label" style="margin-top:13px;">🗑 ของทิ้ง (ลูกที่ทำเสีย/เหลือทิ้ง)</div>
     <div class="form-row">
       <input class="form-input" type="number" id="dc-waste-balls" placeholder="0" min="0" step="1" style="max-width:90px;" oninput="updateDcPreview()">
@@ -820,6 +938,49 @@ textarea.form-input{resize:none;font-size:12px;}
     <textarea class="form-input" id="dc-note" rows="2" placeholder="เช่น วันนี้ลูกค้าเยอะมาก, หมดแป้งเร็ว..."></textarea>
     <div id="dc-cost-preview" style="background:var(--o50);border:1px solid var(--o100);border-radius:var(--r-sm);padding:10px 12px;margin-top:10px;font-size:12px;display:none;"></div>
     <button class="save-btn" onclick="confirmDailyClosing()">💾 บันทึกสรุปปลายวัน</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-add-expense" onclick="closeModal('modal-add-expense')">
+  <div class="modal-sheet" onclick="event.stopPropagation()">
+    <div class="modal-handle"></div>
+    <div class="modal-title">เพิ่มรายจ่าย</div>
+    <div class="form-label">หมวดหมู่</div>
+    <div class="cf-cat-chips" id="ae-cat-chips">
+      <button class="cf-cat-chip active" data-cat="🛒" onclick="selectExpenseCat(this)">🛒 ซื้อของ</button>
+      <button class="cf-cat-chip" data-cat="🚗" onclick="selectExpenseCat(this)">🚗 ค่าเดินทาง</button>
+      <button class="cf-cat-chip" data-cat="💡" onclick="selectExpenseCat(this)">💡 ค่าสาธารณูปโภค</button>
+      <button class="cf-cat-chip" data-cat="🔧" onclick="selectExpenseCat(this)">🔧 ซ่อมบำรุง</button>
+      <button class="cf-cat-chip" data-cat="📦" onclick="selectExpenseCat(this)">📦 บรรจุภัณฑ์</button>
+      <button class="cf-cat-chip" data-cat="💰" onclick="selectExpenseCat(this)">💰 อื่นๆ</button>
+    </div>
+    <div class="form-label" style="margin-top:10px;">รายการ</div>
+    <input class="form-input" type="text" id="ae-name" placeholder="เช่น ซื้อแป้ง, ค่าน้ำมัน">
+    <div class="form-label">จำนวนเงิน (฿)</div>
+    <input class="form-input" type="number" id="ae-amount" min="0" step="1" placeholder="0">
+    <div class="form-label">วันที่</div>
+    <input class="form-input" type="date" id="ae-date">
+    <div class="form-label">หมายเหตุ <span style="color:var(--gray4);font-weight:400;">(ถ้ามี)</span></div>
+    <input class="form-input" type="text" id="ae-note" placeholder="เพิ่มเติม...">
+    <button class="save-btn" onclick="confirmAddExpense()">บันทึกรายจ่าย ✓</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-add-income" onclick="closeModal('modal-add-income')">
+  <div class="modal-sheet" onclick="event.stopPropagation()">
+    <div class="modal-handle"></div>
+    <div class="modal-title">เพิ่มรายรับ</div>
+    <div class="form-label">ยอดขาย (฿)</div>
+    <input class="form-input" type="number" id="ai-amount" min="0" step="1" placeholder="0" style="font-size:22px;font-weight:800;text-align:center;">
+    <div class="form-label" style="margin-top:10px;">สาขา</div>
+    <select class="form-input" id="ai-branch"></select>
+    <div class="form-label" style="margin-top:10px;">เมนูที่ขาย <span style="color:var(--gray4);font-weight:400;">(ถ้ามี)</span></div>
+    <div id="ai-menu-grid" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:4px;"></div>
+    <div class="form-label" style="margin-top:10px;">วันที่</div>
+    <input class="form-input" type="date" id="ai-date">
+    <div class="form-label">หมายเหตุ <span style="color:var(--gray4);font-weight:400;">(ถ้ามี)</span></div>
+    <input class="form-input" type="text" id="ai-note" placeholder="เช่น ขายที่ตลาดนัด">
+    <button class="save-btn" onclick="confirmAddIncome()">บันทึกรายรับ ✓</button>
   </div>
 </div>
 
@@ -871,6 +1032,7 @@ let employees = [];
 
 let BRANCHES = [];
 let dailyClosings = [];
+let cashExpenses = [];
 const COST_PER_BALL = 3; // ประมาณต้นทุนต่อลูก (บาท)
 
 // ── HELPERS ──
@@ -1034,6 +1196,13 @@ async function loadFirestoreData() {
       if(document.getElementById('page-report')?.classList.contains('active')) renderReport();
     }));
 
+    // CASH EXPENSES — real-time listener
+    const ceq = query(collection(db,'cash_expenses'), orderBy('ts','desc'));
+    _unsubs.push(onSnapshot(ceq, snap => {
+      cashExpenses = snap.docs.map(d=>({id:d.id,...d.data()}));
+      if(document.getElementById('page-cashflow')?.classList.contains('active')) renderCashflow();
+    }));
+
   } catch(e) {
     console.error(e);
     setSyncStatus(false);
@@ -1097,7 +1266,7 @@ async function seedStock() {
     {icon:'🌾',name:'แป้ง Takonamor 1.5kg',      unit:'ถุง',    amount:0,max:10,costPerUnit:125},
     {icon:'🥚',name:'ไข่ไก่เบอร์ 3',              unit:'แผง',   amount:0,max:3, costPerUnit:120},
     {icon:'🥛',name:'นมคาร์เนชั่น',               unit:'กระป๋อง',amount:0,max:2, costPerUnit:35},
-    {icon:'🍶',name:'ซอสทาโกยากิ Takonamor 5L',  unit:'แกลลอน',amount:0,max:2, costPerUnit:600},
+    {icon:'🍶',name:'ซอสทาโกยากิ Takonamor 5L',  unit:'แกลลอน',amount:0,max:2, costPerUnit:600, type:'periodic', estimatedDays:14},
     {icon:'🫙',name:'มายองเนส Fresh O 860g',      unit:'ถุง',    amount:0,max:2, costPerUnit:64},
     {icon:'🌿',name:'สาหร่ายโรยหน้า',             unit:'แพ็ค',  amount:0,max:5, costPerUnit:140},
     {icon:'🛍️',name:'ถุงหัวโลโก้',                unit:'แพ็ค',  amount:0,max:5, costPerUnit:40},
@@ -1106,8 +1275,8 @@ async function seedStock() {
     {icon:'🦀',name:'ปูอัด Kani 500g',            unit:'ถุง',    amount:0,max:5, costPerUnit:95},
     {icon:'🌊',name:'สาหร่ายวากาเมะ aro 1kg',    unit:'ถุง',    amount:0,max:5, costPerUnit:139},
     {icon:'🦐',name:'กุ้ง 120 ตัว',               unit:'แพ็ค',  amount:0,max:5, costPerUnit:270},
-    {icon:'🫙',name:'น้ำมันทอด 3L',               unit:'ขวด',   amount:0,max:5, costPerUnit:150},
-    {icon:'🔥',name:'แก๊ส LPG 15kg',              unit:'ถัง',   amount:0,max:2, costPerUnit:420},
+    {icon:'🫙',name:'น้ำมันทอด 3L',               unit:'ขวด',   amount:0,max:5, costPerUnit:150, type:'periodic', estimatedDays:5},
+    {icon:'🔥',name:'แก๊ส LPG 15kg',              unit:'ถัง',   amount:0,max:2, costPerUnit:420, type:'periodic', estimatedDays:7},
   ];
   for (const s of seed) { const r = await addDoc(collection(db,'stock'),s); stock.push({id:r.id,...s}); }
 }
@@ -1149,6 +1318,8 @@ function launchApp() {
   buildNav(); buildBranchSelects(); buildMenuGrid();
   const md=document.getElementById('manual-date');
   if(md) md.value=new Date().toISOString().split('T')[0];
+  const cfd=document.getElementById('cf-date-pick');
+  if(cfd) cfd.value=new Date().toISOString().split('T')[0];
   if(role==='staff') {
     document.getElementById('page-home')?.classList.remove('active');
     document.getElementById('page-scan')?.classList.add('active');
@@ -1167,6 +1338,7 @@ function launchApp() {
 const NAV_OWNER = [
   {id:'home',icon:'🏠',label:'หน้าหลัก'},
   {id:'scan',icon:'📷',label:'สแกนสลิป'},
+  {id:'cashflow',icon:'💰',label:'รายรับ-จ่าย'},
   {id:'report',icon:'📊',label:'รายงาน'},
   {id:'gallery',icon:'🖼',label:'รูปสลิป'},
   {id:'stock',icon:'📦',label:'สต็อก',dot:true},
@@ -1183,13 +1355,14 @@ const NAV_STAFF = [
 ];
 
 const PAGE_META = {
-  home:    {icon:'🏠', title:'หน้าหลัก'},
-  scan:    {icon:'📷', title:'สแกนสลิปรับเงิน'},
-  report:  {icon:'📊', title:'รายงานยอดขาย'},
-  gallery: {icon:'🖼', title:'รูปสลิปรายวัน'},
-  stock:        {icon:'📦', title:'สต็อกวัตถุดิบ'},
-  'checkin-log':{icon:'🕐', title:'ประวัติการเข้างาน'},
-  menu:         {icon:'⚙️', title:'การจัดการ'},
+  home:     {icon:'🏠', title:'หน้าหลัก'},
+  scan:     {icon:'📷', title:'สแกนสลิปรับเงิน'},
+  cashflow: {icon:'💰', title:'รายรับ-รายจ่าย'},
+  report:   {icon:'📊', title:'รายงานยอดขาย'},
+  gallery:  {icon:'🖼', title:'รูปสลิปรายวัน'},
+  stock:         {icon:'📦', title:'สต็อกวัตถุดิบ'},
+  'checkin-log': {icon:'🕐', title:'ประวัติการเข้างาน'},
+  menu:          {icon:'⚙️', title:'การจัดการ'},
 };
 function setPageTitle(name) {
   const m = PAGE_META[name] || {icon:'📄', title:name};
@@ -1209,6 +1382,7 @@ window.switchPage = async function(name, el) {
   if(name==='stock') renderStock();
   if(name==='menu') { renderBranchMgmt(); await renderStaff(); renderMenuPage(); }
   if(name==='home') await renderHome();
+  if(name==='cashflow') renderCashflow();
 };
 
 function buildNav() {
@@ -1268,7 +1442,7 @@ async function renderHome() {
     document.getElementById('ov-staff-in').textContent=checkedIn;
     document.getElementById('ov-branches').textContent=openBranches+'/'+BRANCHES.length;
     const actualToday = getActualCostForDate(today());
-    const realCost = actualToday ? actualToday.stockCost + actualToday.wasteCost : cost;
+    const realCost = actualToday ? actualToday.stockCost + (actualToday.periodicCost||0) + actualToday.wasteCost : cost;
     const realProfit = actualToday ? rev - realCost : profit;
     document.getElementById('pf-revenue').textContent='฿'+fmtDec(rev);
     if(actualToday) {
@@ -1276,11 +1450,18 @@ async function renderHome() {
       document.getElementById('pf-cost').textContent=rev>0?'-฿'+fmtDec(actualToday.stockCost):'฿0';
       document.getElementById('pf-labor-lbl').textContent=actualToday.wasteBalls>0?`ของทิ้ง (${actualToday.wasteBalls} ลูก)`:'ของทิ้ง';
       document.getElementById('pf-labor').textContent=actualToday.wasteBalls>0?'-฿'+fmtDec(actualToday.wasteCost):'฿0';
+      const periodicRow=document.getElementById('pf-periodic-row');
+      if((actualToday.periodicCost||0)>0){
+        periodicRow.style.display='';
+        document.getElementById('pf-periodic-lbl').innerHTML='ต้นทุนคงที่/วัน <span class="periodic-badge">🔄</span>';
+        document.getElementById('pf-periodic').textContent='-฿'+fmtDec(actualToday.periodicCost);
+      } else { periodicRow.style.display='none'; }
     } else {
       document.getElementById('pf-cost-lbl').innerHTML='ต้นทุนวัตถุดิบ (35%) <span class="est-tag">ประมาณ</span>';
       document.getElementById('pf-labor-lbl').textContent='ค่าแรงโดยประมาณ';
       document.getElementById('pf-cost').textContent=rev>0?'-฿'+fmtDec(cost):'฿0';
       document.getElementById('pf-labor').textContent=rev>0?'-฿'+fmt(labor):'฿0';
+      document.getElementById('pf-periodic-row').style.display='none';
     }
     document.getElementById('pf-net').textContent='฿'+fmtDec(realProfit);
     renderAlerts(); renderBranchList(); renderHomeChart();
@@ -1859,23 +2040,38 @@ window.renderReport = function renderReport() {
     if(role==='owner'){
       const actualDay = getActualCostForDate(thaiDs);
       const cost = actualDay ? actualDay.stockCost : grandTotal*0.35;
+      const periodicCost = actualDay ? (actualDay.periodicCost||0) : 0;
       const wasteCost = actualDay ? actualDay.wasteCost : 0;
       const labor = actualDay ? 0 : (grandTotal>0?487:0);
-      const net = grandTotal - cost - wasteCost - labor;
+      const dayExps = cashExpenses.filter(e => e.date === thaiDs);
+      const otherExpense = dayExps.reduce((s,e)=>s+(e.amount||0), 0);
+      const net = grandTotal - cost - periodicCost - wasteCost - labor - otherExpense;
       document.getElementById('rp-lbl-revenue').textContent='รายได้ ('+periodLabel+')';
       document.getElementById('rp-revenue').textContent='฿'+fmtDec(grandTotal);
       if(actualDay) {
         document.getElementById('rp-lbl-labor').innerHTML='ต้นทุนวัตถุดิบจริง <span class="actual-tag">✓ จริง</span>';
         document.getElementById('rp-cost').textContent=grandTotal>0?'-฿'+fmtDec(cost):'฿0';
-        document.getElementById('rp-labor').innerHTML=actualDay.wasteBalls>0
-          ?`-฿${fmtDec(wasteCost)} <span style="font-size:10px;color:var(--gray4);">(ของทิ้ง ${actualDay.wasteBalls} ลูก)</span>`
-          :'฿0';
+        let laborHtml = '';
+        if(periodicCost>0) laborHtml += `-฿${fmtDec(periodicCost)} <span style="font-size:10px;color:var(--gray4);">(คงที่/วัน 🔄)</span>`;
+        if(actualDay.wasteBalls>0) laborHtml += (laborHtml?' + ':'')+`-฿${fmtDec(wasteCost)} <span style="font-size:10px;color:var(--gray4);">(ของทิ้ง ${actualDay.wasteBalls} ลูก)</span>`;
+        document.getElementById('rp-labor').innerHTML = laborHtml || '฿0';
       } else {
         document.getElementById('rp-lbl-labor').innerHTML='ต้นทุนคงที่ ('+periodLabel+') <span class="est-tag">ประมาณ</span>';
         document.getElementById('rp-cost').textContent=grandTotal>0?'-฿'+fmtDec(cost):'฿0';
         document.getElementById('rp-labor').textContent=grandTotal>0?'-฿'+fmt(labor):'฿0';
       }
+      const expRow = document.getElementById('rp-expense-row');
+      if(otherExpense > 0) {
+        expRow.style.display='';
+        document.getElementById('rp-lbl-expense').textContent=`รายจ่ายอื่น (${dayExps.length} รายการ)`;
+        document.getElementById('rp-expense').textContent='-฿'+fmtDec(otherExpense);
+      } else { expRow.style.display='none'; }
       document.getElementById('rp-net').textContent='฿'+fmtDec(net);
+      const cpbRow = document.getElementById('rp-cost-per-ball-row');
+      if(actualDay && (actualDay.costPerBall||0) > 0) {
+        cpbRow.style.display='';
+        document.getElementById('rp-cost-per-ball').textContent='฿'+actualDay.costPerBall.toFixed(2)+'/ลูก';
+      } else { cpbRow.style.display='none'; }
     }
     return;
   }
@@ -1924,21 +2120,45 @@ window.renderReport = function renderReport() {
     const periodDates = [...new Set(filteredRecs.map(r=>r.date))];
     const actualPeriod = getActualCostForDateList(periodDates);
     const cost = actualPeriod ? actualPeriod.stockCost : grandTotal*0.35;
+    const periodicCost = actualPeriod ? (actualPeriod.periodicCost||0) : 0;
     const wasteCost = actualPeriod ? actualPeriod.wasteCost : 0;
     const labor = actualPeriod ? 0 : (grandTotal>0?487*stripDays:0);
-    const net = grandTotal - cost - wasteCost - labor;
+    // รายจ่ายอื่น (cash_expenses) ในช่วงเวลานั้น
+    const periodExpenses = cashExpenses.filter(e => periodDates.includes(e.date));
+    const otherExpense = periodExpenses.reduce((s,e)=>s+(e.amount||0), 0);
+    const net = grandTotal - cost - periodicCost - wasteCost - labor - otherExpense;
     document.getElementById('rp-lbl-revenue').textContent='รายได้ ('+periodLabel+')';
     document.getElementById('rp-revenue').textContent='฿'+fmtDec(grandTotal);
     if(actualPeriod && actualPeriod.count > 0) {
       document.getElementById('rp-lbl-labor').innerHTML=`ต้นทุนวัตถุดิบจริง (${actualPeriod.count} วัน) <span class="actual-tag">✓ จริง</span>`;
       document.getElementById('rp-cost').textContent=grandTotal>0?'-฿'+fmtDec(cost):'฿0';
-      document.getElementById('rp-labor').textContent=actualPeriod.wasteBalls>0?'-฿'+fmtDec(wasteCost):'฿0';
+      let laborHtml = '';
+      if(periodicCost>0) laborHtml += `-฿${fmtDec(periodicCost)} <span style="font-size:10px;color:var(--gray4);">(คงที่/วัน 🔄)</span>`;
+      if(actualPeriod.wasteBalls>0) laborHtml += (laborHtml?' + ':'')+`-฿${fmtDec(wasteCost)} <span style="font-size:10px;color:var(--gray4);">(ของทิ้ง ${actualPeriod.wasteBalls} ลูก)</span>`;
+      document.getElementById('rp-labor').innerHTML = laborHtml || '฿0';
     } else {
       document.getElementById('rp-lbl-labor').innerHTML='ต้นทุนคงที่ ('+periodLabel+') <span class="est-tag">ประมาณ</span>';
       document.getElementById('rp-cost').textContent=grandTotal>0?'-฿'+fmtDec(cost):'฿0';
       document.getElementById('rp-labor').textContent=grandTotal>0?'-฿'+fmt(labor):'฿0';
     }
+    // รายจ่ายอื่น row
+    const expRow = document.getElementById('rp-expense-row');
+    if(otherExpense > 0) {
+      expRow.style.display='';
+      // group by category for label
+      const catMap = {};
+      periodExpenses.forEach(e=>{ catMap[e.cat||'💰']=(catMap[e.cat||'💰']||0)+1; });
+      const topCats = Object.entries(catMap).sort((a,b)=>b[1]-a[1]).slice(0,2).map(([c])=>c).join('');
+      document.getElementById('rp-lbl-expense').textContent = `รายจ่ายอื่น ${topCats} (${periodExpenses.length} รายการ)`;
+      document.getElementById('rp-expense').textContent = '-฿'+fmtDec(otherExpense);
+    } else { expRow.style.display='none'; }
     document.getElementById('rp-net').textContent='฿'+fmtDec(net);
+    // ต้นทุน/ลูก
+    const cpbRow = document.getElementById('rp-cost-per-ball-row');
+    if(actualPeriod && (actualPeriod.costPerBall||0) > 0) {
+      cpbRow.style.display='';
+      document.getElementById('rp-cost-per-ball').textContent = '฿'+actualPeriod.costPerBall.toFixed(2)+'/ลูก';
+    } else { cpbRow.style.display='none'; }
   }
 }
 
@@ -1950,11 +2170,21 @@ function renderStock() {
   document.getElementById('stock-list').innerHTML=stock.map((s,i)=>{
     const pct=Math.round(s.amount/s.max*100);
     const cls=pct>50?'ok':pct>25?'warn':'low';
+    const isPeriodic=(s.type||'daily')==='periodic';
+    const dailyCost=getDailyCostForPeriodic(s);
     return `<div class="stock-item">
       <span class="si-icon">${s.icon}</span>
-      <div class="si-info"><div class="si-name">${s.name}</div>
-      <div class="si-qty">${s.amount}/${s.max} ${s.unit} ${pct<30?'<span class="tag red">ใกล้หมด</span>':''}</div></div>
-      <div class="si-right"><div class="si-bar"><div class="si-fill ${cls}" style="width:${pct}%"></div></div><div class="si-pct">${pct}%</div></div>
+      <div class="si-info">
+        <div class="si-name">${s.name}${isPeriodic?'<span class="periodic-badge">🔄</span>':''}</div>
+        <div class="si-qty">${isPeriodic
+          ? (dailyCost>0
+              ? `<span style="color:#4F46E5;font-weight:600;">฿${fmt(Math.round(dailyCost*10)/10)}/วัน</span> · ซื้อล่าสุด ${s.lastPurchaseDate||'—'} (${s.estimatedDays||'?'} วัน)`
+              : `เป็นรอบ · ยังไม่มีข้อมูลการซื้อ`)
+          : `${s.amount}/${s.max} ${s.unit} ${pct<30?'<span class="tag red">ใกล้หมด</span>':''}`}</div>
+      </div>
+      ${isPeriodic
+        ? `<div class="si-right"><div style="font-size:11px;color:var(--gray4);">${s.amount} ${s.unit}</div></div>`
+        : `<div class="si-right"><div class="si-bar"><div class="si-fill ${cls}" style="width:${pct}%"></div></div><div class="si-pct">${pct}%</div></div>`}
       <button class="restock-btn" onclick="openRestock(${i})">➕ เติม</button>
     </div>`;
   }).join('');
@@ -1970,25 +2200,77 @@ function renderStock() {
   }
 }
 
+function getDailyCostForPeriodic(s) {
+  if((s.type||'daily')!=='periodic'||!s.lastPurchaseCost||!s.estimatedDays) return 0;
+  return s.lastPurchaseCost / s.estimatedDays;
+}
+
+window.updateRestockDailyCost = function() {
+  const s = stock[restockStockIdx]; if(!s) return;
+  const qty = Number(document.getElementById('restock-amount')?.value)||0;
+  const days = Number(document.getElementById('restock-est-days')?.value)||0;
+  const preview = document.getElementById('restock-daily-preview');
+  if(!preview) return;
+  if(qty>0 && days>0) {
+    const total = qty * s.costPerUnit;
+    preview.textContent = `ซื้อ ${qty} ${s.unit} = ฿${fmt(total)} → ฿${fmt(Math.round(total/days*10)/10)}/วัน`;
+  } else { preview.textContent=''; }
+};
+
+window.toggleNsPeriodicFields = function() {
+  document.getElementById('ns-periodic-section').style.display =
+    document.getElementById('ns-type').value==='periodic' ? 'block':'none';
+};
+window.toggleEsPeriodicFields = function() {
+  document.getElementById('es-periodic-section').style.display =
+    document.getElementById('es-type').value==='periodic' ? 'block':'none';
+};
+
 window.openRestock = function(i) {
   restockStockIdx=i; const s=stock[i];
   document.getElementById('restock-title').textContent='เติม '+s.name;
   document.getElementById('restock-unit').textContent=s.unit;
   document.getElementById('restock-amount').value='';
+  const periodicSec = document.getElementById('restock-periodic-section');
+  const preview = document.getElementById('restock-daily-preview');
+  if((s.type||'daily')==='periodic') {
+    periodicSec.style.display='block';
+    document.getElementById('restock-est-days').value = s.estimatedDays||7;
+    if(preview) preview.textContent='';
+  } else {
+    periodicSec.style.display='none';
+  }
   openModal('modal-restock');
 };
 window.confirmRestock = async function() {
   const amt=Number(document.getElementById('restock-amount').value);
   if(!amt||amt<0) return alert('กรอกจำนวนที่ถูกต้อง');
-  stock[restockStockIdx].amount=Math.min(stock[restockStockIdx].max,stock[restockStockIdx].amount+amt);
-  if(userUid!=='demo') { setSyncStatus(true); await updateDoc(doc(db,'stock',stock[restockStockIdx].id),{amount:stock[restockStockIdx].amount}); setSyncStatus(false); }
+  const s=stock[restockStockIdx];
+  const updates={amount:Math.min(s.max,s.amount+amt)};
+  if((s.type||'daily')==='periodic') {
+    const estDays=Number(document.getElementById('restock-est-days').value)||7;
+    updates.estimatedDays=estDays;
+    updates.lastPurchaseCost=amt*s.costPerUnit;
+    updates.lastPurchaseDate=today();
+  }
+  Object.assign(s,updates);
+  if(userUid!=='demo'){setSyncStatus(true);await updateDoc(doc(db,'stock',s.id),updates);setSyncStatus(false);}
   closeModal('modal-restock'); renderStock(); renderAlerts();
 };
 
 window.confirmAddStock = async function() {
   const name=document.getElementById('ns-name').value.trim();
   if(!name) return alert('กรอกชื่อวัตถุดิบ');
-  const item={icon:document.getElementById('ns-icon').value||'📦',name,unit:document.getElementById('ns-unit').value||'ชิ้น',amount:Number(document.getElementById('ns-amount').value)||0,max:Number(document.getElementById('ns-max').value)||10,costPerUnit:Number(document.getElementById('ns-cost').value)||0};
+  const type=document.getElementById('ns-type')?.value||'daily';
+  const item={
+    icon:document.getElementById('ns-icon').value||'📦',name,
+    unit:document.getElementById('ns-unit').value||'ชิ้น',
+    amount:Number(document.getElementById('ns-amount').value)||0,
+    max:Number(document.getElementById('ns-max').value)||10,
+    costPerUnit:Number(document.getElementById('ns-cost').value)||0,
+    type,
+    estimatedDays:type==='periodic'?(Number(document.getElementById('ns-est-days').value)||7):null,
+  };
   if(userUid!=='demo'){setSyncStatus(true);const r=await addDoc(collection(db,'stock'),item);stock.push({id:r.id,...item});setSyncStatus(false);}
   else stock.push({id:'s'+Date.now(),...item});
   closeModal('modal-add-stock'); renderStock();
@@ -2002,16 +2284,23 @@ window.openEditStock = function(i) {
   document.getElementById('es-unit').value = s.unit;
   document.getElementById('es-max').value = s.max;
   document.getElementById('es-cost').value = s.costPerUnit;
+  const esType = document.getElementById('es-type');
+  if(esType){ esType.value = s.type||'daily'; toggleEsPeriodicFields(); }
+  const esEstDays = document.getElementById('es-est-days');
+  if(esEstDays) esEstDays.value = s.estimatedDays||7;
   openModal('modal-edit-stock');
 };
 window.confirmEditStock = async function() {
   const s = stock[editStockIdx];
+  const type = document.getElementById('es-type')?.value || s.type || 'daily';
   const updates = {
     name: document.getElementById('es-name').value.trim() || s.name,
     icon: document.getElementById('es-icon').value || s.icon,
     unit: document.getElementById('es-unit').value.trim() || s.unit,
     max: Number(document.getElementById('es-max').value) || s.max,
     costPerUnit: Number(document.getElementById('es-cost').value) || 0,
+    type,
+    estimatedDays: type==='periodic' ? (Number(document.getElementById('es-est-days').value)||s.estimatedDays||7) : null,
   };
   Object.assign(s, updates);
   if(userUid!=='demo'){ setSyncStatus(true); await updateDoc(doc(db,'stock',s.id), updates); setSyncStatus(false); }
@@ -2427,24 +2716,239 @@ window.showSlipModal = function(recordId) {
 function getActualCostForDate(thaiDate) {
   const clos = dailyClosings.filter(dc => dc.date === thaiDate);
   if(!clos.length) return null;
+  const ballsMade = clos.reduce((s,dc) => s+(dc.ballsMade||0), 0);
+  const stockCost = clos.reduce((s,dc) => s+(dc.totalStockCost||0), 0);
+  const periodicCost = clos.reduce((s,dc) => s+(dc.totalPeriodicCost||0), 0);
   return {
-    stockCost:  clos.reduce((s,dc) => s+(dc.totalStockCost||0), 0),
-    wasteBalls: clos.reduce((s,dc) => s+(dc.wasteBalls||0), 0),
-    wasteCost:  clos.reduce((s,dc) => s+(dc.wasteBalls||0)*COST_PER_BALL, 0),
-    stockUsed:  clos.flatMap(dc => dc.stockUsed||[]),
+    stockCost,
+    periodicCost,
+    periodicItems: clos.flatMap(dc => dc.periodicItems||[]),
+    wasteBalls:    clos.reduce((s,dc) => s+(dc.wasteBalls||0), 0),
+    wasteCost:     clos.reduce((s,dc) => s+(dc.wasteBalls||0)*COST_PER_BALL, 0),
+    stockUsed:     clos.flatMap(dc => dc.stockUsed||[]),
+    ballsMade,
+    costPerBall:   ballsMade > 0 ? (stockCost+periodicCost)/ballsMade : 0,
   };
 }
 
 function getActualCostForDateList(thaiDates) {
   const relevant = dailyClosings.filter(dc => thaiDates.includes(dc.date));
   if(!relevant.length) return null;
+  const ballsMade = relevant.reduce((s,dc) => s+(dc.ballsMade||0), 0);
+  const stockCost = relevant.reduce((s,dc) => s+(dc.totalStockCost||0), 0);
+  const periodicCost = relevant.reduce((s,dc) => s+(dc.totalPeriodicCost||0), 0);
   return {
-    stockCost:  relevant.reduce((s,dc) => s+(dc.totalStockCost||0), 0),
-    wasteBalls: relevant.reduce((s,dc) => s+(dc.wasteBalls||0), 0),
-    wasteCost:  relevant.reduce((s,dc) => s+(dc.wasteBalls||0)*COST_PER_BALL, 0),
-    count:      [...new Set(relevant.map(dc=>dc.date))].length,
+    stockCost,
+    periodicCost,
+    wasteBalls:  relevant.reduce((s,dc) => s+(dc.wasteBalls||0), 0),
+    wasteCost:   relevant.reduce((s,dc) => s+(dc.wasteBalls||0)*COST_PER_BALL, 0),
+    ballsMade,
+    costPerBall: ballsMade > 0 ? (stockCost+periodicCost)/ballsMade : 0,
+    count:       [...new Set(relevant.map(dc=>dc.date))].length,
   };
 }
+
+// ── CASH FLOW ──
+
+const CF_CATS = {
+  '🛒': {label:'ซื้อของ',   color:'#F59E0B'},
+  '🚗': {label:'ค่าเดินทาง', color:'#6366F1'},
+  '💡': {label:'สาธารณูปโภค',color:'#0EA5E9'},
+  '🔧': {label:'ซ่อมบำรุง', color:'#EF4444'},
+  '📦': {label:'บรรจุภัณฑ์', color:'#10B981'},
+  '💰': {label:'อื่นๆ',      color:'#9CA3AF'},
+};
+
+function cfSelectedDate() {
+  const el = document.getElementById('cf-date-pick');
+  return el ? el.value : new Date().toISOString().split('T')[0];
+}
+
+function cfISOToThai(iso) {
+  const [yr,mo,dy] = iso.split('-').map(Number);
+  return `${dy}/${mo}/${yr+543}`;
+}
+
+window.cfShiftDay = function(d) {
+  const el = document.getElementById('cf-date-pick');
+  if(!el) return;
+  const dt = new Date(el.value);
+  dt.setDate(dt.getDate() + d);
+  el.value = dt.toISOString().split('T')[0];
+  renderCashflow();
+};
+
+function renderCashflow() {
+  const isoDate = cfSelectedDate();
+  const thaiDs  = cfISOToThai(isoDate);
+
+  // รายรับ: จาก records วันนั้น
+  const dayRecs = records.filter(r => r.date === thaiDs);
+  const totalIncome = dayRecs.reduce((s,r) => s+r.amount, 0);
+
+  // รายจ่าย: จาก cashExpenses วันนั้น
+  const dayExp  = cashExpenses.filter(e => e.date === thaiDs);
+  const totalExpense = dayExp.reduce((s,e) => s+(e.amount||0), 0);
+  const balance = totalIncome - totalExpense;
+
+  // Summary strip
+  const sumEl = document.getElementById('cf-summary');
+  if(sumEl) sumEl.innerHTML = `
+    <div class="cf-sum-card income">
+      <div class="cf-sum-val income">฿${fmtDec(totalIncome)}</div>
+      <div class="cf-sum-lbl">รายรับ</div>
+    </div>
+    <div class="cf-sum-card expense">
+      <div class="cf-sum-val expense">฿${fmtDec(totalExpense)}</div>
+      <div class="cf-sum-lbl">รายจ่าย</div>
+    </div>
+    <div class="cf-sum-card balance">
+      <div class="cf-sum-val ${balance>=0?'balance-pos':'balance-neg'}">฿${fmtDec(balance)}</div>
+      <div class="cf-sum-lbl">คงเหลือ</div>
+    </div>`;
+
+  // Income list
+  const incEl = document.getElementById('cf-income-list');
+  document.getElementById('cf-income-total').textContent = '฿'+fmtDec(totalIncome);
+  if(incEl) {
+    if(!dayRecs.length) {
+      incEl.innerHTML = '<div style="text-align:center;padding:10px 0;color:var(--gray4);font-size:12px;">ยังไม่มียอดขายวันนี้ — กด + รายรับ เพื่อกรอก</div>';
+    } else {
+      incEl.innerHTML = dayRecs.map(r => {
+        const bn = getBranch(r.branchId).name || r.branchId;
+        const isManual = r.manual === true;
+        const menuTxt  = r.menus && r.menus.length ? r.menus.join(', ') : '';
+        return `<div class="cf-income-item">
+          <span style="font-size:14px;">${isManual?'✏️':'🧾'}</span>
+          <div style="flex:1;">
+            <div class="cf-income-name">${bn}${isManual?' <span style="font-size:9px;background:var(--o100);color:var(--o600);padding:1px 5px;border-radius:8px;font-weight:700;">กรอกมือ</span>':''}</div>
+            ${menuTxt?`<div style="font-size:10px;color:var(--gray4);margin-top:1px;">${menuTxt}</div>`:''}
+            ${r.note?`<div style="font-size:10px;color:var(--gray4);margin-top:1px;">${r.note}</div>`:''}
+          </div>
+          <span class="cf-income-amt">฿${fmtDec(r.amount)}</span>
+        </div>`;
+      }).join('');
+    }
+  }
+
+  // Expense list
+  const expEl = document.getElementById('cf-expense-list');
+  if(expEl) {
+    if(!dayExp.length) {
+      expEl.innerHTML = '<div style="text-align:center;padding:10px 0;color:var(--gray4);font-size:12px;">ยังไม่มีรายจ่าย — กด + เพิ่ม</div>';
+    } else {
+      expEl.innerHTML = dayExp.map(e => {
+        const cat = CF_CATS[e.cat] || CF_CATS['💰'];
+        return `<div class="cf-expense-item">
+          <div class="cf-cat-dot" style="background:${cat.color};"></div>
+          <div class="cf-exp-info">
+            <div class="cf-exp-name">${e.cat||''} ${e.name}</div>
+            <div class="cf-exp-meta">${cat.label}${e.note?' · '+e.note:''}</div>
+          </div>
+          <span class="cf-exp-amt">-฿${fmtDec(e.amount||0)}</span>
+          <button class="cf-del-btn" onclick="deleteExpense('${e.id}')">🗑</button>
+        </div>`;
+      }).join('');
+    }
+  }
+}
+
+window.openAddExpense = function() {
+  const isoDate = cfSelectedDate();
+  document.getElementById('ae-date').value = isoDate;
+  document.getElementById('ae-name').value = '';
+  document.getElementById('ae-amount').value = '';
+  document.getElementById('ae-note').value = '';
+  // reset category chips
+  document.querySelectorAll('#ae-cat-chips .cf-cat-chip').forEach((c,i) => c.classList.toggle('active', i===0));
+  openModal('modal-add-expense');
+};
+
+window.selectExpenseCat = function(el) {
+  document.querySelectorAll('#ae-cat-chips .cf-cat-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+};
+
+window.confirmAddExpense = async function() {
+  const name   = document.getElementById('ae-name').value.trim();
+  const amount = parseFloat(document.getElementById('ae-amount').value)||0;
+  const note   = document.getElementById('ae-note').value.trim();
+  const isoDate= document.getElementById('ae-date').value;
+  if(!name) { alert('กรอกชื่อรายการด้วย'); return; }
+  if(amount <= 0) { alert('กรอกจำนวนเงินด้วย'); return; }
+  const activeChip = document.querySelector('#ae-cat-chips .cf-cat-chip.active');
+  const cat = activeChip ? activeChip.dataset.cat : '💰';
+  const thaiDs = cfISOToThai(isoDate);
+  try {
+    setSyncStatus(true);
+    await addDoc(collection(db,'cash_expenses'), {
+      date: thaiDs, name, amount, cat, note,
+      branchId: userBranch, uid: userUid,
+      ts: serverTimestamp(),
+    });
+    setSyncStatus(false);
+    closeModal('modal-add-expense');
+  } catch(e) { console.error(e); setSyncStatus(false); alert('บันทึกไม่สำเร็จ: '+e.message); }
+};
+
+window.deleteExpense = async function(id) {
+  if(!confirm('ลบรายจ่ายนี้?')) return;
+  try {
+    setSyncStatus(true);
+    await deleteDoc(doc(db,'cash_expenses',id));
+    setSyncStatus(false);
+  } catch(e) { console.error(e); setSyncStatus(false); }
+};
+
+window.openAddIncome = function() {
+  const isoDate = cfSelectedDate();
+  document.getElementById('ai-date').value = isoDate;
+  document.getElementById('ai-amount').value = '';
+  document.getElementById('ai-note').value = '';
+  // branch selector
+  const brSel = document.getElementById('ai-branch');
+  brSel.innerHTML = BRANCHES.map(b=>`<option value="${b.id}">${b.name}</option>`).join('');
+  brSel.value = userBranch;
+  // menu chips
+  document.getElementById('ai-menu-grid').innerHTML = menus.map((m,i)=>`
+    <div class="menu-chip" data-idx="${i}" onclick="this.classList.toggle('sel')"
+      style="font-size:11px;padding:4px 9px;">${m.icon} ${m.name}</div>`).join('');
+  openModal('modal-add-income');
+};
+
+window.confirmAddIncome = async function() {
+  const amt = parseFloat(document.getElementById('ai-amount').value)||0;
+  if(amt <= 0) { alert('กรอกยอดขายด้วย'); return; }
+  const branchId  = document.getElementById('ai-branch').value;
+  const note      = document.getElementById('ai-note').value.trim();
+  const isoDate   = document.getElementById('ai-date').value;
+  const [yr,mo,dy]= isoDate.split('-').map(Number);
+  const thaiDs    = `${dy}/${mo}/${yr+543}`;
+  const selectedMenus = [...document.querySelectorAll('#ai-menu-grid .menu-chip.sel')]
+    .map(c => menus[c.dataset.idx].name);
+  const now = new Date();
+  const rec = {
+    amount: amt,
+    payType: 'กรอกมือ',
+    bank: '', sender: '', ref: '',
+    menus: selectedMenus,
+    note,
+    branchId,
+    branchName: getBranch(branchId).name,
+    slipBase64: null,
+    userName, userUid,
+    time: now.toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'}),
+    date: thaiDs,
+    manual: true,
+    ts: serverTimestamp(),
+  };
+  try {
+    setSyncStatus(true);
+    await addDoc(collection(db,'records'), rec);
+    setSyncStatus(false);
+    closeModal('modal-add-income');
+  } catch(e) { console.error(e); setSyncStatus(false); alert('บันทึกไม่สำเร็จ: '+e.message); }
+};
 
 function renderDailyClosingCard() {
   const el = document.getElementById('daily-closing-today-content');
@@ -2462,7 +2966,7 @@ function renderDailyClosingCard() {
     return;
   }
 
-  const totalCost = actual.stockCost + actual.wasteCost;
+  const totalCost = actual.stockCost + (actual.periodicCost||0) + actual.wasteCost;
   const profit = rev - totalCost;
   const margin = rev > 0 ? Math.round(profit/rev*100) : 0;
 
@@ -2470,10 +2974,12 @@ function renderDailyClosingCard() {
     <div class="closing-summary">
       <div class="cs-row"><span class="cs-label">รายได้</span><span class="cs-val">฿${fmtDec(rev)}</span></div>
       <div class="cs-row"><span class="cs-label">ต้นทุนวัตถุดิบจริง</span><span class="cs-val cost">-฿${fmtDec(actual.stockCost)}</span></div>
+      ${(actual.periodicCost||0)>0?`<div class="cs-row"><span class="cs-label">ต้นทุนคงที่/วัน <span class="periodic-badge">🔄</span></span><span class="cs-val cost">-฿${fmtDec(actual.periodicCost)}</span></div>`:''}
       ${actual.wasteBalls>0?`<div class="cs-row"><span class="cs-label">ของทิ้ง (${actual.wasteBalls} ลูก × ฿${COST_PER_BALL})</span><span class="cs-val cost">-฿${fmtDec(actual.wasteCost)}</span></div>`:''}
       <div style="height:1px;background:var(--g100);margin:8px 0;"></div>
       <div class="cs-row"><span class="cs-label" style="font-weight:700;">กำไรสุทธิจริง</span><span class="cs-val profit">฿${fmtDec(profit)}</span></div>
       <div class="cs-row"><span class="cs-label">Margin</span><span class="cs-val" style="color:${margin>=30?'var(--g600)':'var(--red600)'};">${margin}%</span></div>
+      ${actual.costPerBall>0?`<div class="cs-row"><span class="cs-label">ต้นทุน/ลูก <span style="font-size:9px;background:#E0F2FE;color:#0284C7;padding:1px 5px;border-radius:8px;font-weight:700;">🔵 จริง</span></span><span class="cs-val" style="color:#0284C7;font-weight:700;">฿${actual.costPerBall.toFixed(2)}</span></div>`:''}
       ${actual.stockUsed.length?`<div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--g100);font-size:10px;color:var(--gray4);">${actual.stockUsed.map(s=>`${s.icon} ${s.name} ${s.qty} ${s.unit}`).join(' · ')}</div>`:''}
     </div>
     <button onclick="openDailyClosing('${td}')" style="width:100%;margin-top:8px;background:transparent;border:1.5px solid var(--gray2);border-radius:var(--r-sm);padding:8px;font-size:11px;color:var(--gray5);font-family:var(--font);cursor:pointer;">✏️ แก้ไข / เพิ่มรายการ</button>
@@ -2490,6 +2996,8 @@ window.openDailyClosing = function(prefillThaiDate) {
   brSel.value = userBranch;
 
   buildDcStockList();
+  document.getElementById('dc-balls-made').value = '';
+  document.getElementById('dc-balls-hint').textContent = '';
   document.getElementById('dc-waste-balls').value = '';
   document.getElementById('dc-note').value = '';
   document.getElementById('dc-cost-preview').style.display = 'none';
@@ -2506,35 +3014,82 @@ function buildDcStockList() {
   const el = document.getElementById('dc-stock-list');
   if(!el) return;
   if(!stock.length){el.innerHTML='<div class="empty-state" style="padding:10px 0;">ยังไม่มีข้อมูลสต็อก</div>';return;}
-  el.innerHTML = stock.map((s,i)=>`
-    <div class="dc-stock-row">
-      <span style="font-size:16px;width:22px;text-align:center;flex-shrink:0;">${s.icon}</span>
-      <div class="dc-stock-name">${s.name}</div>
-      <span class="dc-stock-cost">฿${s.costPerUnit}/${s.unit}</span>
-      <input class="form-input dc-qty-input" type="number" min="0" step="0.5" placeholder="0"
-        id="dc-qty-${i}" oninput="updateDcPreview()">
-      <span style="font-size:10px;color:var(--gray4);width:28px;flex-shrink:0;">${s.unit}</span>
-    </div>`).join('');
+
+  const dailyItems  = stock.filter(s=>(s.type||'daily')==='daily');
+  const periodicItems = stock.filter(s=>s.type==='periodic');
+
+  let html = '';
+
+  if(dailyItems.length) {
+    html += `<div class="dc-section-hd">📦 วัตถุดิบรายวัน — กรอกที่ใช้จริง</div>`;
+    html += dailyItems.map(s=>`
+      <div class="dc-stock-row">
+        <span style="font-size:16px;width:22px;text-align:center;flex-shrink:0;">${s.icon}</span>
+        <div class="dc-stock-name">${s.name}</div>
+        <span class="dc-stock-cost">฿${s.costPerUnit}/${s.unit}</span>
+        <input class="form-input dc-qty-input" type="number" min="0" step="0.5" placeholder="0"
+          id="dc-qty-${s.id}" oninput="updateDcPreview()">
+        <span style="font-size:10px;color:var(--gray4);width:28px;flex-shrink:0;">${s.unit}</span>
+      </div>`).join('');
+  }
+
+  if(periodicItems.length) {
+    html += `<div class="dc-section-hd">⚡ ต้นทุนคงที่/วัน — ติ๊กเพื่อรวม</div>`;
+    html += periodicItems.map(s=>{
+      const dailyCost = getDailyCostForPeriodic(s);
+      if(!dailyCost) return `
+        <div class="periodic-row" style="opacity:.5;">
+          <span style="font-size:16px;">${s.icon}</span>
+          <div class="pr-name-block"><div class="pr-item-name">${s.name}</div>
+          <div class="pr-item-meta">ยังไม่มีข้อมูลการซื้อ — กด "เติม" ที่หน้าสต็อกก่อน</div></div>
+        </div>`;
+      return `
+        <div class="periodic-row">
+          <input type="checkbox" id="dc-periodic-${s.id}" checked onchange="updateDcPreview()" style="width:16px;height:16px;flex-shrink:0;">
+          <span style="font-size:16px;">${s.icon}</span>
+          <div class="pr-name-block">
+            <div class="pr-item-name">${s.name}</div>
+            <div class="pr-item-meta">ซื้อ ${s.lastPurchaseDate||'—'} · ${s.estimatedDays} วัน · ฿${fmt(s.lastPurchaseCost)} รวม</div>
+          </div>
+          <span class="pr-daily-cost">฿${fmt(Math.round(dailyCost*10)/10)}/วัน</span>
+        </div>`;
+    }).join('');
+  }
+
+  el.innerHTML = html;
 }
 
 window.updateDcPreview = function() {
-  let total = 0;
-  const rows = [];
-  stock.forEach((s,i)=>{
-    const qty = Number(document.getElementById('dc-qty-'+i)?.value)||0;
-    if(qty > 0) { const cost=qty*s.costPerUnit; total+=cost; rows.push(`${s.icon} ${s.name} ${qty} ${s.unit} = ฿${fmt(cost)}`); }
+  let dailyTotal = 0, periodicTotal = 0;
+  const dailyRows = [], periodicRows = [];
+
+  stock.filter(s=>(s.type||'daily')==='daily').forEach(s=>{
+    const qty = Number(document.getElementById('dc-qty-'+s.id)?.value)||0;
+    if(qty>0){ const cost=qty*s.costPerUnit; dailyTotal+=cost; dailyRows.push(`${s.icon} ${s.name} ${qty} ${s.unit} = ฿${fmt(cost)}`); }
+  });
+  stock.filter(s=>s.type==='periodic').forEach(s=>{
+    const cb = document.getElementById('dc-periodic-'+s.id);
+    if(cb?.checked){ const c=getDailyCostForPeriodic(s); periodicTotal+=c; periodicRows.push(`${s.icon} ${s.name} ฿${fmt(Math.round(c*10)/10)}/วัน`); }
   });
   const waste = Number(document.getElementById('dc-waste-balls')?.value)||0;
   const wasteCost = waste * COST_PER_BALL;
+  const ballsMade = Number(document.getElementById('dc-balls-made')?.value)||0;
+  const grandTotal = dailyTotal + periodicTotal + wasteCost;
+  const costPerBall = (ballsMade > 0 && (dailyTotal+periodicTotal) > 0)
+    ? (dailyTotal+periodicTotal) / ballsMade : 0;
+  // hint next to balls-made input
+  const hint = document.getElementById('dc-balls-hint');
+  if(hint) hint.textContent = costPerBall > 0 ? `→ ต้นทุน ฿${costPerBall.toFixed(2)}/ลูก` : '';
   const preview = document.getElementById('dc-cost-preview');
   if(!preview) return;
-  if(total > 0 || wasteCost > 0) {
+  if(grandTotal > 0) {
     preview.style.display = 'block';
     preview.innerHTML=`
       <div style="font-size:11px;font-weight:700;color:var(--o800);margin-bottom:5px;">💰 สรุปต้นทุนที่จะบันทึก</div>
-      ${rows.map(r=>`<div style="font-size:11px;color:var(--gray6);margin-bottom:2px;">• ${r}</div>`).join('')}
+      ${dailyRows.map(r=>`<div style="font-size:11px;color:var(--gray6);margin-bottom:2px;">• ${r}</div>`).join('')}
+      ${periodicRows.map(r=>`<div style="font-size:11px;color:#4F46E5;margin-bottom:2px;">• ${r}</div>`).join('')}
       ${wasteCost>0?`<div style="font-size:11px;color:var(--gray6);margin-bottom:2px;">• ของทิ้ง ${waste} ลูก ≈ ฿${fmt(wasteCost)}</div>`:''}
-      <div style="border-top:1px solid var(--o100);margin-top:6px;padding-top:6px;font-size:12px;font-weight:700;color:var(--o600);">รวมต้นทุน ฿${fmt(total+wasteCost)}</div>`;
+      <div style="border-top:1px solid var(--o100);margin-top:6px;padding-top:6px;font-size:12px;font-weight:700;color:var(--o600);">รวมต้นทุนทั้งหมด ฿${fmt(grandTotal)}${costPerBall>0?` · <span style="color:#0EA5E9;">฿${costPerBall.toFixed(2)}/ลูก</span>`:''}</div>`;
   } else {
     preview.style.display = 'none';
   }
@@ -2547,20 +3102,30 @@ window.confirmDailyClosing = async function() {
   const thaiDate = `${dy}/${mo}/${yr+543}`;
   const branchId = document.getElementById('dc-branch-sel').value;
   const wasteBalls = Number(document.getElementById('dc-waste-balls').value)||0;
+  const ballsMade  = Number(document.getElementById('dc-balls-made').value)||0;
   const note = document.getElementById('dc-note').value.trim();
 
   const stockUsed = [];
   let totalStockCost = 0;
-  stock.forEach((s,i)=>{
-    const qty = Number(document.getElementById('dc-qty-'+i)?.value)||0;
+  stock.filter(s=>(s.type||'daily')==='daily').forEach(s=>{
+    const qty = Number(document.getElementById('dc-qty-'+s.id)?.value)||0;
     if(qty > 0){
       const cost = qty*s.costPerUnit;
       totalStockCost += cost;
       stockUsed.push({stockId:s.id,name:s.name,icon:s.icon,qty,unit:s.unit,costPerUnit:s.costPerUnit,totalCost:cost});
     }
   });
+  const periodicItems = [];
+  let totalPeriodicCost = 0;
+  stock.filter(s=>s.type==='periodic').forEach(s=>{
+    const cb = document.getElementById('dc-periodic-'+s.id);
+    if(cb?.checked){
+      const dailyCost = getDailyCostForPeriodic(s);
+      if(dailyCost>0){ totalPeriodicCost+=dailyCost; periodicItems.push({stockId:s.id,name:s.name,icon:s.icon,dailyCost,estimatedDays:s.estimatedDays}); }
+    }
+  });
 
-  if(!stockUsed.length && !wasteBalls && !note){
+  if(!stockUsed.length && !periodicItems.length && !wasteBalls && !note){
     alert('กรอกวัตถุดิบที่ใช้ หรือจำนวนของทิ้ง อย่างน้อย 1 รายการ');return;
   }
 
@@ -2568,10 +3133,14 @@ window.confirmDailyClosing = async function() {
   btn.disabled=true; btn.textContent='⏳ กำลังบันทึก...';
   try {
     setSyncStatus(true);
+    const totalIngredientCost = totalStockCost + totalPeriodicCost;
     await addDoc(collection(db,'daily_closings'),{
       date:thaiDate, branchId, branchName:getBranch(branchId).name,
       stockUsed, totalStockCost,
+      periodicItems, totalPeriodicCost,
       wasteBalls, wasteCost:wasteBalls*COST_PER_BALL,
+      ballsMade,
+      costPerBall: (ballsMade>0 && totalIngredientCost>0) ? totalIngredientCost/ballsMade : 0,
       note, ts:serverTimestamp(), createdBy:userUid, createdByName:userName,
     });
     setSyncStatus(false);
