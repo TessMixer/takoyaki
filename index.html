@@ -863,6 +863,11 @@ textarea.form-input{resize:none;font-size:12px;}
     <div class="form-label">จำนวนปัจจุบัน</div><input class="form-input" type="number" id="ns-amount" placeholder="10">
     <div class="form-label">จำนวนสูงสุด</div><input class="form-input" type="number" id="ns-max" placeholder="20">
     <div class="form-label">ราคาต่อหน่วย (฿)</div><input class="form-input" type="number" id="ns-cost" placeholder="45">
+    <div class="form-label">ลูกที่ได้ต่อหน่วย <span style="color:var(--gray4);font-weight:400;">(ถ้าเป็นแป้ง — ช่วย auto-fill ลูกในปลายวัน)</span></div>
+    <div class="form-row">
+      <input class="form-input" type="number" id="ns-balls-per-unit" placeholder="0" min="0" style="max-width:90px;">
+      <span class="form-unit">ลูก/หน่วย</span>
+    </div>
     <div class="form-label">ประเภทการใช้</div>
     <select class="form-input" id="ns-type" onchange="toggleNsPeriodicFields()">
       <option value="daily">📅 รายวัน (แป้ง, ไข่, ปลาหมึก ฯลฯ)</option>
@@ -888,6 +893,11 @@ textarea.form-input{resize:none;font-size:12px;}
     <div class="form-label">หน่วย</div><input class="form-input" type="text" id="es-unit">
     <div class="form-label">จำนวนสูงสุด</div><input class="form-input" type="number" id="es-max">
     <div class="form-label">ราคาต่อหน่วย (฿)</div><input class="form-input" type="number" id="es-cost">
+    <div class="form-label">ลูกที่ได้ต่อหน่วย <span style="color:var(--gray4);font-weight:400;">(ถ้าเป็นแป้ง)</span></div>
+    <div class="form-row">
+      <input class="form-input" type="number" id="es-balls-per-unit" placeholder="0" min="0" style="max-width:90px;">
+      <span class="form-unit">ลูก/หน่วย</span>
+    </div>
     <div class="form-label">ประเภทการใช้</div>
     <select class="form-input" id="es-type" onchange="toggleEsPeriodicFields()">
       <option value="daily">📅 รายวัน</option>
@@ -1217,7 +1227,7 @@ function loadDemoData() {
     {id:'m4',emoji:'🐙',name:'ทาโกยากิ 10+1 ลูก',price:55,cost:29},
   ];
   stock = [
-    {id:'s1', icon:'🌾',name:'แป้ง Takonamor 1.5kg',      unit:'ถุง',    amount:0,max:10,costPerUnit:125},
+    {id:'s1', icon:'🌾',name:'แป้ง Takonamor 1.5kg',      unit:'ถุง',    amount:0,max:10,costPerUnit:125,ballsPerUnit:175},
     {id:'s2', icon:'🥚',name:'ไข่ไก่เบอร์ 3',              unit:'แผง',   amount:0,max:3, costPerUnit:120},
     {id:'s3', icon:'🥛',name:'นมคาร์เนชั่น',               unit:'กระป๋อง',amount:0,max:2, costPerUnit:35},
     {id:'s4', icon:'🍶',name:'ซอสทาโกยากิ Takonamor 5L',  unit:'แกลลอน',amount:0,max:2, costPerUnit:600},
@@ -1263,7 +1273,7 @@ async function seedMenus() {
 }
 async function seedStock() {
   const seed = [
-    {icon:'🌾',name:'แป้ง Takonamor 1.5kg',      unit:'ถุง',    amount:0,max:10,costPerUnit:125},
+    {icon:'🌾',name:'แป้ง Takonamor 1.5kg',      unit:'ถุง',    amount:0,max:10,costPerUnit:125,ballsPerUnit:175},
     {icon:'🥚',name:'ไข่ไก่เบอร์ 3',              unit:'แผง',   amount:0,max:3, costPerUnit:120},
     {icon:'🥛',name:'นมคาร์เนชั่น',               unit:'กระป๋อง',amount:0,max:2, costPerUnit:35},
     {icon:'🍶',name:'ซอสทาโกยากิ Takonamor 5L',  unit:'แกลลอน',amount:0,max:2, costPerUnit:600, type:'periodic', estimatedDays:14},
@@ -2268,6 +2278,7 @@ window.confirmAddStock = async function() {
     amount:Number(document.getElementById('ns-amount').value)||0,
     max:Number(document.getElementById('ns-max').value)||10,
     costPerUnit:Number(document.getElementById('ns-cost').value)||0,
+    ballsPerUnit:Number(document.getElementById('ns-balls-per-unit').value)||0,
     type,
     estimatedDays:type==='periodic'?(Number(document.getElementById('ns-est-days').value)||7):null,
   };
@@ -2284,6 +2295,7 @@ window.openEditStock = function(i) {
   document.getElementById('es-unit').value = s.unit;
   document.getElementById('es-max').value = s.max;
   document.getElementById('es-cost').value = s.costPerUnit;
+  document.getElementById('es-balls-per-unit').value = s.ballsPerUnit||0;
   const esType = document.getElementById('es-type');
   if(esType){ esType.value = s.type||'daily'; toggleEsPeriodicFields(); }
   const esEstDays = document.getElementById('es-est-days');
@@ -2299,6 +2311,7 @@ window.confirmEditStock = async function() {
     unit: document.getElementById('es-unit').value.trim() || s.unit,
     max: Number(document.getElementById('es-max').value) || s.max,
     costPerUnit: Number(document.getElementById('es-cost').value) || 0,
+    ballsPerUnit: Number(document.getElementById('es-balls-per-unit').value)||0,
     type,
     estimatedDays: type==='periodic' ? (Number(document.getElementById('es-est-days').value)||s.estimatedDays||7) : null,
   };
@@ -2996,7 +3009,10 @@ window.openDailyClosing = function(prefillThaiDate) {
   brSel.value = userBranch;
 
   buildDcStockList();
-  document.getElementById('dc-balls-made').value = '';
+  const dcBalls = document.getElementById('dc-balls-made');
+  dcBalls.value = '';
+  dcBalls.dataset.manualEdit = '';
+  dcBalls.oninput = () => { dcBalls.dataset.manualEdit = dcBalls.value ? 'yes' : ''; };
   document.getElementById('dc-balls-hint').textContent = '';
   document.getElementById('dc-waste-balls').value = '';
   document.getElementById('dc-note').value = '';
@@ -3028,7 +3044,7 @@ function buildDcStockList() {
         <div class="dc-stock-name">${s.name}</div>
         <span class="dc-stock-cost">฿${s.costPerUnit}/${s.unit}</span>
         <input class="form-input dc-qty-input" type="number" min="0" step="0.5" placeholder="0"
-          id="dc-qty-${s.id}" oninput="updateDcPreview()">
+          id="dc-qty-${s.id}" data-balls-per-unit="${s.ballsPerUnit||0}" oninput="updateDcPreview()">
         <span style="font-size:10px;color:var(--gray4);width:28px;flex-shrink:0;">${s.unit}</span>
       </div>`).join('');
   }
@@ -3062,11 +3078,23 @@ function buildDcStockList() {
 window.updateDcPreview = function() {
   let dailyTotal = 0, periodicTotal = 0;
   const dailyRows = [], periodicRows = [];
+  let autoSuggestBalls = 0;
 
   stock.filter(s=>(s.type||'daily')==='daily').forEach(s=>{
     const qty = Number(document.getElementById('dc-qty-'+s.id)?.value)||0;
-    if(qty>0){ const cost=qty*s.costPerUnit; dailyTotal+=cost; dailyRows.push(`${s.icon} ${s.name} ${qty} ${s.unit} = ฿${fmt(cost)}`); }
+    if(qty>0){
+      const cost=qty*s.costPerUnit; dailyTotal+=cost;
+      dailyRows.push(`${s.icon} ${s.name} ${qty} ${s.unit} = ฿${fmt(cost)}`);
+      if(s.ballsPerUnit>0) autoSuggestBalls += qty * s.ballsPerUnit;
+    }
   });
+
+  // auto-fill ลูกที่ทำได้ ถ้าไม่ได้แก้เอง
+  const ballsMadeEl = document.getElementById('dc-balls-made');
+  if(ballsMadeEl && !ballsMadeEl.dataset.manualEdit) {
+    if(autoSuggestBalls > 0) ballsMadeEl.value = autoSuggestBalls;
+    else ballsMadeEl.value = '';
+  }
   stock.filter(s=>s.type==='periodic').forEach(s=>{
     const cb = document.getElementById('dc-periodic-'+s.id);
     if(cb?.checked){ const c=getDailyCostForPeriodic(s); periodicTotal+=c; periodicRows.push(`${s.icon} ${s.name} ฿${fmt(Math.round(c*10)/10)}/วัน`); }
