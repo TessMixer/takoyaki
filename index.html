@@ -548,14 +548,14 @@ textarea.form-input{resize:none;font-size:12px;}
         <div class="card" id="scan-main-card">
           <div class="card-header"><div class="card-title"><span class="ct-icon">📷</span> สแกนสลิปรับเงิน</div></div>
           <div id="fb-status-scan" class="fb-status"><div class="fb-dot ok"></div>Firestore พร้อมใช้งาน · รูปสลิปเก็บใน Firestore (Base64)</div>
-          <div class="upload-zone" id="drop-zone" onclick="document.getElementById('camera-input').click()">
+          <label class="upload-zone" id="drop-zone" for="camera-input">
             <div class="uz-emoji">📸</div>
             <div class="uz-title">แตะเพื่อถ่ายรูปสลิป</div>
             <div class="uz-sub">PromptPay · โอนธนาคาร · บัตรเครดิต · QR</div>
             <div class="uz-btns">
-              <button class="uz-btn" onclick="document.getElementById('camera-input').click();event.stopPropagation();">📸 เปิดกล้อง</button>
+              <span class="uz-btn">📸 เปิดกล้อง / เลือกรูป</span>
             </div>
-          </div>
+          </label>
           <input type="file" id="camera-input" accept="image/*" capture="environment" style="display:none">
           <input type="file" id="file-input" accept="image/*" style="display:none">
           <div style="text-align:center;margin-top:10px;">
@@ -589,6 +589,9 @@ textarea.form-input{resize:none;font-size:12px;}
           </div>
           <!-- Quick Order (cash entry) -->
           <div id="quick-order-form" style="display:none;">
+            <div style="display:flex;justify-content:flex-end;margin-bottom:8px;">
+              <button onclick="resetScan()" style="background:none;border:none;font-size:13px;color:var(--gray4);cursor:pointer;padding:4px 8px;">✕ ยกเลิก</button>
+            </div>
             <div class="qo-grid" id="quick-order-grid"></div>
             <div class="qo-total-bar">
               <span class="qo-total-lbl">ยอดรวม</span>
@@ -1949,7 +1952,7 @@ window.openCashEntry = function() {
 window.resetScan = function() {
   const pb = document.getElementById('preview-box');
   pb.style.display='none';
-  pb.innerHTML=`<img id="preview-img" src="" alt="slip"><button class="preview-change" onclick="resetScan()">เปลี่ยนรูป ✕</button>`;
+  pb.innerHTML=`<img id="preview-img" src="" alt=""><button class="preview-change" onclick="resetScan()">เปลี่ยนรูป ✕</button>`;
   document.getElementById('result-box').style.display='none';
   document.getElementById('save-form').style.display='none';
   document.getElementById('quick-order-form').style.display='none';
