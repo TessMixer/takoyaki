@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="th">
 <head>
 <meta charset="UTF-8">
@@ -116,12 +116,12 @@ html,body{height:100%;font-family:var(--font);background:var(--gray1);color:var(
 .branch-amt{font-size:13px;font-weight:700;color:var(--o600);}
 
 /* ── BAR CHART ── */
-.bar-row{display:flex;align-items:center;gap:7px;margin-bottom:6px;}
-.bar-day{font-size:10px;color:var(--gray4);width:20px;text-align:right;flex-shrink:0;}
-.bar-track{flex:1;height:20px;background:var(--gray1);border-radius:5px;overflow:hidden;}
-.bar-fill{height:100%;border-radius:5px;background:var(--o400);transition:width .5s ease;}
+.bar-row{display:flex;align-items:center;gap:8px;margin-bottom:7px;}
+.bar-day{font-size:11px;color:var(--gray5);width:22px;text-align:right;flex-shrink:0;font-weight:600;}
+.bar-track{flex:1;height:22px;background:var(--gray1);border-radius:6px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:6px;background:var(--o400);transition:width .5s ease;}
 .bar-fill.today{background:var(--o600);}
-.bar-amt{font-size:10px;color:var(--gray4);width:44px;text-align:right;flex-shrink:0;}
+.bar-amt{font-size:11px;color:var(--gray5);width:54px;text-align:right;flex-shrink:0;}
 .period-tabs{display:flex;background:var(--gray1);border-radius:8px;padding:2px;gap:2px;}
 .period-tab{border:none;background:transparent;padding:4px 11px;border-radius:6px;font-size:11px;cursor:pointer;color:var(--gray5);font-family:inherit;}
 .period-tab.active{background:#fff;color:var(--o500);font-weight:700;box-shadow:0 1px 3px rgba(0,0,0,.12);}
@@ -131,37 +131,6 @@ html,body{height:100%;font-family:var(--font);background:var(--gray1);color:var(
 .alert-pulse{width:9px;height:9px;border-radius:50%;background:var(--r400);flex-shrink:0;animation:pulse 1.5s infinite;}
 .alert-text{font-size:11px;color:var(--r600);font-weight:500;flex:1;}
 
-/* ── UPLOAD ── */
-.upload-zone{border:2px dashed var(--o200);border-radius:var(--r-md);background:var(--o50);padding:26px 14px;text-align:center;cursor:pointer;transition:all .2s;position:relative;}
-.upload-zone:hover,.upload-zone.drag-over{background:var(--o100);border-color:var(--o400);}
-.upload-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
-.uz-emoji{font-size:32px;margin-bottom:7px;}
-.uz-title{font-size:13px;font-weight:700;color:var(--o800);margin-bottom:2px;}
-.uz-sub{font-size:11px;color:var(--o600);}
-.uz-btns{margin-top:12px;display:flex;gap:7px;justify-content:center;}
-.uz-btn{background:var(--o400);color:#fff;border:none;border-radius:50px;padding:8px 18px;font-size:12px;font-weight:700;font-family:var(--font);cursor:pointer;}
-.uz-btn.outline{background:transparent;color:var(--o600);border:1.5px solid var(--o200);}
-.preview-box{border-radius:var(--r-md);overflow:hidden;border:1.5px solid var(--gray2);position:relative;margin-bottom:11px;display:none;}
-.preview-box img{width:100%;display:block;max-height:200px;object-fit:contain;background:var(--gray1);}
-.preview-change{position:absolute;top:7px;right:7px;background:rgba(0,0,0,.55);color:#fff;border:none;border-radius:20px;padding:4px 10px;font-size:11px;font-family:var(--font);cursor:pointer;}
-.slip-url-link{display:block;font-size:11px;color:var(--o600);text-align:center;margin-top:4px;text-decoration:none;}
-
-.analyzing-bar{display:none;background:var(--o50);border:1px solid var(--o100);border-radius:var(--r-md);padding:13px 15px;align-items:center;gap:11px;margin-bottom:11px;}
-.spin{width:20px;height:20px;border:3px solid var(--o100);border-top-color:var(--o400);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0;}
-.analyzing-msg{font-size:12px;font-weight:700;color:var(--o800);}
-.analyzing-sub{font-size:10px;color:var(--o600);margin-top:1px;}
-
-.result-box{display:none;margin-bottom:11px;}
-.result-header{background:var(--o400);border-radius:var(--r-md) var(--r-md) 0 0;padding:10px 13px;display:flex;align-items:center;gap:7px;}
-.result-check{width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;flex-shrink:0;}
-.result-header-txt{font-size:12px;font-weight:700;color:#fff;}
-.result-body{border:1.5px solid var(--o100);border-top:none;border-radius:0 0 var(--r-md) var(--r-md);}
-.rr{display:flex;align-items:flex-start;justify-content:space-between;padding:10px 13px;border-bottom:1px solid var(--gray1);gap:11px;}
-.rr:last-child{border-bottom:none;}
-.rr-label{font-size:11px;color:var(--gray4);white-space:nowrap;padding-top:1px;}
-.rr-val{font-size:12px;font-weight:600;color:var(--gray7);text-align:right;}
-.rr-val.big-amt{font-size:20px;color:var(--o600);}
-.error-box{display:none;background:var(--red50);border:1px solid #F09595;border-radius:var(--r-md);padding:11px 13px;font-size:12px;color:var(--red600);margin-bottom:11px;}
 
 /* ── FORM ── */
 .form-label{font-size:11px;color:var(--gray4);font-weight:700;margin-bottom:4px;margin-top:11px;}
@@ -173,6 +142,8 @@ textarea.form-input{resize:none;font-size:12px;}
 .menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:5px;}
 .menu-chip{border:1.5px solid var(--gray2);border-radius:var(--r-sm);padding:9px;cursor:pointer;transition:all .15s;background:var(--white);display:flex;align-items:center;gap:7px;}
 .menu-chip.sel{border-color:var(--o400);background:var(--o50);}
+.flour-chip{border:2px solid var(--gray2);border-radius:20px;padding:8px 18px;font-size:14px;font-weight:700;background:#fff;color:var(--gray6);cursor:pointer;font-family:var(--font);transition:all .15s;}
+.flour-chip.sel{border-color:var(--o400);background:var(--o50);color:var(--o700);}
 .mc-emoji{font-size:15px;}
 .mc-name{font-size:11px;font-weight:700;color:var(--gray7);}
 .mc-price{font-size:10px;color:var(--o600);}
@@ -193,8 +164,6 @@ textarea.form-input{resize:none;font-size:12px;}
 .smc-row{display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px;}
 .smc-label{color:var(--gray5);}
 .smc-val{font-weight:700;color:var(--g800);}
-.slip-thumb{width:60px;height:60px;object-fit:cover;border-radius:8px;margin-top:8px;border:1px solid var(--g100);}
-.new-scan-btn{background:transparent;color:var(--o600);border:2px solid var(--o200);border-radius:50px;padding:11px 24px;font-size:13px;font-weight:700;font-family:var(--font);cursor:pointer;margin-top:14px;}
 
 /* ── HISTORY ── */
 .history-item{display:flex;align-items:center;padding:10px 0;border-bottom:1px solid var(--gray1);gap:9px;}
@@ -278,6 +247,27 @@ textarea.form-input{resize:none;font-size:12px;}
 .pr-val.cost{color:var(--red600);}
 .pr-val.profit{color:var(--o600);font-size:15px;}
 
+/* ── REPORT PAGE REDESIGN ── */
+.rp-topbar{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap;}
+.rp-date-picker{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap;}
+.rp-date-picker:empty{margin-bottom:0;}
+.rp-main-card{background:var(--o400);border-radius:var(--r-lg);padding:18px 20px;margin-bottom:9px;box-shadow:var(--shadow);}
+.rp-main-lbl{font-size:12px;color:rgba(255,255,255,.75);margin-bottom:4px;}
+.rp-main-val{font-size:34px;font-weight:700;color:#fff;letter-spacing:-1px;line-height:1.1;}
+.rp-stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:11px;}
+.rp-stat-box{background:var(--white);border-radius:var(--r-md);padding:13px 12px;box-shadow:var(--shadow);}
+.rp-stat-num{font-size:18px;font-weight:700;color:var(--gray7);}
+.rp-stat-lbl{font-size:10px;color:var(--gray4);margin-top:2px;}
+.rp-chart-wrap{max-height:310px;overflow-y:auto;padding-right:2px;}
+.cpb-hero{text-align:center;padding:10px 0 14px;border-bottom:1px solid var(--gray1);margin-bottom:11px;}
+.cpb-hero-val{font-size:30px;font-weight:700;color:var(--o600);line-height:1.1;}
+.cpb-hero-lbl{font-size:11px;color:var(--gray4);margin-top:3px;}
+.cpb-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;}
+.cpb-box{background:var(--gray1);border-radius:var(--r-md);padding:10px 12px;text-align:center;}
+.cpb-size{font-size:11px;color:var(--gray5);margin-bottom:2px;font-weight:600;}
+.cpb-cost{font-size:16px;font-weight:700;color:var(--gray7);}
+.cpb-src{font-size:10px;color:var(--gray4);margin-top:8px;text-align:right;}
+
 /* ── TAG ── */
 .tag{display:inline-block;font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;}
 .tag.green{background:var(--g50);color:var(--g600);}
@@ -292,23 +282,6 @@ textarea.form-input{resize:none;font-size:12px;}
 .fb-dot.ok{background:var(--g400);}
 .fb-dot.err{background:var(--red400);}
 
-/* ── GALLERY ── */
-.gallery-filter{display:flex;gap:7px;margin-bottom:11px;align-items:center;}
-.gallery-filter select{flex:1;}
-.gallery-day{margin-bottom:16px;}
-.gallery-day-hd{display:flex;align-items:baseline;justify-content:space-between;padding:6px 2px 8px;border-bottom:2px solid var(--o100);margin-bottom:9px;}
-.gdh-date{font-size:13px;font-weight:700;color:var(--gray7);}
-.gdh-meta{font-size:11px;color:var(--gray4);}
-.gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
-.gallery-card{border-radius:var(--r-md);overflow:hidden;background:var(--white);box-shadow:var(--shadow);cursor:pointer;position:relative;}
-.gallery-card:active{opacity:.8;}
-.gallery-thumb{width:100%;aspect-ratio:3/4;object-fit:cover;display:block;background:var(--gray1);}
-.gallery-no-slip{width:100%;aspect-ratio:3/4;display:flex;align-items:center;justify-content:center;background:var(--gray1);font-size:26px;}
-.gallery-card-info{padding:5px 7px 7px;}
-.gci-amount{font-size:12px;font-weight:700;color:var(--o600);}
-.gci-time{font-size:10px;color:var(--gray4);}
-.gci-branch{font-size:9px;color:var(--gray4);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.gallery-card .no-slip-badge{position:absolute;top:5px;right:5px;background:rgba(0,0,0,.45);color:#fff;font-size:9px;padding:2px 5px;border-radius:10px;}
 
 .owner-only{display:none;}
 .owner-mode .owner-only{display:block;}
@@ -342,27 +315,9 @@ textarea.form-input{resize:none;font-size:12px;}
 .dc-section-hd{font-size:11px;font-weight:700;color:var(--gray5);padding:8px 0 5px;border-bottom:1px solid var(--gray2);margin-bottom:4px;margin-top:11px;}
 
 /* Quick Order styles */
-.qo-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
-.qo-item{border:2px solid var(--gray2);border-radius:var(--r-md);padding:12px 8px;text-align:center;transition:border-color .15s,background .15s;cursor:default;}
-.qo-item.active{border-color:var(--o400);background:var(--o50);}
-.qo-emoji{font-size:26px;margin-bottom:3px;}
-.qo-name{font-size:11px;font-weight:600;color:var(--gray7);margin-bottom:2px;line-height:1.3;}
-.qo-price{font-size:14px;font-weight:800;color:var(--o600);margin-bottom:9px;}
-.qo-stepper{display:flex;align-items:center;justify-content:center;gap:10px;}
-.qo-btn{width:30px;height:30px;border-radius:50%;border:none;background:var(--gray1);font-size:18px;line-height:1;cursor:pointer;font-weight:700;color:var(--gray6);display:flex;align-items:center;justify-content:center;}
-.qo-btn:active{background:var(--o100);color:var(--o600);}
-.qo-qty{font-size:17px;font-weight:800;min-width:22px;text-align:center;color:var(--gray8);}
-.qo-total-bar{background:var(--o500);color:#fff;border-radius:var(--r-md);padding:13px 16px;display:flex;justify-content:space-between;align-items:center;margin:4px 0 12px;}
-.qo-total-lbl{font-size:12px;font-weight:600;opacity:.85;}
-.qo-total-amt{font-size:24px;font-weight:800;letter-spacing:-.5px;}
-.qo-meta{display:flex;gap:8px;margin-bottom:8px;}
-.qo-meta .form-input{flex:1;font-size:12px;}
-.qo-override{margin-top:8px;border-top:1px solid var(--gray2);padding-top:10px;}
-.qo-override summary{font-size:11px;color:var(--gray4);cursor:pointer;user-select:none;}
-.qo-override summary:hover{color:var(--gray6);}
 
 /* Cash Flow styles */
-.cf-summary{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px;}
+.cf-summary{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;}
 .cf-sum-card{background:var(--white);border:1px solid var(--gray2);border-radius:var(--r-md);padding:10px 8px;text-align:center;}
 .cf-sum-card.income{border-color:var(--g200);background:var(--g50);}
 .cf-sum-card.expense{border-color:#FEE2E2;background:#FFF5F5;}
@@ -394,6 +349,17 @@ textarea.form-input{resize:none;font-size:12px;}
 .cf-cat-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:2px;}
 .cf-cat-chip{background:var(--gray1);border:1.5px solid var(--gray2);border-radius:20px;padding:5px 11px;font-size:12px;cursor:pointer;font-family:var(--font);}
 .cf-cat-chip.active{background:#EEF2FF;border-color:#4F46E5;color:#4F46E5;font-weight:700;}
+.ae-stock-row{display:flex;align-items:center;padding:7px 2px;border-bottom:1px solid var(--gray1);gap:8px;border-radius:6px;transition:background .1s;}
+.ae-stock-row.picked{background:var(--o50);}
+.ae-stock-cb{width:18px;height:18px;flex-shrink:0;accent-color:var(--o400);cursor:pointer;}
+.ae-stock-name{flex:1;font-size:13px;color:var(--gray7);}
+.ae-stock-unit{font-size:10px;color:var(--gray4);flex-shrink:0;}
+.ae-stock-inputs{display:flex;align-items:center;gap:4px;flex-shrink:0;}
+.ae-stock-inputs input{border:1.5px solid var(--gray2);border-radius:8px;padding:5px 6px;font-size:12px;text-align:right;font-family:var(--font);color:var(--gray7);outline:none;background:#fff;}
+.ae-stock-inputs input:disabled{background:var(--gray1);color:var(--gray3);border-color:transparent;}
+.ae-stock-inputs input:focus{border-color:var(--o400);}
+.ae-stock-row-sub{font-size:10px;color:var(--gray4);}
+.ae-total-bar{display:flex;justify-content:space-between;align-items:center;padding:10px 4px;border-top:2px solid var(--o100);margin-top:6px;font-weight:700;}
 </style>
 </head>
 <body>
@@ -476,13 +442,13 @@ textarea.form-input{resize:none;font-size:12px;}
               <div class="stat-val" id="ov-staff-in">0</div>
               <div class="stat-lbl">พนักงานเช็คอิน</div>
             </div>
-            <div class="stat-card">
+            <div class="stat-card" style="display:none;">
               <div class="stat-icon">🏪</div>
               <div class="stat-val" id="ov-branches">0/3</div>
               <div class="stat-lbl">สาขาเปิด</div>
             </div>
           </div>
-          <div class="card">
+          <div class="card" style="display:none;">
             <div class="card-header"><div class="card-title"><span class="ct-icon">🏪</span> สาขา</div></div>
             <div id="branch-list"></div>
           </div>
@@ -496,7 +462,13 @@ textarea.form-input{resize:none;font-size:12px;}
             <div class="profit-row"><span class="pr-label" id="pf-cost-lbl">ต้นทุนวัตถุดิบ (35%)</span><span class="pr-val cost" id="pf-cost">฿0</span></div>
             <div class="profit-row"><span class="pr-label" id="pf-labor-lbl">ค่าแรงโดยประมาณ</span><span class="pr-val cost" id="pf-labor">฿0</span></div>
             <div class="profit-row" id="pf-periodic-row" style="display:none;"><span class="pr-label" id="pf-periodic-lbl">ต้นทุนคงที่/วัน <span class="periodic-badge">🔄</span></span><span class="pr-val cost" id="pf-periodic">฿0</span></div>
+            <div class="profit-row" id="pf-wages-row" style="display:none;"><span class="pr-label" id="pf-wages-lbl">ค่าแรง</span><span class="pr-val cost" id="pf-wages">฿0</span></div>
+            <div class="profit-row" id="pf-rent-row" style="display:none;"><span class="pr-label">ค่าเช่าตลาด/วัน</span><span class="pr-val cost" id="pf-rent">฿0</span></div>
             <div class="profit-row"><span class="pr-label"><strong>กำไรสุทธิ</strong></span><span class="pr-val profit" id="pf-net">฿0</span></div>
+          </div>
+          <div class="card owner-only">
+            <div class="card-header"><div class="card-title"><span class="ct-icon">🔢</span> ต้นทุนวัตถุดิบ/กล่อง (เฉลี่ย)</div></div>
+            <div id="cpb-content"><div class="empty-state"><div class="empty-icon">📦</div>บันทึกปิดวันเพื่อดูข้อมูล</div></div>
           </div>
           <div class="card owner-only">
             <div class="card-header">
@@ -542,141 +514,32 @@ textarea.form-input{resize:none;font-size:12px;}
       </div>
     </div>
 
-    <!-- SCAN -->
-    <div class="page" id="page-scan">
-      <div class="page-content">
-        <div class="card" id="scan-main-card">
-          <div class="card-header"><div class="card-title"><span class="ct-icon">📷</span> สแกนสลิปรับเงิน</div></div>
-          <div id="fb-status-scan" class="fb-status"><div class="fb-dot ok"></div>Firestore พร้อมใช้งาน · รูปสลิปเก็บใน Firestore (Base64)</div>
-          <label class="upload-zone" id="drop-zone" for="camera-input">
-            <div class="uz-emoji">📸</div>
-            <div class="uz-title">แตะเพื่อถ่ายรูปสลิป</div>
-            <div class="uz-sub">PromptPay · โอนธนาคาร · บัตรเครดิต · QR</div>
-            <div class="uz-btns">
-              <span class="uz-btn">📸 เปิดกล้อง / เลือกรูป</span>
-            </div>
-          </label>
-          <input type="file" id="camera-input" accept="image/*" capture="environment" style="display:none">
-          <input type="file" id="file-input" accept="image/*" style="display:none">
-          <div style="text-align:center;margin-top:10px;">
-            <button class="uz-btn outline" style="width:100%;padding:13px;font-size:14px;font-weight:700;" onclick="openCashEntry()">💵 บันทึกออร์เดอร์</button>
-          </div>
-          <div class="preview-box" id="preview-box">
-            <img id="preview-img" src="" alt="slip">
-            <button class="preview-change" onclick="resetScan()">เปลี่ยนรูป ✕</button>
-          </div>
-          <div class="analyzing-bar" id="analyzing-bar">
-            <div class="spin"></div>
-            <div>
-              <div class="analyzing-msg" id="analyze-msg">กำลังวิเคราะห์...</div>
-              <div class="analyzing-sub" id="analyze-sub">AI กำลังอ่านสลิปของคุณ</div>
-            </div>
-          </div>
-          <div class="error-box" id="error-box"></div>
-          <div class="result-box" id="result-box">
-            <div class="result-header">
-              <div class="result-check">✓</div>
-              <span class="result-header-txt">AI อ่านสลิปเสร็จแล้ว</span>
-            </div>
-            <div class="result-body">
-              <div class="rr"><span class="rr-label">จำนวนเงิน</span><span class="rr-val big-amt" id="res-amount">—</span></div>
-              <div class="rr"><span class="rr-label">วันที่/เวลา</span><span class="rr-val" id="res-date">—</span></div>
-              <div class="rr"><span class="rr-label">ประเภท</span><span class="rr-val" id="res-type">—</span></div>
-              <div class="rr"><span class="rr-label">ธนาคาร/ผู้รับ</span><span class="rr-val" id="res-bank">—</span></div>
-              <div class="rr"><span class="rr-label">ผู้โอน</span><span class="rr-val" id="res-sender">—</span></div>
-              <div class="rr"><span class="rr-label">เลขอ้างอิง</span><span class="rr-val" id="res-ref" style="font-size:10px;">—</span></div>
-            </div>
-          </div>
-          <!-- Quick Order (cash entry) -->
-          <div id="quick-order-form" style="display:none;">
-            <div style="display:flex;justify-content:flex-end;margin-bottom:8px;">
-              <button onclick="resetScan()" style="background:none;border:none;font-size:13px;color:var(--gray4);cursor:pointer;padding:4px 8px;">✕ ยกเลิก</button>
-            </div>
-            <div class="qo-grid" id="quick-order-grid"></div>
-            <div class="qo-total-bar">
-              <span class="qo-total-lbl">ยอดรวม</span>
-              <span class="qo-total-amt" id="qo-total-amt">฿0</span>
-            </div>
-            <div class="qo-meta">
-              <select class="form-input" id="qo-branch-sel"></select>
-              <input class="form-input owner-only" type="date" id="qo-date">
-            </div>
-            <input class="form-input" id="qo-note" placeholder="หมายเหตุ (ถ้ามี)" style="margin-bottom:8px;">
-            <details class="qo-override">
-              <summary>⚠️ กรอกยอดเองกรณีฉุกเฉิน</summary>
-              <div class="form-row" style="margin-top:8px;">
-                <input class="form-input" type="number" id="qo-override-amount" placeholder="0.00" step="0.01">
-                <span class="form-unit">฿</span>
-              </div>
-            </details>
-            <button class="save-btn" onclick="saveQuickOrder()" style="margin-top:12px;">💾 บันทึกออร์เดอร์</button>
-          </div>
-
-          <!-- Slip save form (after AI scan) -->
-          <div id="save-form" style="display:none;">
-            <div class="form-label">ปรับแก้จำนวนเงิน (บาท)</div>
-            <div class="form-row">
-              <input class="form-input" type="number" id="edit-amount" placeholder="0.00" step="0.01">
-              <span class="form-unit">฿</span>
-            </div>
-            <div class="form-label">เมนูที่ขาย</div>
-            <div class="menu-grid" id="scan-menu-grid"></div>
-            <div class="form-label">สาขา</div>
-            <select class="form-input" id="scan-branch-select"></select>
-            <div class="form-label">หมายเหตุ</div>
-            <textarea class="form-input" id="note-input" rows="2" placeholder="เช่น โต๊ะ 3, ส่งออนไลน์..."></textarea>
-            <div class="form-label owner-only" style="margin-top:11px;">📅 วันที่ <span style="font-size:10px;font-weight:400;color:var(--gray4);">(ย้อนหลังได้)</span></div>
-            <input class="form-input owner-only" type="date" id="manual-date">
-            <button class="save-btn" onclick="saveRecord()">💾 บันทึกและเก็บสลิป → Firestore</button>
-          </div>
-        </div>
-        <div class="success-box" id="success-box">
-          <div class="success-icon">✅</div>
-          <div class="success-title">บันทึกสำเร็จ!</div>
-          <div class="success-detail" id="success-detail">บันทึกลง Firestore แล้ว</div>
-          <div class="success-mini-card" id="success-mini"></div><br>
-          <button class="new-scan-btn" onclick="resetAll()">+ สแกนสลิปอีกใบ</button>
-        </div>
-        <div class="card" id="scan-summary-card">
-          <div class="card-header">
-            <div class="card-title"><span class="ct-icon">📋</span> รายการวันนี้</div>
-            <span class="tag orange" id="scan-total-tag">฿0</span>
-          </div>
-          <div id="scan-history-list"><div class="empty-state"><div class="empty-icon">📷</div>สแกนสลิปแรกได้เลย</div></div>
-        </div>
-      </div>
-    </div>
-
     <!-- REPORT -->
     <div class="page" id="page-report">
       <div class="page-content">
-        <div class="summary-strip" id="report-strip"></div>
-        <div class="card">
-          <div class="card-header" style="flex-wrap:wrap;gap:8px;">
-            <div class="card-title"><span class="ct-icon">📈</span> <span id="report-period-title">ยอดขาย 7 วัน</span></div>
-            <div style="display:flex;gap:6px;align-items:center;margin-left:auto;">
-              <div class="period-tabs">
-                <button class="period-tab active" onclick="setReportPeriod('day',this)">วัน</button>
-                <button class="period-tab" onclick="setReportPeriod('month',this)">เดือน</button>
-                <button class="period-tab" onclick="setReportPeriod('year',this)">ปี</button>
-              </div>
-              <select class="form-input" id="report-branch-filter" style="width:auto;padding:4px 9px;font-size:11px;" onchange="renderReport()"></select>
-            </div>
+        <div class="rp-topbar">
+          <div class="period-tabs">
+            <button class="period-tab active" onclick="setReportPeriod('day',this)">วัน</button>
+            <button class="period-tab" onclick="setReportPeriod('month',this)">เดือน</button>
+            <button class="period-tab" onclick="setReportPeriod('year',this)">ปี</button>
           </div>
-          <div id="report-date-picker" style="display:flex;gap:6px;padding:4px 0 8px;flex-wrap:wrap;"></div>
-          <div id="report-chart"></div>
+          <select class="form-input" id="report-branch-filter" style="display:none;font-size:12px;padding:6px 10px;width:auto;" onchange="renderReport()"></select>
         </div>
-        <div class="card">
-          <div class="card-header"><div class="card-title"><span class="ct-icon">🏆</span> เมนูขายดี</div></div>
-          <div id="top-menu-list"><div class="empty-state"><div class="empty-icon">📊</div>ยังไม่มีข้อมูล</div></div>
+        <div id="report-date-picker" class="rp-date-picker"></div>
+        <div id="rp-main-stat"></div>
+        <div id="rp-sub-stats"></div>
+        <div class="card" id="rp-chart-card">
+          <div class="rp-chart-wrap" id="report-chart"></div>
         </div>
         <div class="card owner-only">
           <div class="card-header"><div class="card-title"><span class="ct-icon">💹</span> สรุปกำไร</div></div>
-          <div class="profit-row"><span class="pr-label" id="rp-lbl-revenue">รายได้ (7 วัน)</span><span class="pr-val income" id="rp-revenue">฿0</span></div>
+          <div class="profit-row"><span class="pr-label" id="rp-lbl-revenue">รายได้</span><span class="pr-val income" id="rp-revenue">฿0</span></div>
           <div class="profit-row"><span class="pr-label">ต้นทุนวัตถุดิบ</span><span class="pr-val cost" id="rp-cost">฿0</span></div>
-          <div class="profit-row"><span class="pr-label" id="rp-lbl-labor">ค่าแรง (7 วัน)</span><span class="pr-val cost" id="rp-labor">฿0</span></div>
+          <div class="profit-row"><span class="pr-label" id="rp-lbl-labor">ต้นทุนค่าแรง</span><span class="pr-val cost" id="rp-labor">฿0</span></div>
+          <div class="profit-row" id="rp-wages-row" style="display:none;"><span class="pr-label" id="rp-lbl-wages">ค่าแรง</span><span class="pr-val cost" id="rp-wages">฿0</span></div>
+          <div class="profit-row" id="rp-rent-row" style="display:none;"><span class="pr-label" id="rp-lbl-rent">ค่าเช่าตลาด</span><span class="pr-val cost" id="rp-rent">฿0</span></div>
           <div class="profit-row" id="rp-expense-row" style="display:none;"><span class="pr-label" id="rp-lbl-expense">รายจ่ายอื่น</span><span class="pr-val cost" id="rp-expense">฿0</span></div>
-          <div class="profit-row"><span class="pr-label"><strong>กำไรสุทธิ</strong></span><span class="pr-val profit" id="rp-net">฿0</span></div>
+          <div class="profit-row" style="padding-top:10px;"><span class="pr-label"><strong style="font-size:13px;">กำไรสุทธิ</strong></span><span class="pr-val profit" style="font-size:16px;" id="rp-net">฿0</span></div>
           <div id="rp-cost-per-ball-row" style="display:none;margin-top:6px;padding-top:8px;border-top:1px solid var(--gray1);">
             <div class="profit-row"><span class="pr-label">ต้นทุน/ลูก เฉลี่ย <span style="font-size:9px;background:#E0F2FE;color:#0284C7;padding:1px 5px;border-radius:8px;font-weight:700;">🔵 จริง</span></span><span class="pr-val" style="color:#0284C7;font-weight:700;" id="rp-cost-per-ball">—</span></div>
           </div>
@@ -707,7 +570,17 @@ textarea.form-input{resize:none;font-size:12px;}
         <div class="card">
           <div class="card-header">
             <div class="card-title"><span class="ct-icon">📦</span> สต็อกวัตถุดิบ</div>
-            <button class="card-action" onclick="openModal('modal-add-stock')">+ เพิ่ม</button>
+            <div style="display:flex;gap:6px;">
+              <button class="card-action" id="stock-count-btn" onclick="toggleStockCountMode()">🔢 นับสต็อก</button>
+              <button class="card-action" onclick="openModal('modal-add-stock')">+ เพิ่ม</button>
+            </div>
+          </div>
+          <div id="stock-count-bar" style="display:none;background:var(--o50);border-radius:10px;padding:10px 12px;margin-bottom:10px;display:none;align-items:center;justify-content:space-between;gap:8px;">
+            <span style="font-size:12px;color:var(--o700);font-weight:600;">📋 กรอกจำนวนที่นับได้จริง</span>
+            <div style="display:flex;gap:6px;">
+              <button onclick="saveStockCount()" style="background:var(--o400);color:#fff;border:none;border-radius:20px;padding:6px 16px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font);">💾 บันทึก</button>
+              <button onclick="toggleStockCountMode()" style="background:var(--gray1);color:var(--gray6);border:none;border-radius:20px;padding:6px 12px;font-size:12px;cursor:pointer;font-family:var(--font);">ยกเลิก</button>
+            </div>
           </div>
           <div id="stock-list"></div>
         </div>
@@ -718,18 +591,6 @@ textarea.form-input{resize:none;font-size:12px;}
           </div>
           <div id="cost-list"></div>
         </div>
-      </div>
-    </div>
-
-    <!-- GALLERY -->
-    <div class="page" id="page-gallery">
-      <div class="page-content">
-        <div class="gallery-filter">
-          <select class="form-input" id="gallery-branch-filter" onchange="renderGallery()" style="padding:7px 10px;font-size:12px;"></select>
-          <select class="form-input" id="gallery-month-filter" onchange="renderGallery()" style="width:auto;padding:7px 10px;font-size:12px;"></select>
-        </div>
-        <div class="summary-strip" id="gallery-strip"></div>
-        <div id="gallery-content"></div>
       </div>
     </div>
 
@@ -757,6 +618,35 @@ textarea.form-input{resize:none;font-size:12px;}
         </div>
         <div class="card">
           <div class="card-header">
+            <div class="card-title"><span class="ct-icon">💰</span> ต้นทุนคงที่ต่อวัน</div>
+          </div>
+          <div style="font-size:11px;color:var(--gray4);margin-bottom:12px;">ใช้คำนวณกำไรสุทธิทุกวันอัตโนมัติ และเป็นค่าเริ่มต้นในฟอร์มปลายวัน</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+            <div>
+              <div class="form-label">👷 ค่าแรง/วัน (฿)</div>
+              <input class="form-input" type="number" id="settings-wages" placeholder="400" min="0" step="1">
+              <div style="font-size:10px;color:var(--gray4);margin-top:3px;">กรอกล่วงหน้าในฟอร์มปลายวัน</div>
+            </div>
+            <div>
+              <div class="form-label">🏪 ค่าเช่าตลาด/วัน (฿)</div>
+              <input class="form-input" type="number" id="settings-rent" placeholder="80" min="0" step="1" oninput="updateRentHint()">
+              <div style="font-size:10px;color:var(--gray4);margin-top:3px;" id="settings-rent-hint"></div>
+            </div>
+          </div>
+          <button class="save-btn" onclick="saveSettings()" id="settings-save-btn">บันทึกการตั้งค่า ✓</button>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title"><span class="ct-icon">🤖</span> AI สแกนสลิป</div>
+          </div>
+          <div style="font-size:11px;color:var(--gray4);margin-bottom:10px;">ใช้ Gemini AI อ่านใบเสร็จอัตโนมัติ รองรับทั้งสลิปแม็คโครและใบออเดอร์</div>
+          <div class="form-label">🔑 Gemini API Key</div>
+          <input class="form-input" type="password" id="settings-gemini-key" placeholder="AIza..." autocomplete="off">
+          <div style="font-size:10px;color:var(--gray4);margin-top:3px;">รับฟรีที่ aistudio.google.com → Create API Key (1,500 ครั้ง/วัน)</div>
+          <button class="save-btn" onclick="saveSettings()" style="margin-top:10px;">บันทึก ✓</button>
+        </div>
+        <div class="card">
+          <div class="card-header">
             <div class="card-title"><span class="ct-icon">🍽</span> เมนูและราคา</div>
             <div style="display:flex;gap:6px;">
               <button class="card-action" onclick="openAddMenu()">+ เพิ่มเมนู</button>
@@ -770,30 +660,36 @@ textarea.form-input{resize:none;font-size:12px;}
 
     <!-- CASH FLOW -->
     <div class="page" id="page-cashflow">
-      <div class="page-content">
+      <div class="page-content" style="padding-bottom:80px;">
         <div class="cf-date-nav">
-          <button onclick="cfShiftDay(-1)">◀</button>
-          <input class="form-input" type="date" id="cf-date-pick" onchange="renderCashflow()">
-          <button onclick="cfShiftDay(1)">▶</button>
+          <button onclick="cfShiftDay(-1)" style="padding:10px 16px;font-size:18px;">◀</button>
+          <input class="form-input" type="date" id="cf-date-pick" onchange="renderCashflow()" style="text-align:center;font-size:15px;font-weight:700;">
+          <button onclick="cfShiftDay(1)" style="padding:10px 16px;font-size:18px;">▶</button>
         </div>
         <div class="cf-summary" id="cf-summary"></div>
         <div class="card">
           <div class="cf-section-hd">
             <span>💚 รายรับ</span>
-            <div style="display:flex;align-items:center;gap:8px;">
-              <span id="cf-income-total" style="font-size:13px;font-weight:800;color:var(--g600);">฿0</span>
-              <button class="card-action" onclick="openAddIncome()">+ รายรับ</button>
-            </div>
+            <span id="cf-income-total" style="font-size:13px;font-weight:800;color:var(--g600);">฿0</span>
           </div>
           <div id="cf-income-list"></div>
         </div>
         <div class="card">
           <div class="cf-section-hd">
             <span>🔴 รายจ่าย</span>
-            <button class="card-action" onclick="openAddExpense()">+ เพิ่ม</button>
+            <span id="cf-expense-total" style="font-size:13px;font-weight:800;color:var(--red600);">฿0</span>
           </div>
           <div id="cf-expense-list"></div>
         </div>
+      </div>
+      <!-- ปุ่มใหญ่ติดล่าง -->
+      <div style="position:fixed;bottom:60px;left:0;right:0;display:none;padding:10px 16px;background:#fff;border-top:1px solid var(--gray2);z-index:50;gap:10px;" id="cf-action-bar">
+        <button onclick="openAddIncome()" style="flex:1;background:var(--g400);color:#fff;border:none;border-radius:14px;padding:14px 0;font-size:16px;font-weight:800;font-family:var(--font);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;">
+          <span style="font-size:20px;">+</span> รายรับ
+        </button>
+        <button onclick="openAddExpense()" style="flex:1;background:var(--red400);color:#fff;border:none;border-radius:14px;padding:14px 0;font-size:16px;font-weight:800;font-family:var(--font);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;">
+          <span style="font-size:20px;">+</span> รายจ่าย
+        </button>
       </div>
     </div>
 
@@ -970,7 +866,7 @@ textarea.form-input{resize:none;font-size:12px;}
         <div class="form-label">วันที่</div>
         <input class="form-input" type="date" id="dc-date" oninput="updateDcPreview()">
       </div>
-      <div>
+      <div style="display:none;">
         <div class="form-label">สาขา</div>
         <select class="form-input" id="dc-branch-sel"></select>
       </div>
@@ -990,6 +886,11 @@ textarea.form-input{resize:none;font-size:12px;}
       <span class="form-unit">ลูก</span>
       <span style="font-size:11px;color:var(--gray4);">(ประมาณ ฿3/ลูก)</span>
     </div>
+    <div class="form-label" style="margin-top:13px;">👷 ค่าแรงวันนี้ (รวมทุกคน)</div>
+    <div class="form-row">
+      <input class="form-input" type="number" id="dc-wages" placeholder="0" min="0" step="1" style="max-width:120px;" oninput="updateDcPreview()">
+      <span class="form-unit">฿</span>
+    </div>
     <div class="form-label">หมายเหตุ</div>
     <textarea class="form-input" id="dc-note" rows="2" placeholder="เช่น วันนี้ลูกค้าเยอะมาก, หมดแป้งเร็ว..."></textarea>
     <div id="dc-cost-preview" style="background:var(--o50);border:1px solid var(--o100);border-radius:var(--r-sm);padding:10px 12px;margin-top:10px;font-size:12px;display:none;"></div>
@@ -998,7 +899,7 @@ textarea.form-input{resize:none;font-size:12px;}
 </div>
 
 <div class="modal-overlay" id="modal-add-expense" onclick="closeModal('modal-add-expense')">
-  <div class="modal-sheet" onclick="event.stopPropagation()">
+  <div class="modal-sheet" onclick="event.stopPropagation()" style="max-height:92vh;">
     <div class="modal-handle"></div>
     <div class="modal-title">เพิ่มรายจ่าย</div>
     <div class="form-label">หมวดหมู่</div>
@@ -1010,11 +911,38 @@ textarea.form-input{resize:none;font-size:12px;}
       <button class="cf-cat-chip" data-cat="📦" onclick="selectExpenseCat(this)">📦 บรรจุภัณฑ์</button>
       <button class="cf-cat-chip" data-cat="💰" onclick="selectExpenseCat(this)">💰 อื่นๆ</button>
     </div>
-    <div class="form-label" style="margin-top:10px;">รายการ</div>
-    <input class="form-input" type="text" id="ae-name" placeholder="เช่น ซื้อแป้ง, ค่าน้ำมัน">
-    <div class="form-label">จำนวนเงิน (฿)</div>
-    <input class="form-input" type="number" id="ae-amount" min="0" step="1" placeholder="0">
-    <div class="form-label">วันที่</div>
+    <!-- stock items checklist (🛒 only) -->
+    <div id="ae-stock-panel" style="margin-top:10px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;flex-wrap:wrap;gap:6px;">
+        <span style="font-size:11px;color:var(--gray5);">ติ๊กรายการที่ซื้อ → ใส่ยอดที่จ่ายจริง</span>
+        <div style="display:flex;gap:6px;">
+          <label style="background:var(--o50);border:1.5px solid var(--o200);border-radius:20px;padding:5px 11px;font-size:11px;font-weight:700;color:var(--o700);cursor:pointer;display:flex;align-items:center;gap:4px;">
+            📷 สแกนสลิป
+            <input type="file" accept="image/*" capture="environment" style="display:none;" onchange="scanReceiptImage(this)">
+          </label>
+          <button type="button" onclick="togglePastePanel()" style="background:var(--o50);border:1.5px solid var(--o200);border-radius:20px;padding:5px 11px;font-size:11px;font-weight:700;color:var(--o700);cursor:pointer;font-family:var(--font);">📝 วางข้อความ</button>
+        </div>
+      </div>
+      <div id="ae-paste-panel" style="display:none;margin-bottom:8px;">
+        <textarea id="ae-paste-text" rows="4" placeholder="วางข้อความจาก LINE เช่น:&#10;มายอง 4 ถุง 184&#10;แป้ง 10 ถุง 1250&#10;ซอส 1 แกลลอน 600" style="width:100%;border:1.5px solid var(--o300);border-radius:10px;padding:8px;font-size:12px;font-family:var(--font);resize:vertical;box-sizing:border-box;"></textarea>
+        <button type="button" onclick="parseTextExpense()" style="width:100%;margin-top:6px;background:var(--o400);color:#fff;border:none;border-radius:10px;padding:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font);">🤖 AI แปลงข้อความ</button>
+      </div>
+      <div id="ae-scan-status" style="display:none;font-size:11px;color:var(--o600);padding:6px 8px;background:var(--o50);border-radius:8px;margin-bottom:6px;text-align:center;"></div>
+      <div id="ae-stock-list" style="max-height:260px;overflow-y:auto;"></div>
+      <div class="ae-total-bar">
+        <span style="color:var(--gray6);">รวมทั้งหมด</span>
+        <span id="ae-stock-total" style="color:var(--red400);font-size:16px;">฿0</span>
+      </div>
+    </div>
+    <!-- manual entry (other categories) -->
+    <div id="ae-manual-panel" style="display:none;">
+      <div id="ae-presets" style="display:none;margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;"></div>
+      <div class="form-label" style="margin-top:10px;">รายการ</div>
+      <input class="form-input" type="text" id="ae-name" placeholder="เช่น ค่าน้ำมัน, ซ่อมเครื่อง">
+      <div class="form-label">จำนวนเงิน (฿)</div>
+      <input class="form-input" type="number" id="ae-amount" min="0" step="1" placeholder="0">
+    </div>
+    <div class="form-label" style="margin-top:10px;">วันที่</div>
     <input class="form-input" type="date" id="ae-date">
     <div class="form-label">หมายเหตุ <span style="color:var(--gray4);font-weight:400;">(ถ้ามี)</span></div>
     <input class="form-input" type="text" id="ae-note" placeholder="เพิ่มเติม...">
@@ -1028,14 +956,19 @@ textarea.form-input{resize:none;font-size:12px;}
     <div class="modal-title">เพิ่มรายรับ</div>
     <div class="form-label">ยอดขาย (฿)</div>
     <input class="form-input" type="number" id="ai-amount" min="0" step="1" placeholder="0" style="font-size:22px;font-weight:800;text-align:center;">
-    <div class="form-label" style="margin-top:10px;">สาขา</div>
-    <select class="form-input" id="ai-branch"></select>
-    <div class="form-label" style="margin-top:10px;">เมนูที่ขาย <span style="color:var(--gray4);font-weight:400;">(ถ้ามี)</span></div>
-    <div id="ai-menu-grid" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:4px;"></div>
+    <select class="form-input" id="ai-branch" style="display:none;"></select>
+    <div class="form-label" style="margin-top:12px;">🌾 แป้งที่ผสม <span style="color:var(--gray4);font-weight:400;">(ถุง)</span></div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:4px;">
+      <button type="button" class="flour-chip" data-val="1"   onclick="selectFlour(this)">1 ถุง</button>
+      <button type="button" class="flour-chip" data-val="1.5" onclick="selectFlour(this)">1.5 ถุง</button>
+      <button type="button" class="flour-chip" data-val="2"   onclick="selectFlour(this)">2 ถุง</button>
+      <button type="button" class="flour-chip" data-val="2.5" onclick="selectFlour(this)">2.5 ถุง</button>
+      <button type="button" class="flour-chip" data-val="3"   onclick="selectFlour(this)">3 ถุง</button>
+    </div>
     <div class="form-label" style="margin-top:10px;">วันที่</div>
     <input class="form-input" type="date" id="ai-date">
-    <div class="form-label">หมายเหตุ <span style="color:var(--gray4);font-weight:400;">(ถ้ามี)</span></div>
-    <input class="form-input" type="text" id="ai-note" placeholder="เช่น ขายที่ตลาดนัด">
+    <div class="form-label">หมายเหตุ <span style="color:var(--gray4);font-weight:400;">(แป้งหมด/แป้งเหลือ ประมาณ)</span></div>
+    <input class="form-input" type="text" id="ai-note" placeholder="เช่น แป้งเหลือ 1/4 ถุง, ขายหมดเร็ว">
     <button class="save-btn" onclick="confirmAddIncome()">บันทึกรายรับ ✓</button>
   </div>
 </div>
@@ -1063,23 +996,20 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 
-// ── VISION API KEY ──
-const VISION_API_KEY = 'AIzaSyD4fHISnEaElcGeElt6LI4zd26am8rwLeo';
-
 // ── STATE ──
 const _unsubs = []; // onSnapshot unsubscribe functions
 let role = 'owner';
 let userName = '';
 let userBranch = 'b1';
 let userUid = '';
-let currentAIResult = null;
-let currentImageFile = null;
 let restockStockIdx = -1;
 let editMenuIndex = -1;
 let staffCheckedIn = false;
 let staffCheckinTime = null;
 let authTab = 'login';
 
+let shopSettings = { defaultWages: 400, dailyRent: 80, geminiApiKey: '' };
+let stockCountMode = false;
 let records = [];
 let checkinLogs = [];
 let menus = [];
@@ -1195,7 +1125,6 @@ async function loadFirestoreData() {
     _unsubs.push(onSnapshot(collection(db,'menus'), snap => {
       if(snap.empty) return;
       menus = snap.docs.map(d=>({id:d.id,...d.data()}));
-      buildMenuGrid();
       if(document.getElementById('page-menu')?.classList.contains('active')) renderMenuPage();
     }));
 
@@ -1220,14 +1149,24 @@ async function loadFirestoreData() {
       await setDoc(doc(db,'_meta','seeded'), { at: serverTimestamp() });
     }
 
+    // SETTINGS
+    const settSnap = await getDoc(doc(db,'settings','shop'));
+    if(settSnap.exists()) shopSettings = {...shopSettings, ...settSnap.data()};
+    const swEl = document.getElementById('settings-wages');
+    const srEl = document.getElementById('settings-rent');
+    if(swEl) swEl.value = shopSettings.defaultWages ?? '';
+    if(srEl) srEl.value = shopSettings.dailyRent ?? '';
+    const skEl = document.getElementById('settings-gemini-key');
+    if(skEl && shopSettings.geminiApiKey) skEl.value = shopSettings.geminiApiKey;
+    updateRentHint();
+    checkAndCreateMonthlyAutoEntries();
+
     // RECORDS — real-time listener
     const rq = query(collection(db,'records'), orderBy('ts','desc'));
     _unsubs.push(onSnapshot(rq, async snap => {
       records = snap.docs.map(d=>({id:d.id,...d.data()}));
       await renderHome();
-      renderScanHistory();
       if(document.getElementById('page-report')?.classList.contains('active')) renderReport();
-      if(document.getElementById('page-gallery')?.classList.contains('active')) renderGallery();
       setSyncStatus(false);
     }));
 
@@ -1249,6 +1188,7 @@ async function loadFirestoreData() {
     _unsubs.push(onSnapshot(dcq, snap => {
       dailyClosings = snap.docs.map(d=>({id:d.id,...d.data()}));
       renderDailyClosingCard();
+      renderCostPerBall();
       if(document.getElementById('page-report')?.classList.contains('active')) renderReport();
     }));
 
@@ -1265,6 +1205,45 @@ async function loadFirestoreData() {
   }
 }
 
+async function checkAndCreateMonthlyAutoEntries() {
+  if(userUid === 'demo') return;
+  if(!shopSettings.dailyRent && !shopSettings.defaultWages) return;
+  const now = new Date();
+  if(now.getDate() !== 1) return;
+  const gregYear = now.getFullYear();
+  const month = now.getMonth() + 1;
+  const thaiYear = gregYear + 543;
+  const thaiDate = `1/${month}/${thaiYear}`;
+  const daysInMonth = new Date(gregYear, month, 0).getDate();
+  const existing = await getDocs(query(collection(db,'cash_expenses'),
+    where('autoFixed','==',true), where('date','==',thaiDate), where('branchId','==',userBranch)));
+  if(!existing.empty) return;
+  try {
+    setSyncStatus(true);
+    if(shopSettings.dailyRent > 0) {
+      await addDoc(collection(db,'cash_expenses'), {
+        date: thaiDate,
+        name: `ค่าเช่าตลาด ${_thaiMonthNames[month-1]} ${thaiYear}`,
+        amount: shopSettings.dailyRent * daysInMonth,
+        cat: '💡', note: `${shopSettings.dailyRent}×${daysInMonth} วัน`,
+        autoFixed: true, items: [],
+        branchId: userBranch, uid: userUid, ts: serverTimestamp(),
+      });
+    }
+    if(shopSettings.defaultWages > 0) {
+      await addDoc(collection(db,'cash_expenses'), {
+        date: thaiDate,
+        name: `ค่าแรง ${_thaiMonthNames[month-1]} ${thaiYear}`,
+        amount: shopSettings.defaultWages * daysInMonth,
+        cat: '💰', note: `${shopSettings.defaultWages}×${daysInMonth} วัน`,
+        autoFixed: true, items: [],
+        branchId: userBranch, uid: userUid, ts: serverTimestamp(),
+      });
+    }
+    setSyncStatus(false);
+  } catch(e) { console.error('auto-expense:', e); setSyncStatus(false); }
+}
+
 function loadDemoData() {
   menus = [
     {id:'m1',emoji:'🐙',name:'ทาโกยากิ 4 ลูก',price:25,cost:11},
@@ -1273,20 +1252,16 @@ function loadDemoData() {
     {id:'m4',emoji:'🐙',name:'ทาโกยากิ 10+1 ลูก',price:55,cost:29},
   ];
   stock = [
-    {id:'s1', icon:'🌾',name:'แป้ง Takonamor 1.5kg',      unit:'ถุง',    amount:0,max:10,costPerUnit:125,ballsPerUnit:175},
-    {id:'s2', icon:'🥚',name:'ไข่ไก่เบอร์ 3',              unit:'แผง',   amount:0,max:3, costPerUnit:120},
-    {id:'s3', icon:'🥛',name:'นมคาร์เนชั่น',               unit:'กระป๋อง',amount:0,max:2, costPerUnit:35},
-    {id:'s4', icon:'🍶',name:'ซอสทาโกยากิ Takonamor 5L',  unit:'แกลลอน',amount:0,max:2, costPerUnit:600},
-    {id:'s5', icon:'🫙',name:'มายองเนส Fresh O 860g',      unit:'ถุง',    amount:0,max:2, costPerUnit:64},
-    {id:'s6', icon:'🌿',name:'สาหร่ายโรยหน้า',             unit:'แพ็ค',  amount:0,max:5, costPerUnit:140},
-    {id:'s7', icon:'🛍️',name:'ถุงหัวโลโก้',                unit:'แพ็ค',  amount:0,max:5, costPerUnit:40},
-    {id:'s8', icon:'🐙',name:'ปลาหมึก 2kg',               unit:'ถุง',    amount:0,max:3, costPerUnit:135,ballsPerUnit:430},
-    {id:'s9', icon:'🌭',name:'ไส้กรอกแฟรงค์ aro 1kg',     unit:'ถุง',    amount:0,max:5, costPerUnit:119},
-    {id:'s10',icon:'🦀',name:'ปูอัด Kani 500g',            unit:'ถุง',    amount:0,max:5, costPerUnit:95},
-    {id:'s11',icon:'🌊',name:'สาหร่ายวากาเมะ aro 1kg',    unit:'ถุง',    amount:0,max:5, costPerUnit:139},
-    {id:'s12',icon:'🦐',name:'กุ้ง 120 ตัว',               unit:'แพ็ค',  amount:0,max:5, costPerUnit:270},
-    {id:'s13',icon:'🫙',name:'น้ำมันทอด 3L',               unit:'ขวด',   amount:0,max:5, costPerUnit:150},
-    {id:'s14',icon:'🔥',name:'แก๊ส LPG 15kg',              unit:'ถัง',   amount:0,max:2, costPerUnit:420},
+    {id:'s1', icon:'🌾',name:'แป้ง',       unit:'ถุง',          amount:0,max:5,  costPerUnit:125, ballsPerUnit:175},
+    {id:'s2', icon:'🥚',name:'ไข่',         unit:'ลูก',          amount:0,max:50, costPerUnit:4},
+    {id:'s3', icon:'🥛',name:'นม',          unit:'กระป๋องเล็ก',  amount:0,max:10, costPerUnit:35},
+    {id:'s4', icon:'🫙',name:'มายองเนส',    unit:'ถุง',          amount:0,max:3,  costPerUnit:64},
+    {id:'s5', icon:'🍶',name:'ซอส',         unit:'แกลลอน',       amount:0,max:2,  costPerUnit:600, type:'periodic', estimatedDays:14},
+    {id:'s6', icon:'🐙',name:'หมึก',        unit:'กก.',          amount:0,max:5,  costPerUnit:59},
+    {id:'s7', icon:'🦀',name:'ปูอัด',       unit:'แพ็ค',         amount:0,max:10, costPerUnit:0},
+    {id:'s8', icon:'🌭',name:'ใส้กรอก',     unit:'แพ็ค',         amount:0,max:5,  costPerUnit:0},
+    {id:'s9', icon:'🧀',name:'ชีท',         unit:'กก.',         amount:0,max:20, costPerUnit:0},
+    {id:'s10',icon:'🌿',name:'ยำสาหร่าย',   unit:'ถุง',          amount:0,max:5,  costPerUnit:0},
   ];
   employees = [
     {id:'e1',name:'น้องมิน',role:'พนักงานขาย',branch:'b1',checkedIn:false,checkinTime:null},
@@ -1319,20 +1294,16 @@ async function seedMenus() {
 }
 async function seedStock() {
   const seed = [
-    {icon:'🌾',name:'แป้ง Takonamor 1.5kg',      unit:'ถุง',    amount:0,max:10,costPerUnit:125,ballsPerUnit:175},
-    {icon:'🥚',name:'ไข่ไก่เบอร์ 3',              unit:'แผง',   amount:0,max:3, costPerUnit:120},
-    {icon:'🥛',name:'นมคาร์เนชั่น',               unit:'กระป๋อง',amount:0,max:2, costPerUnit:35},
-    {icon:'🍶',name:'ซอสทาโกยากิ Takonamor 5L',  unit:'แกลลอน',amount:0,max:2, costPerUnit:600, type:'periodic', estimatedDays:14},
-    {icon:'🫙',name:'มายองเนส Fresh O 860g',      unit:'ถุง',    amount:0,max:2, costPerUnit:64},
-    {icon:'🌿',name:'สาหร่ายโรยหน้า',             unit:'แพ็ค',  amount:0,max:5, costPerUnit:140},
-    {icon:'🛍️',name:'ถุงหัวโลโก้',                unit:'แพ็ค',  amount:0,max:5, costPerUnit:40},
-    {icon:'🐙',name:'ปลาหมึก 2kg',               unit:'ถุง',    amount:0,max:3, costPerUnit:135,ballsPerUnit:430},
-    {icon:'🌭',name:'ไส้กรอกแฟรงค์ aro 1kg',     unit:'ถุง',    amount:0,max:5, costPerUnit:119},
-    {icon:'🦀',name:'ปูอัด Kani 500g',            unit:'ถุง',    amount:0,max:5, costPerUnit:95},
-    {icon:'🌊',name:'สาหร่ายวากาเมะ aro 1kg',    unit:'ถุง',    amount:0,max:5, costPerUnit:139},
-    {icon:'🦐',name:'กุ้ง 120 ตัว',               unit:'แพ็ค',  amount:0,max:5, costPerUnit:270},
-    {icon:'🫙',name:'น้ำมันทอด 3L',               unit:'ขวด',   amount:0,max:5, costPerUnit:150, type:'periodic', estimatedDays:5},
-    {icon:'🔥',name:'แก๊ส LPG 15kg',              unit:'ถัง',   amount:0,max:2, costPerUnit:420, type:'periodic', estimatedDays:7},
+    {icon:'🌾',name:'แป้ง',       unit:'ถุง',         amount:0,max:5,  costPerUnit:125, ballsPerUnit:175},
+    {icon:'🥚',name:'ไข่',         unit:'ลูก',         amount:0,max:50, costPerUnit:4},
+    {icon:'🥛',name:'นม',          unit:'กระป๋องเล็ก', amount:0,max:10, costPerUnit:35},
+    {icon:'🫙',name:'มายองเนส',    unit:'ถุง',         amount:0,max:3,  costPerUnit:64},
+    {icon:'🍶',name:'ซอส',         unit:'แกลลอน',      amount:0,max:2,  costPerUnit:600, type:'periodic', estimatedDays:14},
+    {icon:'🐙',name:'หมึก',        unit:'กก.',         amount:0,max:5,  costPerUnit:59},
+    {icon:'🦀',name:'ปูอัด',       unit:'แพ็ค',        amount:0,max:10, costPerUnit:0},
+    {icon:'🌭',name:'ใส้กรอก',     unit:'แพ็ค',        amount:0,max:5,  costPerUnit:0},
+    {icon:'🧀',name:'ชีท',         unit:'กก.',        amount:0,max:20, costPerUnit:0},
+    {icon:'🌿',name:'ยำสาหร่าย',   unit:'ถุง',         amount:0,max:5,  costPerUnit:0},
   ];
   for (const s of seed) { const r = await addDoc(collection(db,'stock'),s); stock.push({id:r.id,...s}); }
 }
@@ -1371,51 +1342,36 @@ function launchApp() {
   appEl.classList.add(role+'-mode');
   document.getElementById('tb-sub').textContent = userName+' · '+getBranch(userBranch).name;
   document.getElementById('tb-role-badge').textContent = role==='owner'?'👑 เจ้าของร้าน':'👷 พนักงาน';
-  buildNav(); buildBranchSelects(); buildMenuGrid();
+  buildNav(); buildBranchSelects();
   const md=document.getElementById('manual-date');
   if(md) md.value=new Date().toISOString().split('T')[0];
   const cfd=document.getElementById('cf-date-pick');
   if(cfd) cfd.value=new Date().toISOString().split('T')[0];
-  if(role==='staff') {
-    document.getElementById('page-home')?.classList.remove('active');
-    document.getElementById('page-scan')?.classList.add('active');
-    document.getElementById('nav-home')?.classList.remove('active');
-    document.getElementById('nav-scan')?.classList.add('active');
-    setPageTitle('scan');
-  } else {
-    setPageTitle('home');
-    renderHome();
-  }
-  renderScanHistory();
+  setPageTitle('home');
+  renderHome();
   updateTime(); setInterval(updateTime, 15000);
 }
 
 // ── NAV ──
 const NAV_OWNER = [
   {id:'home',icon:'🏠',label:'หน้าหลัก'},
-  {id:'scan',icon:'📷',label:'สแกนสลิป'},
   {id:'cashflow',icon:'💰',label:'รายรับ-จ่าย'},
   {id:'report',icon:'📊',label:'รายงาน'},
-  {id:'gallery',icon:'🖼',label:'รูปสลิป'},
   {id:'stock',icon:'📦',label:'สต็อก',dot:true},
   {id:'checkin-log',icon:'🕐',label:'การเข้างาน'},
   {id:'menu',icon:'⚙️',label:'การจัดการ'},
 ];
 const NAV_STAFF = [
   {id:'home',icon:'🏠',label:'หน้าหลัก'},
-  {id:'scan',icon:'📷',label:'สแกนสลิป'},
   {id:'report',icon:'📊',label:'รายงาน'},
-  {id:'gallery',icon:'🖼',label:'รูปสลิป'},
   {id:'stock',icon:'📦',label:'สต็อก'},
   {id:'checkin-log',icon:'🕐',label:'การเข้างาน'},
 ];
 
 const PAGE_META = {
   home:     {icon:'🏠', title:'หน้าหลัก'},
-  scan:     {icon:'📷', title:'สแกนสลิปรับเงิน'},
   cashflow: {icon:'💰', title:'รายรับ-รายจ่าย'},
   report:   {icon:'📊', title:'รายงานยอดขาย'},
-  gallery:  {icon:'🖼', title:'รูปสลิปรายวัน'},
   stock:         {icon:'📦', title:'สต็อกวัตถุดิบ'},
   'checkin-log': {icon:'🕐', title:'ประวัติการเข้างาน'},
   menu:          {icon:'⚙️', title:'การจัดการ'},
@@ -1434,11 +1390,12 @@ window.switchPage = async function(name, el) {
   setPageTitle(name);
   if(name==='report') { initReportPicker(); renderReport(); }
   if(name==='checkin-log') renderCheckinLog();
-  if(name==='gallery') renderGallery();
   if(name==='stock') renderStock();
   if(name==='menu') { renderBranchMgmt(); await renderStaff(); renderMenuPage(); }
   if(name==='home') await renderHome();
   if(name==='cashflow') renderCashflow();
+  const cfBar = document.getElementById('cf-action-bar');
+  if(cfBar) cfBar.style.display = name==='cashflow' ? 'flex' : 'none';
 };
 
 function buildNav() {
@@ -1457,101 +1414,15 @@ function updateTime() {
 }
 
 function buildBranchSelects() {
-  ['scan-branch-select','ne-branch','nu-branch','report-branch-filter'].forEach(id=>{
+  ['ne-branch','nu-branch','report-branch-filter'].forEach(id=>{
     const el=document.getElementById(id); if(!el) return;
-    // staff เห็นแค่สาขาตัวเอง ยกเว้น report filter (ซ่อนไปแล้วใน renderReport)
     const branchList = (role==='staff' && id!=='report-branch-filter')
       ? BRANCHES.filter(b=>b.id===userBranch)
       : BRANCHES;
     const opts=id==='report-branch-filter'?'<option value="all">ทุกสาขา</option>':'';
     el.innerHTML=opts+branchList.map(b=>`<option value="${b.id}">${b.name}</option>`).join('');
-    if(id==='scan-branch-select') el.value=userBranch;
   });
 }
-
-function buildMenuGrid() {
-  document.getElementById('scan-menu-grid').innerHTML=menus.map((m,i)=>`
-    <div class="menu-chip" data-idx="${i}" onclick="toggleMenu(this)">
-      <span class="mc-emoji">${m.emoji}</span>
-      <div><div class="mc-name">${m.name}</div><div class="mc-price">฿${m.price}</div></div>
-    </div>`).join('');
-}
-
-window.toggleMenu = function(el) { el.classList.toggle('sel'); };
-
-// ── QUICK ORDER ──
-let menuQty = {};
-
-function buildQuickOrderGrid() {
-  const grid = document.getElementById('quick-order-grid');
-  if(!grid) return;
-  grid.innerHTML = menus.map((m,i) => `
-    <div class="qo-item${(menuQty[i]||0)>0?' active':''}" id="qo-item-${i}">
-      <div class="qo-emoji">${m.emoji}</div>
-      <div class="qo-name">${m.name}</div>
-      <div class="qo-price">฿${m.price}</div>
-      <div class="qo-stepper">
-        <button class="qo-btn" onclick="setQty(${i},-1)">−</button>
-        <span class="qo-qty" id="qo-qty-${i}">${menuQty[i]||0}</span>
-        <button class="qo-btn" onclick="setQty(${i},1)">+</button>
-      </div>
-    </div>`).join('');
-}
-
-window.setQty = function(idx, delta) {
-  menuQty[idx] = Math.max(0, (menuQty[idx]||0) + delta);
-  const qEl = document.getElementById('qo-qty-'+idx);
-  if(qEl) qEl.textContent = menuQty[idx];
-  const card = document.getElementById('qo-item-'+idx);
-  if(card) card.classList.toggle('active', menuQty[idx]>0);
-  const total = calcOrderTotal();
-  const tEl = document.getElementById('qo-total-amt');
-  if(tEl) tEl.textContent = '฿'+fmtDec(total);
-};
-
-function calcOrderTotal() {
-  return menus.reduce((s,m,i) => s+(menuQty[i]||0)*m.price, 0);
-}
-
-window.saveQuickOrder = async function() {
-  const override = parseFloat(document.getElementById('qo-override-amount')?.value)||0;
-  const total    = calcOrderTotal();
-  const finalAmt = override > 0 ? override : total;
-  if(finalAmt <= 0){ alert('เลือกเมนูหรือกรอกยอดก่อน'); return; }
-
-  const selectedMenus = menus.flatMap((m,i) => Array(menuQty[i]||0).fill(m.name));
-  const branchId = document.getElementById('qo-branch-sel').value;
-  const note     = document.getElementById('qo-note').value.trim();
-  const isoDate  = document.getElementById('qo-date')?.value || new Date().toISOString().split('T')[0];
-  const [yr,mo,dy] = isoDate.split('-').map(Number);
-  const thaiDate = `${dy}/${mo}/${yr+543}`;
-  const now = new Date();
-  const rec = {
-    amount: finalAmt, payType:'เงินสด', bank:'', sender:'', ref:'',
-    menus: selectedMenus, note, branchId, branchName:getBranch(branchId).name,
-    slipBase64:null, userName, userUid,
-    time: now.toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'}),
-    date: thaiDate, manual:true, ts:serverTimestamp(),
-  };
-  const btn = document.querySelector('#quick-order-form .save-btn');
-  btn.disabled=true; btn.textContent='⏳ กำลังบันทึก...';
-  try {
-    setSyncStatus(true);
-    await addDoc(collection(db,'records'), rec);
-    setSyncStatus(false);
-    // reset form แล้วแสดง success flash
-    menuQty = {};
-    document.getElementById('quick-order-form').style.display='none';
-    document.getElementById('drop-zone').style.display='block';
-    const sb = document.getElementById('scan-main-card');
-    const flash = document.createElement('div');
-    flash.style.cssText='background:var(--g50);border:1px solid var(--g200);border-radius:var(--r-md);padding:12px 14px;margin-bottom:10px;display:flex;align-items:center;gap:10px;';
-    flash.innerHTML=`<span style="font-size:22px;">✅</span><div><div style="font-size:13px;font-weight:700;color:var(--g800);">บันทึกแล้ว ฿${fmtDec(finalAmt)}</div><div style="font-size:11px;color:var(--g600);">${selectedMenus.length?selectedMenus.join(', '):'กรอกยอดเอง'}</div></div>`;
-    sb.prepend(flash);
-    setTimeout(()=>flash.remove(), 2500);
-  } catch(e){ console.error(e); setSyncStatus(false); alert('บันทึกไม่สำเร็จ: '+e.message); }
-  btn.disabled=false; btn.textContent='💾 บันทึกออร์เดอร์';
-};
 
 // ── HOME ──
 async function renderHome() {
@@ -1572,8 +1443,9 @@ async function renderHome() {
     document.getElementById('ov-staff-in').textContent=checkedIn;
     document.getElementById('ov-branches').textContent=openBranches+'/'+BRANCHES.length;
     const actualToday = getActualCostForDate(today());
-    const realCost = actualToday ? actualToday.stockCost + (actualToday.periodicCost||0) + actualToday.wasteCost : cost;
-    const realProfit = actualToday ? rev - realCost : profit;
+    const dailyRent = shopSettings.dailyRent || 0;
+    const realCost = (actualToday ? actualToday.totalCost : cost) + dailyRent;
+    const realProfit = rev - realCost;
     document.getElementById('pf-revenue').textContent='฿'+fmtDec(rev);
     if(actualToday) {
       document.getElementById('pf-cost-lbl').innerHTML='ต้นทุนวัตถุดิบจริง <span class="actual-tag">✓ จริง</span>';
@@ -1586,6 +1458,16 @@ async function renderHome() {
         document.getElementById('pf-periodic-lbl').innerHTML='ต้นทุนคงที่/วัน <span class="periodic-badge">🔄</span>';
         document.getElementById('pf-periodic').textContent='-฿'+fmtDec(actualToday.periodicCost);
       } else { periodicRow.style.display='none'; }
+      const wagesRow=document.getElementById('pf-wages-row');
+      if((actualToday.wages||0)>0){
+        wagesRow.style.display='';
+        document.getElementById('pf-wages').textContent='-฿'+fmtDec(actualToday.wages);
+      } else { wagesRow.style.display='none'; }
+      const rentRow=document.getElementById('pf-rent-row');
+      if(dailyRent>0){
+        rentRow.style.display='';
+        document.getElementById('pf-rent').textContent='-฿'+fmtDec(dailyRent);
+      } else { rentRow.style.display='none'; }
     } else {
       document.getElementById('pf-cost-lbl').innerHTML='ต้นทุนวัตถุดิบ (35%) <span class="est-tag">ประมาณ</span>';
       document.getElementById('pf-labor-lbl').textContent='ค่าแรงโดยประมาณ';
@@ -1596,6 +1478,7 @@ async function renderHome() {
     document.getElementById('pf-net').textContent='฿'+fmtDec(realProfit);
     renderAlerts(); renderBranchList(); renderHomeChart();
     renderDailyClosingCard();
+    renderCostPerBall();
   } else {
     document.getElementById('staff-greeting-name').textContent = userName;
     document.getElementById('staff-greeting-branch').textContent = getBranch(userBranch).name;
@@ -1663,11 +1546,11 @@ window.staffCheckinToggle = async function(empId) {
 };
 
 function renderAlerts() {
-  const low=stock.filter(s=>s.amount/s.max<0.3);
+  const low=stock.filter(s=>s.amount<=0);
   document.getElementById('alert-container').innerHTML=low.length?`
     <div class="alert-banner" onclick="switchPage('stock',document.getElementById('nav-stock'))">
       <div class="alert-pulse"></div>
-      <div class="alert-text">⚠️ ${low.map(s=>s.name).join(', ')} ใกล้หมดแล้ว!</div>
+      <div class="alert-text">⚠️ ${low.map(s=>s.name).join(', ')} หมดแล้ว!</div>
     </div>`:'' ;
   const dot=document.getElementById('stock-dot'); if(dot) dot.classList.toggle('show',low.length>0);
 }
@@ -1713,6 +1596,30 @@ function renderHomeChart() {
     </div>`).join('');
 }
 
+function renderCostPerBall() {
+  const el = document.getElementById('cpb-content');
+  if(!el) return;
+  // คำนวณจาก daily_closing: เฉลี่ย (stockCost + periodicCost) / ballsMade
+  const valid = dailyClosings.filter(dc => (dc.ballsMade||0) > 0 && (dc.totalStockCost||0) > 0);
+  if(!valid.length) {
+    el.innerHTML='<div class="empty-state"><div class="empty-icon">📦</div>บันทึกปิดวันเพื่อดูข้อมูล</div>';
+    return;
+  }
+  const totalB = valid.reduce((s,dc)=>s+(dc.ballsMade||0),0);
+  const totalC = valid.reduce((s,dc)=>s+(dc.totalStockCost||0)+(dc.totalPeriodicCost||0),0);
+  const cpb = totalC / totalB;
+  const BOX_SIZES = [4, 6, 8, 11];
+  el.innerHTML=`
+    <div class="cpb-hero">
+      <div class="cpb-hero-val">฿${cpb.toFixed(2)}</div>
+      <div class="cpb-hero-lbl">ต้นทุนวัตถุดิบต่อ 1 ลูก</div>
+    </div>
+    <div class="cpb-grid">
+      ${BOX_SIZES.map(n=>`<div class="cpb-box"><div class="cpb-size">กล่อง ${n} ลูก</div><div class="cpb-cost">฿${(cpb*n).toFixed(2)}</div></div>`).join('')}
+    </div>
+    <div class="cpb-src">จาก ${valid.length} วันที่ปิดบัญชี · ${totalB.toLocaleString()} ลูก</div>`;
+}
+
 function renderStaffHistoryList() {
   const recs=todayRecords().slice(0,5);
   const el=document.getElementById('staff-history-list');
@@ -1726,370 +1633,10 @@ function renderStaffHistoryList() {
     </div>`).join('');
 }
 
-// ── FILE UPLOAD + AI SCAN ──
-document.getElementById('file-input').addEventListener('change', e=>{const f=e.target.files[0];if(f)handleFile(f);});
-document.getElementById('camera-input').addEventListener('change', e=>{const f=e.target.files[0];if(f)handleFile(f);});
-const dropZone=document.getElementById('drop-zone');
-dropZone.addEventListener('dragover',e=>{e.preventDefault();dropZone.classList.add('drag-over');});
-dropZone.addEventListener('dragleave',()=>dropZone.classList.remove('drag-over'));
-dropZone.addEventListener('drop',e=>{e.preventDefault();dropZone.classList.remove('drag-over');const f=e.dataTransfer.files[0];if(f)handleFile(f);});
-
-async function handleFile(file) {
-  currentImageFile=file;
-  const reader=new FileReader();
-  reader.onload=async ev=>{
-    const base64=ev.target.result.split(',')[1];
-    document.getElementById('preview-img').src=ev.target.result;
-    document.getElementById('preview-box').style.display='block';
-    dropZone.style.display='none';
-    document.getElementById('error-box').style.display='none';
-    document.getElementById('result-box').style.display='none';
-    document.getElementById('save-form').style.display='none';
-    const ab=document.getElementById('analyzing-bar');
-    ab.style.display='flex';
-    const msgs=['กำลังอ่านสลิป...','ดึงข้อมูลจำนวนเงิน...','ตรวจสอบรายละเอียด...','เกือบเสร็จแล้ว...'];
-    let mi=0;
-    const ticker=setInterval(()=>{mi=(mi+1)%msgs.length;document.getElementById('analyze-msg').textContent=msgs[mi];},900);
-    try {
-      // Google Vision API — OCR อ่าน text จากรูป
-      const visionResp = await fetch(
-        `https://vision.googleapis.com/v1/images:annotate?key=${VISION_API_KEY}`,
-        {
-          method:'POST',
-          headers:{'Content-Type':'application/json'},
-          body:JSON.stringify({
-            requests:[{
-              image:{content:base64},
-              features:[{type:'TEXT_DETECTION',maxResults:1}]
-            }]
-          })
-        }
-      );
-      clearInterval(ticker); ab.style.display='none';
-      const vData = await visionResp.json();
-      if(vData.error) throw new Error(vData.error.message);
-      const fullText = vData.responses?.[0]?.fullTextAnnotation?.text || '';
-      if(!fullText) throw new Error('ไม่พบข้อความในรูป กรุณาถ่ายรูปใหม่ให้ชัดขึ้น');
-
-      // Parse ข้อมูลจาก OCR text
-      const parsed = parseSlipText(fullText);
-      currentAIResult = parsed;
-
-      const amt = parsed.amount ? Number(parsed.amount) : 0;
-      document.getElementById('res-amount').textContent = amt ? '฿'+fmtDec(amt) : '—';
-      document.getElementById('res-date').textContent = parsed.date || '—';
-      document.getElementById('res-type').textContent = parsed.type || '—';
-      document.getElementById('res-bank').textContent = parsed.bank || '—';
-      document.getElementById('res-sender').textContent = parsed.sender || '—';
-      document.getElementById('res-ref').textContent = parsed.ref || '—';
-      document.getElementById('edit-amount').value = amt || '';
-      document.getElementById('result-box').style.display='block';
-      document.getElementById('save-form').style.display='block';
-    } catch(err) {
-      clearInterval(ticker); ab.style.display='none';
-      const eb=document.getElementById('error-box');
-      eb.style.display='block';
-      eb.innerHTML=`⚠️ OCR ไม่สำเร็จ: ${err.message||'เกิดข้อผิดพลาด'}<br><span style="font-size:11px;color:var(--gray5);">กรอกยอดเงินด้านล่างแทนได้เลย</span>`;
-      currentAIResult = {amount:null, date:null, type:'ไม่ระบุ', bank:null, sender:null, ref:null};
-      document.getElementById('edit-amount').value = '';
-      document.getElementById('save-form').style.display='block';
-    }
-  };
-  reader.readAsDataURL(file);
-}
-
-// ── PARSE SLIP TEXT จาก OCR ──
-function parseSlipText(text) {
-  const lines = text.split('\n').map(l=>l.trim()).filter(Boolean);
-
-  // จำนวนเงิน — หา pattern เช่น 300.00, 1,500.00
-  let amount = null;
-  const amtPatterns = [
-    /จำนวน[:\s]*([\d,]+\.?\d*)\s*บาท/i,
-    /amount[:\s]*([\d,]+\.?\d*)/i,
-    /(\d{1,3}(?:,\d{3})*\.\d{2})\s*บาท/,
-    /(\d{1,3}(?:,\d{3})*\.\d{2})/,
-  ];
-  for (const p of amtPatterns) {
-    const m = text.match(p);
-    if (m) { amount = parseFloat(m[1].replace(/,/g,'')); break; }
-  }
-
-  // วันที่/เวลา
-  let date = null;
-  const dateM = text.match(/(\d{1,2}[\/\-\.]\d{1,2}[\/\-\.]\d{2,4}[\s,]*\d{1,2}:\d{2}(?::\d{2})?)/);
-  if (dateM) date = dateM[1];
-  else {
-    const dM = text.match(/(\d{1,2})\s*(ม\.ค\.|ก\.พ\.|มี\.ค\.|เม\.ย\.|พ\.ค\.|มิ\.ย\.|ก\.ค\.|ส\.ค\.|ก\.ย\.|ต\.ค\.|พ\.ย\.|ธ\.ค\.)\s*(\d{2,4})/);
-    if (dM) date = dM[0];
-  }
-
-  // ประเภทการชำระ
-  let type = '—';
-  if (/พร้อมเพย์|promptpay|prompt pay/i.test(text)) type = 'พร้อมเพย์';
-  else if (/โอนเงิน|โอน/i.test(text)) type = 'โอนเงิน';
-  else if (/qr|คิวอาร์/i.test(text)) type = 'QR Code';
-  else if (/บัตร|card/i.test(text)) type = 'บัตรเครดิต/เดบิต';
-
-  // ธนาคาร
-  let bank = null;
-  const banks = [
-    ['กสิกรไทย','KBANK','K+'], ['กรุงไทย','KTB','เป๋าตัง'],
-    ['ไทยพาณิชย์','SCB'], ['กรุงเทพ','BBL'],
-    ['ทหารไทย','TTB'], ['ออมสิน','GSB'],
-    ['กรุงศรี','BAY'], ['ทิสโก้','TISCO'],
-  ];
-  for (const b of banks) {
-    if (b.some(n=>new RegExp(n,'i').test(text))) { bank = b[0]; break; }
-  }
-
-  // ผู้โอน — หาชื่อ นาย/นาง/น.ส.
-  let sender = null;
-  const senderM = text.match(/(นาย|นาง|น\.ส\.|นางสาว)\s*[\u0E00-\u0E7F\s]+/);
-  if (senderM) sender = senderM[0].trim().split('\n')[0];
-
-  // เลขอ้างอิง
-  let ref = null;
-  const refM = text.match(/(?:ref|เลขที่|reference|รายการ)[:\s#]*([A-Z0-9]{8,})/i);
-  if (refM) ref = refM[1];
-
-  return { amount, date, type, bank, sender, ref, note: type !== '—' ? '' : 'อ่านได้บางส่วน กรุณาตรวจสอบ' };
-}
-
-window.saveRecord = async function() {
-  const btn=document.querySelector('#save-form .save-btn');
-  btn.disabled=true; btn.textContent='⏳ กำลังอัปโหลด...';
-
-  const editedAmt=document.getElementById('edit-amount').value;
-  const amt=editedAmt?Number(parseFloat(editedAmt).toFixed(2)):(currentAIResult&&currentAIResult.amount?Number(currentAIResult.amount):0);
-  const selectedMenus=[...document.querySelectorAll('#scan-menu-grid .menu-chip.sel')].map(c=>menus[c.dataset.idx].name);
-  const note=document.getElementById('note-input').value;
-  const branchId=document.getElementById('scan-branch-select').value;
-  const branch=getBranch(branchId);
-  const now=new Date();
-
-  // Compress image → Base64 → store in Firestore (no Storage needed)
-  let slipBase64 = null;
-  if(currentImageFile) {
-    try {
-      document.getElementById('analyzing-bar').style.display='flex';
-      document.getElementById('analyze-msg').textContent='กำลัง compress รูปสลิป...';
-      document.getElementById('analyze-sub').textContent='ลดขนาดรูปเพื่อเก็บใน Firestore';
-      slipBase64 = await compressImageToBase64(currentImageFile, 600, 0.7);
-      document.getElementById('analyzing-bar').style.display='none';
-    } catch(e) { console.warn('Compress failed:',e); document.getElementById('analyzing-bar').style.display='none'; }
-  }
-
-  const rec={
-    amount:amt,
-    payType:(currentAIResult&&currentAIResult.type)||'ไม่ระบุ',
-    bank:(currentAIResult&&currentAIResult.bank)||'',
-    sender:(currentAIResult&&currentAIResult.sender)||'',
-    ref:(currentAIResult&&currentAIResult.ref)||'',
-    menus:selectedMenus,
-    note,
-    branchId,
-    branchName:branch.name,
-    slipBase64: slipBase64||null,
-    userName,
-    userUid,
-    time:now.toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'}),
-    date:(role==='owner' && document.getElementById('manual-date')?.value)
-      ? (()=>{ const [yr,mo,dy]=document.getElementById('manual-date').value.split('-').map(Number); return `${dy}/${mo}/${yr+543}`; })()
-      : today(),
-    ts:serverTimestamp(),
-  };
-
-  try {
-    if(userUid!=='demo') {
-      setSyncStatus(true);
-      await addDoc(collection(db,'records'),rec);
-      setSyncStatus(false);
-    } else {
-      records.unshift({id:'demo'+Date.now(),...rec,ts:new Date()});
-    }
-
-    // Show success
-    document.getElementById('scan-main-card').style.display='none';
-    const sb=document.getElementById('success-box'); sb.style.display='block';
-    document.getElementById('success-detail').textContent=branch.name+' · '+now.toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'})+' น.'+(slipBase64?' · บันทึกรูปสลิปแล้ว':'');
-    document.getElementById('success-mini').innerHTML=`
-      <div class="smc-row"><span class="smc-label">จำนวนเงิน</span><span class="smc-val">฿${fmtDec(amt)}</span></div>
-      <div class="smc-row"><span class="smc-label">ประเภท</span><span class="smc-val">${(currentAIResult&&currentAIResult.type)||'—'}</span></div>
-      ${selectedMenus.length?`<div class="smc-row"><span class="smc-label">เมนู</span><span class="smc-val">${selectedMenus.join(', ')}</span></div>`:''}
-      ${slipBase64?`<div class="smc-row" style="flex-direction:column;gap:6px;"><span class="smc-label">รูปสลิป (เก็บใน Firestore)</span><img class="slip-thumb" src="${slipBase64}" alt="slip"></div>`:''}
-    `;
-    renderScanHistory(); renderHome();
-  } catch(e) {
-    alert('บันทึกไม่สำเร็จ: '+e.message);
-  }
-  btn.disabled=false; btn.textContent='💾 บันทึกและเก็บสลิป → Firestore';
-};
-
-window.openCashEntry = function() {
-  document.getElementById('drop-zone').style.display='none';
-  document.getElementById('preview-box').style.display='none';
-  document.getElementById('error-box').style.display='none';
-  document.getElementById('result-box').style.display='none';
-  document.getElementById('analyzing-bar').style.display='none';
-  document.getElementById('save-form').style.display='none';
-  currentImageFile = null;
-  // reset qty
-  menuQty = {};
-  // branch
-  const brSel = document.getElementById('qo-branch-sel');
-  if(brSel){ brSel.innerHTML=BRANCHES.map(b=>`<option value="${b.id}">${b.name}</option>`).join(''); brSel.value=userBranch; }
-  // date
-  const qd = document.getElementById('qo-date');
-  if(qd) qd.value = new Date().toISOString().split('T')[0];
-  document.getElementById('qo-note').value='';
-  const ov = document.getElementById('qo-override-amount'); if(ov) ov.value='';
-  document.getElementById('qo-total-amt').textContent='฿0';
-  buildQuickOrderGrid();
-  document.getElementById('quick-order-form').style.display='block';
-};
-
-window.resetScan = function() {
-  const pb = document.getElementById('preview-box');
-  pb.style.display='none';
-  pb.innerHTML=`<img id="preview-img" src="" alt=""><button class="preview-change" onclick="resetScan()">เปลี่ยนรูป ✕</button>`;
-  document.getElementById('result-box').style.display='none';
-  document.getElementById('save-form').style.display='none';
-  document.getElementById('quick-order-form').style.display='none';
-  document.getElementById('error-box').style.display='none';
-  document.getElementById('analyzing-bar').style.display='none';
-  document.getElementById('file-input').value='';
-  document.getElementById('camera-input').value='';
-  document.getElementById('edit-amount').value='';
-  document.getElementById('note-input').value='';
-  document.querySelectorAll('#scan-menu-grid .menu-chip').forEach(c=>c.classList.remove('sel'));
-  document.getElementById('drop-zone').style.display='block';
-  currentAIResult=null; currentImageFile=null; menuQty={};
-  const md=document.getElementById('manual-date');
-  if(md) md.value=new Date().toISOString().split('T')[0];
-};
-
-window.resetAll = function() {
-  document.getElementById('scan-main-card').style.display='block';
-  document.getElementById('success-box').style.display='none';
-  resetScan();
-};
-
-function renderScanHistory() {
-  const recs=todayRecords(); // ใช้ todayRecords() ที่ filter สาขาให้แล้ว
-  const total=recs.reduce((s,r)=>s+r.amount,0);
-  document.getElementById('scan-total-tag').textContent='฿'+fmt(total);
-  const el=document.getElementById('scan-history-list');
-  if(!recs.length){el.innerHTML='<div class="empty-state"><div class="empty-icon">📷</div>สแกนสลิปแรกได้เลย</div>';return;}
-  el.innerHTML=recs.map(r=>`
-    <div class="history-item">
-      <div class="hi-icon" style="cursor:${r.slipBase64?'pointer':'default'}" ${r.slipBase64?`onclick="showSlipModal('${r.id}')"`:''}>${r.slipBase64?`<img src="${r.slipBase64}" alt="slip">`:'💴'}</div>
-      <div class="hi-info">
-        <div class="hi-menu">${r.menus&&r.menus.length?r.menus.join(', '):r.payType}</div>
-        <div class="hi-meta">${r.time} น. · ${r.branchName}${r.slipBase64?' · 🖼 มีรูปสลิป':''}${r.note?' · '+r.note:''}</div>
-      </div>
-      <div style="display:flex;align-items:center;gap:3px;">
-        <span class="hi-amt">฿${fmtDec(r.amount)}</span>
-        <button class="hi-del" onclick="deleteRecord('${r.id}')">✕</button>
-      </div>
-    </div>`).join('');
-}
-
-// ── GALLERY ──
-function buildGalleryFilters() {
-  const branchSel = document.getElementById('gallery-branch-filter');
-  const monthSel  = document.getElementById('gallery-month-filter');
-  if(!branchSel || !monthSel) return;
-
-  // branch filter (owner เห็นทุกสาขา, staff เห็นแค่สาขาตัวเอง)
-  if(role==='owner') {
-    branchSel.style.display='';
-    branchSel.innerHTML='<option value="all">ทุกสาขา</option>'+BRANCHES.map(b=>`<option value="${b.id}">${b.name}</option>`).join('');
-  } else {
-    branchSel.style.display='none';
-  }
-
-  // month filter — สร้างจาก records ที่มีอยู่
-  const months = [...new Set(records.map(r => {
-    const parts = r.date?.split('/');
-    return parts ? parts[2]+'/'+parts[1].padStart(2,'0') : null;
-  }).filter(Boolean))].sort((a,b)=>b.localeCompare(a));
-
-  monthSel.innerHTML = '<option value="all">ทุกเดือน</option>' +
-    months.map(m => {
-      const [y,mo] = m.split('/');
-      return `<option value="${m}">${mo}/${y}</option>`;
-    }).join('');
-}
-
-window.renderGallery = function renderGallery() {
-  buildGalleryFilters();
-  const branchFilter = document.getElementById('gallery-branch-filter')?.value || 'all';
-  const monthFilter  = document.getElementById('gallery-month-filter')?.value  || 'all';
-
-  let recs = role==='staff' ? records.filter(r=>r.branchId===userBranch) : records;
-  if(branchFilter !== 'all') recs = recs.filter(r=>r.branchId===branchFilter);
-  if(monthFilter  !== 'all') {
-    const [fy,fm] = monthFilter.split('/');
-    recs = recs.filter(r=>{
-      const parts = r.date?.split('/');
-      return parts && parts[2]===fy && parts[1].padStart(2,'0')===fm;
-    });
-  }
-
-  // summary strip
-  const totalAmt = recs.reduce((s,r)=>s+r.amount,0);
-  const withSlip = recs.filter(r=>r.slipBase64).length;
-  document.getElementById('gallery-strip').innerHTML=`
-    <div class="ss-card accent"><div class="ss-val">฿${fmt(totalAmt)}</div><div class="ss-lbl">ยอดรวม</div></div>
-    <div class="ss-card"><div class="ss-val">${recs.length}</div><div class="ss-lbl">รายการ</div></div>
-    <div class="ss-card"><div class="ss-val">${withSlip}</div><div class="ss-lbl">มีรูปสลิป</div></div>
-    <div class="ss-card"><div class="ss-val">${recs.length-withSlip}</div><div class="ss-lbl">ไม่มีรูป</div></div>
-  `;
-
-  // group by date (order preserved from Firestore orderBy ts desc)
-  const byDate = {};
-  recs.forEach(r=>{ if(!byDate[r.date]) byDate[r.date]=[]; byDate[r.date].push(r); });
-  const dates = Object.keys(byDate);
-
-  const el = document.getElementById('gallery-content');
-  if(!dates.length){
-    el.innerHTML='<div class="empty-state"><div class="empty-icon">🖼</div>ยังไม่มีรายการ</div>';
-    return;
-  }
-
-  el.innerHTML = dates.map(date => {
-    const dayRecs = byDate[date];
-    const dayTotal = dayRecs.reduce((s,r)=>s+r.amount,0);
-    const daySlips = dayRecs.filter(r=>r.slipBase64).length;
-    return `
-      <div class="gallery-day">
-        <div class="gallery-day-hd">
-          <div class="gdh-date">📅 ${date}</div>
-          <div class="gdh-meta">${dayRecs.length} รายการ · ฿${fmt(dayTotal)} · รูป ${daySlips}/${dayRecs.length}</div>
-        </div>
-        <div class="gallery-grid">
-          ${dayRecs.map(r=>`
-            <div class="gallery-card" ${r.slipBase64?`onclick="showSlipModal('${r.id}')"`:'style="cursor:default"'}>
-              ${r.slipBase64
-                ? `<img class="gallery-thumb" src="${r.slipBase64}" alt="slip" loading="lazy">`
-                : `<div class="gallery-no-slip">💴</div>`}
-              ${!r.slipBase64?'<span class="no-slip-badge">ไม่มีรูป</span>':''}
-              <div class="gallery-card-info">
-                <div class="gci-amount">฿${fmt(r.amount)}</div>
-                <div class="gci-time">${r.time} น.</div>
-                <div class="gci-branch">${r.branchName||''}</div>
-              </div>
-            </div>`).join('')}
-        </div>
-      </div>`;
-  }).join('');
-}
-
 window.deleteRecord = async function(id) {
   if(!confirm('ลบรายการนี้?')) return;
   if(userUid!=='demo') { setSyncStatus(true); await deleteDoc(doc(db,'records',id)); setSyncStatus(false); }
-  else { records=records.filter(r=>r.id!==id); renderScanHistory(); renderHome(); }
+  else { records=records.filter(r=>r.id!==id); renderHome(); }
 };
 
 // ── REPORT ──
@@ -2151,172 +1698,222 @@ window.renderReport = function renderReport() {
     const grandTotal=filteredRecs.reduce((s,r)=>s+r.amount,0);
     const isToday=dateVal===now.toISOString().split('T')[0];
     periodLabel=`${dy} ${_thaiMonthNames[mo-1]} ${ty}`; stripDays=1;
-    document.getElementById('report-period-title').textContent='ยอดขาย '+periodLabel;
-    document.getElementById('report-strip').innerHTML=`
-      <div class="ss-card accent"><div class="ss-val">฿${fmt(grandTotal)}</div><div class="ss-lbl">${isToday?'วันนี้':periodLabel}</div></div>
-      <div class="ss-card"><div class="ss-val">${filteredRecs.length}</div><div class="ss-lbl">ออร์เดอร์</div></div>
-      <div class="ss-card"><div class="ss-val">฿${filteredRecs.length?fmt(grandTotal/filteredRecs.length):0}</div><div class="ss-lbl">เฉลี่ย/order</div></div>`;
+    document.getElementById('rp-main-stat').innerHTML=`<div class="rp-main-card"><div class="rp-main-lbl">${isToday?'วันนี้':periodLabel}</div><div class="rp-main-val">฿${fmt(grandTotal)}</div></div>`;
+    document.getElementById('rp-sub-stats').innerHTML=`<div class="rp-stat-grid"><div class="rp-stat-box"><div class="rp-stat-num">${filteredRecs.length}</div><div class="rp-stat-lbl">ออร์เดอร์</div></div><div class="rp-stat-box"><div class="rp-stat-num">฿${filteredRecs.length?fmt(grandTotal/filteredRecs.length):0}</div><div class="rp-stat-lbl">เฉลี่ย/order</div></div></div>`;
     document.getElementById('report-chart').innerHTML=filteredRecs.length
       ? filteredRecs.map(r=>`<div class="profit-row" style="gap:8px;padding:6px 0;border-bottom:1px solid var(--gray1);">
           <span class="pr-label" style="flex:1;">${getBranch(r.branchId).name||'—'}</span>
           <span style="font-size:11px;color:var(--gray4);flex:2;">${r.menus?r.menus.join(', '):''}</span>
           <span class="pr-val income">฿${fmt(r.amount)}</span></div>`).join('')
       : '<div class="empty-state"><div class="empty-icon">📋</div>ไม่มีออร์เดอร์วันนี้</div>';
-    const mc={};
-    filteredRecs.forEach(r=>r.menus&&r.menus.forEach(m=>{mc[m]=(mc[m]||0)+1;}));
-    const sorted=Object.entries(mc).sort((a,b)=>b[1]-a[1]);
-    const tml=document.getElementById('top-menu-list');
-    if(!sorted.length){tml.innerHTML='<div class="empty-state"><div class="empty-icon">📊</div>ยังไม่มีข้อมูล</div>';}
-    else tml.innerHTML=sorted.slice(0,5).map(([m,cnt],i)=>`<div class="history-item"><div class="hi-icon">${['🥇','🥈','🥉','🏅','🎖'][i]}</div><div class="hi-info"><div class="hi-menu">${m}</div><div class="hi-meta">${cnt} ออร์เดอร์</div></div></div>`).join('');
     if(role==='owner'){
       const actualDay = getActualCostForDate(thaiDs);
-      const cost = actualDay ? actualDay.stockCost : grandTotal*0.35;
+      const dayExps = cashExpenses.filter(e => e.date === thaiDs);
+      const purchaseCost = dayExps.filter(e=>e.cat==='🛒').reduce((s,e)=>s+(e.amount||0),0);
+      const hasClos = actualDay && actualDay.stockCost > 0;
+      const cost = hasClos ? actualDay.stockCost : (purchaseCost>0 ? purchaseCost : grandTotal*0.35);
+      const costSrc = hasClos ? 'closing' : purchaseCost>0 ? 'purchase' : 'estimate';
       const periodicCost = actualDay ? (actualDay.periodicCost||0) : 0;
       const wasteCost = actualDay ? actualDay.wasteCost : 0;
-      const labor = actualDay ? 0 : (grandTotal>0?487:0);
-      const dayExps = cashExpenses.filter(e => e.date === thaiDs);
-      const otherExpense = dayExps.reduce((s,e)=>s+(e.amount||0), 0);
-      const net = grandTotal - cost - periodicCost - wasteCost - labor - otherExpense;
+      const labor = (costSrc==='estimate'&&grandTotal>0) ? 487 : 0;
+      const otherExpense = dayExps.filter(e=>!e.autoFixed&&e.cat!=='🛒').reduce((s,e)=>s+(e.amount||0),0);
+      const wagesCost = actualDay ? (actualDay.wages||0) : 0;
+      const rentCost = shopSettings.dailyRent || 0;
+      const net = grandTotal - cost - periodicCost - wasteCost - labor - wagesCost - rentCost - otherExpense;
       document.getElementById('rp-lbl-revenue').textContent='รายได้ ('+periodLabel+')';
       document.getElementById('rp-revenue').textContent='฿'+fmtDec(grandTotal);
-      if(actualDay) {
+      if(costSrc==='closing') {
         document.getElementById('rp-lbl-labor').innerHTML='ต้นทุนวัตถุดิบจริง <span class="actual-tag">✓ จริง</span>';
         document.getElementById('rp-cost').textContent=grandTotal>0?'-฿'+fmtDec(cost):'฿0';
-        let laborHtml = '';
-        if(periodicCost>0) laborHtml += `-฿${fmtDec(periodicCost)} <span style="font-size:10px;color:var(--gray4);">(คงที่/วัน 🔄)</span>`;
-        if(actualDay.wasteBalls>0) laborHtml += (laborHtml?' + ':'')+`-฿${fmtDec(wasteCost)} <span style="font-size:10px;color:var(--gray4);">(ของทิ้ง ${actualDay.wasteBalls} ลูก)</span>`;
-        document.getElementById('rp-labor').innerHTML = laborHtml || '฿0';
+        let laborHtml='';
+        if(periodicCost>0) laborHtml+=`-฿${fmtDec(periodicCost)} <span style="font-size:10px;color:var(--gray4);">(คงที่/วัน 🔄)</span>`;
+        if(actualDay.wasteBalls>0) laborHtml+=(laborHtml?' + ':'')+`-฿${fmtDec(wasteCost)} <span style="font-size:10px;color:var(--gray4);">(ของทิ้ง ${actualDay.wasteBalls} ลูก)</span>`;
+        document.getElementById('rp-labor').innerHTML=laborHtml||'฿0';
+      } else if(costSrc==='purchase') {
+        document.getElementById('rp-lbl-labor').innerHTML='ต้นทุนวัตถุดิบ <span style="font-size:10px;background:var(--g50);color:var(--g600);padding:1px 5px;border-radius:8px;font-weight:700;">🛒 จากซื้อของ</span>';
+        document.getElementById('rp-cost').textContent=grandTotal>0?'-฿'+fmtDec(cost):'฿0';
+        document.getElementById('rp-labor').textContent='฿0';
       } else {
-        document.getElementById('rp-lbl-labor').innerHTML='ต้นทุนคงที่ ('+periodLabel+') <span class="est-tag">ประมาณ</span>';
+        document.getElementById('rp-lbl-labor').innerHTML='ต้นทุนวัตถุดิบ <span class="est-tag">~ 35%</span>';
         document.getElementById('rp-cost').textContent=grandTotal>0?'-฿'+fmtDec(cost):'฿0';
         document.getElementById('rp-labor').textContent=grandTotal>0?'-฿'+fmt(labor):'฿0';
       }
-      const expRow = document.getElementById('rp-expense-row');
-      if(otherExpense > 0) {
-        expRow.style.display='';
-        document.getElementById('rp-lbl-expense').textContent=`รายจ่ายอื่น (${dayExps.length} รายการ)`;
-        document.getElementById('rp-expense').textContent='-฿'+fmtDec(otherExpense);
-      } else { expRow.style.display='none'; }
+      const wagesRow=document.getElementById('rp-wages-row');
+      if(wagesCost>0){wagesRow.style.display='';document.getElementById('rp-lbl-wages').textContent='ค่าแรง';document.getElementById('rp-wages').textContent='-฿'+fmtDec(wagesCost);}else{wagesRow.style.display='none';}
+      const rentRow=document.getElementById('rp-rent-row');
+      if(rentCost>0){rentRow.style.display='';document.getElementById('rp-lbl-rent').textContent='ค่าเช่าตลาด/วัน';document.getElementById('rp-rent').textContent='-฿'+fmtDec(rentCost);}else{rentRow.style.display='none';}
+      const expRow=document.getElementById('rp-expense-row');
+      const manualExps=dayExps.filter(e=>!e.autoFixed&&e.cat!=='🛒');
+      if(otherExpense>0){expRow.style.display='';document.getElementById('rp-lbl-expense').textContent=`รายจ่ายอื่น (${manualExps.length} รายการ)`;document.getElementById('rp-expense').textContent='-฿'+fmtDec(otherExpense);}else{expRow.style.display='none';}
       document.getElementById('rp-net').textContent='฿'+fmtDec(net);
-      const cpbRow = document.getElementById('rp-cost-per-ball-row');
-      if(actualDay && (actualDay.costPerBall||0) > 0) {
-        cpbRow.style.display='';
-        document.getElementById('rp-cost-per-ball').textContent='฿'+actualDay.costPerBall.toFixed(2)+'/ลูก';
-      } else { cpbRow.style.display='none'; }
+      const cpbRow=document.getElementById('rp-cost-per-ball-row');
+      if(actualDay&&(actualDay.costPerBall||0)>0){cpbRow.style.display='';document.getElementById('rp-cost-per-ball').textContent='฿'+actualDay.costPerBall.toFixed(2)+'/ลูก';}else{cpbRow.style.display='none';}
     }
     return;
   }
 
+  let _rpM=null, _rpY=null;
   if(reportPeriod==='month') {
-    const selM=Number(document.getElementById('rp-month-pick')?.value)||todayThaiMonth;
-    const selY=Number(document.getElementById('rp-year-pick')?.value)||todayThaiYear;
-    const gregY=selY-543;
-    const daysInMonth=new Date(gregY,selM,0).getDate();
+    _rpM=Number(document.getElementById('rp-month-pick')?.value)||todayThaiMonth;
+    _rpY=Number(document.getElementById('rp-year-pick')?.value)||todayThaiYear;
+    const gregY=_rpY-543;
+    const daysInMonth=new Date(gregY,_rpM,0).getDate();
     for(let day=1;day<=daysInMonth;day++){
-      const ds=`${day}/${selM}/${selY}`;
-      const isToday=(day===now.getDate()&&selM===todayThaiMonth&&selY===todayThaiYear);
+      const ds=`${day}/${_rpM}/${_rpY}`;
+      const isToday=(day===now.getDate()&&_rpM===todayThaiMonth&&_rpY===todayThaiYear);
       chartData.push({lbl:String(day),val:recs.filter(r=>r.date===ds).reduce((s,r)=>s+r.amount,0),hi:isToday});
     }
-    periodLabel=_thaiMonthNames[selM-1]+' '+selY; stripDays=daysInMonth;
-    filteredRecs=recs.filter(r=>{const p=r.date.split('/');return Number(p[1])===selM&&Number(p[2])===selY;});
+    periodLabel=_thaiMonthNames[_rpM-1]+' '+_rpY; stripDays=daysInMonth;
+    filteredRecs=recs.filter(r=>{const p=r.date.split('/');return Number(p[1])===_rpM&&Number(p[2])===_rpY;});
   } else {
-    const selY=Number(document.getElementById('rp-year-pick')?.value)||todayThaiYear;
+    _rpY=Number(document.getElementById('rp-year-pick')?.value)||todayThaiYear;
     for(let m=1;m<=12;m++){
-      const val=recs.filter(r=>{const p=r.date.split('/');return Number(p[1])===m&&Number(p[2])===selY;}).reduce((s,r)=>s+r.amount,0);
-      chartData.push({lbl:_thaiMonthNames[m-1],val,hi:m===todayThaiMonth&&selY===todayThaiYear});
+      const val=recs.filter(r=>{const p=r.date.split('/');return Number(p[1])===m&&Number(p[2])===_rpY;}).reduce((s,r)=>s+r.amount,0);
+      chartData.push({lbl:_thaiMonthNames[m-1],val,hi:m===todayThaiMonth&&_rpY===todayThaiYear});
     }
-    periodLabel='ปี '+selY; stripDays=365;
-    filteredRecs=recs.filter(r=>{const p=r.date.split('/');return Number(p[2])===selY;});
+    periodLabel='ปี '+_rpY; stripDays=365;
+    filteredRecs=recs.filter(r=>{const p=r.date.split('/');return Number(p[2])===_rpY;});
   }
 
-  document.getElementById('report-period-title').textContent='ยอดขาย '+periodLabel;
   const grandTotal=chartData.reduce((s,d)=>s+d.val,0);
-  document.getElementById('report-strip').innerHTML=`
-    <div class="ss-card accent"><div class="ss-val">฿${fmt(grandTotal)}</div><div class="ss-lbl">${periodLabel}</div></div>
-    <div class="ss-card"><div class="ss-val">฿${fmt(stripDays?grandTotal/stripDays:0)}</div><div class="ss-lbl">เฉลี่ย/วัน</div></div>
-    <div class="ss-card"><div class="ss-val">${filteredRecs.length}</div><div class="ss-lbl">ออร์เดอร์</div></div>
-    <div class="ss-card"><div class="ss-val">฿${filteredRecs.length?fmt(grandTotal/filteredRecs.length):0}</div><div class="ss-lbl">เฉลี่ย/order</div></div>`;
+  document.getElementById('rp-main-stat').innerHTML=`<div class="rp-main-card"><div class="rp-main-lbl">${periodLabel}</div><div class="rp-main-val">฿${fmt(grandTotal)}</div></div>`;
+  document.getElementById('rp-sub-stats').innerHTML=`<div class="rp-stat-grid"><div class="rp-stat-box"><div class="rp-stat-num">฿${fmt(stripDays?grandTotal/stripDays:0)}</div><div class="rp-stat-lbl">เฉลี่ย/วัน</div></div><div class="rp-stat-box"><div class="rp-stat-num">฿${filteredRecs.length?fmt(grandTotal/filteredRecs.length):0}</div><div class="rp-stat-lbl">เฉลี่ย/order</div></div></div>`;
   const maxV=Math.max(...chartData.map(d=>d.val),1);
   document.getElementById('report-chart').innerHTML=chartData.map(d=>`
-    <div class="bar-row"><span class="bar-day" style="width:${reportPeriod==='year'?28:20}px">${d.lbl}</span>
+    <div class="bar-row"><span class="bar-day" style="width:${reportPeriod==='year'?32:22}px">${d.lbl}</span>
     <div class="bar-track"><div class="bar-fill${d.hi?' today':''}" style="width:${Math.round(d.val/maxV*100)}%"></div></div>
-    <span class="bar-amt">฿${fmt(d.val)}</span></div>`).join('');
-  const mc={};
-  filteredRecs.forEach(r=>r.menus&&r.menus.forEach(m=>{mc[m]=(mc[m]||0)+1;}));
-  const sorted=Object.entries(mc).sort((a,b)=>b[1]-a[1]);
-  const tml=document.getElementById('top-menu-list');
-  if(!sorted.length){tml.innerHTML='<div class="empty-state"><div class="empty-icon">📊</div>ยังไม่มีข้อมูล</div>';}
-  else tml.innerHTML=sorted.slice(0,5).map(([m,cnt],i)=>`<div class="history-item"><div class="hi-icon">${['🥇','🥈','🥉','🏅','🎖'][i]}</div><div class="hi-info"><div class="hi-menu">${m}</div><div class="hi-meta">${cnt} ออร์เดอร์</div></div></div>`).join('');
+    <span class="bar-amt" style="width:54px;">฿${fmt(d.val)}</span></div>`).join('');
   if(role==='owner'){
-    const periodDates = [...new Set(filteredRecs.map(r=>r.date))];
-    const actualPeriod = getActualCostForDateList(periodDates);
-    const cost = actualPeriod ? actualPeriod.stockCost : grandTotal*0.35;
-    const periodicCost = actualPeriod ? (actualPeriod.periodicCost||0) : 0;
-    const wasteCost = actualPeriod ? actualPeriod.wasteCost : 0;
-    const labor = actualPeriod ? 0 : (grandTotal>0?487*stripDays:0);
-    // รายจ่ายอื่น (cash_expenses) ในช่วงเวลานั้น
-    const periodExpenses = cashExpenses.filter(e => periodDates.includes(e.date));
-    const otherExpense = periodExpenses.reduce((s,e)=>s+(e.amount||0), 0);
-    const net = grandTotal - cost - periodicCost - wasteCost - labor - otherExpense;
+    const periodDates=[...new Set(filteredRecs.map(r=>r.date))];
+    const actualPeriod=getActualCostForDateList(periodDates);
+    // รายจ่ายทั้งหมดในช่วง (ดูจากเดือน/ปี ไม่ใช่แค่วันที่มียอดขาย)
+    const allPeriodExps = _rpM
+      ? cashExpenses.filter(e=>{const p=e.date.split('/');return Number(p[1])===_rpM&&Number(p[2])===_rpY;})
+      : cashExpenses.filter(e=>{const p=e.date.split('/');return Number(p[2])===_rpY;});
+    // ต้นทุนวัตถุดิบ: ถ้าไม่มีข้อมูลปิดวัน ใช้ยอดซื้อของ (🛒) แทน
+    const purchaseCost=allPeriodExps.filter(e=>e.cat==='🛒').reduce((s,e)=>s+(e.amount||0),0);
+    const hasClos=actualPeriod&&actualPeriod.stockCost>0;
+    const cost=hasClos?actualPeriod.stockCost:(purchaseCost>0?purchaseCost:grandTotal*0.35);
+    const costSrc=hasClos?'closing':purchaseCost>0?'purchase':'estimate';
+    const periodicCost=actualPeriod?(actualPeriod.periodicCost||0):0;
+    const wasteCost=actualPeriod?actualPeriod.wasteCost:0;
+    const labor=(costSrc==='estimate'&&grandTotal>0)?487*stripDays:0;
+    const wagesCost=actualPeriod?(actualPeriod.wages||0):0;
+    const rentCost=(shopSettings.dailyRent||0)*stripDays;
+    // รายจ่ายอื่น: ไม่รวม 🛒 (นับเป็นต้นทุนวัตถุดิบแล้ว) และ autoFixed
+    const otherExpense=allPeriodExps.filter(e=>!e.autoFixed&&e.cat!=='🛒').reduce((s,e)=>s+(e.amount||0),0);
+    const net=grandTotal-cost-periodicCost-wasteCost-labor-wagesCost-rentCost-otherExpense;
     document.getElementById('rp-lbl-revenue').textContent='รายได้ ('+periodLabel+')';
     document.getElementById('rp-revenue').textContent='฿'+fmtDec(grandTotal);
-    if(actualPeriod && actualPeriod.count > 0) {
+    if(costSrc==='closing'){
       document.getElementById('rp-lbl-labor').innerHTML=`ต้นทุนวัตถุดิบจริง (${actualPeriod.count} วัน) <span class="actual-tag">✓ จริง</span>`;
       document.getElementById('rp-cost').textContent=grandTotal>0?'-฿'+fmtDec(cost):'฿0';
-      let laborHtml = '';
-      if(periodicCost>0) laborHtml += `-฿${fmtDec(periodicCost)} <span style="font-size:10px;color:var(--gray4);">(คงที่/วัน 🔄)</span>`;
-      if(actualPeriod.wasteBalls>0) laborHtml += (laborHtml?' + ':'')+`-฿${fmtDec(wasteCost)} <span style="font-size:10px;color:var(--gray4);">(ของทิ้ง ${actualPeriod.wasteBalls} ลูก)</span>`;
-      document.getElementById('rp-labor').innerHTML = laborHtml || '฿0';
+      let laborHtml='';
+      if(periodicCost>0) laborHtml+=`-฿${fmtDec(periodicCost)} <span style="font-size:10px;color:var(--gray4);">(คงที่/วัน 🔄)</span>`;
+      if(actualPeriod.wasteBalls>0) laborHtml+=(laborHtml?' + ':'')+`-฿${fmtDec(wasteCost)} <span style="font-size:10px;color:var(--gray4);">(ของทิ้ง ${actualPeriod.wasteBalls} ลูก)</span>`;
+      document.getElementById('rp-labor').innerHTML=laborHtml||'฿0';
+    } else if(costSrc==='purchase'){
+      document.getElementById('rp-lbl-labor').innerHTML='ต้นทุนวัตถุดิบ <span style="font-size:10px;background:var(--g50);color:var(--g600);padding:1px 5px;border-radius:8px;font-weight:700;">🛒 จากซื้อของ</span>';
+      document.getElementById('rp-cost').textContent=grandTotal>0?'-฿'+fmtDec(cost):'฿0';
+      document.getElementById('rp-labor').textContent='฿0';
     } else {
-      document.getElementById('rp-lbl-labor').innerHTML='ต้นทุนคงที่ ('+periodLabel+') <span class="est-tag">ประมาณ</span>';
+      document.getElementById('rp-lbl-labor').innerHTML='ต้นทุนวัตถุดิบ <span class="est-tag">~ 35%</span>';
       document.getElementById('rp-cost').textContent=grandTotal>0?'-฿'+fmtDec(cost):'฿0';
       document.getElementById('rp-labor').textContent=grandTotal>0?'-฿'+fmt(labor):'฿0';
     }
-    // รายจ่ายอื่น row
-    const expRow = document.getElementById('rp-expense-row');
-    if(otherExpense > 0) {
+    const wagesRow2=document.getElementById('rp-wages-row');
+    if(wagesCost>0){wagesRow2.style.display='';document.getElementById('rp-lbl-wages').textContent=`ค่าแรง (${actualPeriod.count} วัน)`;document.getElementById('rp-wages').textContent='-฿'+fmtDec(wagesCost);}else{wagesRow2.style.display='none';}
+    const rentRow2=document.getElementById('rp-rent-row');
+    if(rentCost>0){rentRow2.style.display='';document.getElementById('rp-lbl-rent').textContent=`ค่าเช่าตลาด (${stripDays} วัน)`;document.getElementById('rp-rent').textContent='-฿'+fmtDec(rentCost);}else{rentRow2.style.display='none';}
+    const expRow=document.getElementById('rp-expense-row');
+    const manualExps=allPeriodExps.filter(e=>!e.autoFixed&&e.cat!=='🛒');
+    if(otherExpense>0){
       expRow.style.display='';
-      // group by category for label
-      const catMap = {};
-      periodExpenses.forEach(e=>{ catMap[e.cat||'💰']=(catMap[e.cat||'💰']||0)+1; });
-      const topCats = Object.entries(catMap).sort((a,b)=>b[1]-a[1]).slice(0,2).map(([c])=>c).join('');
-      document.getElementById('rp-lbl-expense').textContent = `รายจ่ายอื่น ${topCats} (${periodExpenses.length} รายการ)`;
-      document.getElementById('rp-expense').textContent = '-฿'+fmtDec(otherExpense);
+      const catMap={};
+      manualExps.forEach(e=>{catMap[e.cat||'💰']=(catMap[e.cat||'💰']||0)+1;});
+      const topCats=Object.entries(catMap).sort((a,b)=>b[1]-a[1]).slice(0,2).map(([c])=>c).join('');
+      document.getElementById('rp-lbl-expense').textContent=`รายจ่ายอื่น ${topCats} (${manualExps.length} รายการ)`;
+      document.getElementById('rp-expense').textContent='-฿'+fmtDec(otherExpense);
     } else { expRow.style.display='none'; }
     document.getElementById('rp-net').textContent='฿'+fmtDec(net);
-    // ต้นทุน/ลูก
-    const cpbRow = document.getElementById('rp-cost-per-ball-row');
-    if(actualPeriod && (actualPeriod.costPerBall||0) > 0) {
-      cpbRow.style.display='';
-      document.getElementById('rp-cost-per-ball').textContent = '฿'+actualPeriod.costPerBall.toFixed(2)+'/ลูก';
-    } else { cpbRow.style.display='none'; }
+    const cpbRow=document.getElementById('rp-cost-per-ball-row');
+    if(actualPeriod&&(actualPeriod.costPerBall||0)>0){cpbRow.style.display='';document.getElementById('rp-cost-per-ball').textContent='฿'+actualPeriod.costPerBall.toFixed(2)+'/ลูก';}else{cpbRow.style.display='none';}
   }
 }
 
 // ── STOCK ──
+window.toggleStockCountMode = function toggleStockCountMode() {
+  stockCountMode = !stockCountMode;
+  const btn = document.getElementById('stock-count-btn');
+  const bar = document.getElementById('stock-count-bar');
+  if(btn) btn.textContent = stockCountMode ? '✕ ออกจากโหมดนับ' : '🔢 นับสต็อก';
+  if(bar) bar.style.display = stockCountMode ? 'flex' : 'none';
+  renderStock();
+}
+
+window.saveStockCount = async function saveStockCount() {
+  if(userUid === 'demo') { alert('Demo mode'); return; }
+  const updates = [];
+  for(const s of stock) {
+    const inp = document.getElementById('sc-input-'+s.id);
+    if(!inp) continue;
+    const val = parseFloat(inp.value);
+    if(!isNaN(val) && val !== s.amount) updates.push({s, newAmt: Math.max(0, val)});
+  }
+  if(!updates.length) { toggleStockCountMode(); return; }
+  try {
+    setSyncStatus(true);
+    for(const {s, newAmt} of updates) {
+      s.amount = newAmt;
+      await updateDoc(doc(db,'stock',s.id), { amount: newAmt });
+    }
+    setSyncStatus(false);
+    stockCountMode = false;
+    renderStock();
+    renderAlerts();
+    const btn = document.getElementById('stock-count-btn');
+    const bar = document.getElementById('stock-count-bar');
+    if(btn) btn.textContent = '🔢 นับสต็อก';
+    if(bar) bar.style.display = 'none';
+  } catch(e) { alert('บันทึกไม่สำเร็จ: '+e.message); setSyncStatus(false); }
+}
+
 function renderStock() {
-  const low=stock.filter(s=>s.amount/s.max<0.3);
+  const empty=stock.filter(s=>s.amount<=0);
   const sa=document.getElementById('stock-alerts');
-  sa.innerHTML=low.length?`<div class="alert-banner"><div class="alert-pulse"></div><div class="alert-text">⚠️ ${low.map(s=>s.name).join(', ')} เหลือน้อยมาก!</div></div>`:'';
+  sa.innerHTML=empty.length?`<div class="alert-banner"><div class="alert-pulse"></div><div class="alert-text">⚠️ ${empty.map(s=>s.name).join(', ')} หมดแล้ว!</div></div>`:'';
   document.getElementById('stock-list').innerHTML=stock.map((s,i)=>{
-    const pct=Math.round(s.amount/s.max*100);
-    const cls=pct>50?'ok':pct>25?'warn':'low';
     const isPeriodic=(s.type||'daily')==='periodic';
     const dailyCost=getDailyCostForPeriodic(s);
+    if(stockCountMode) {
+      return `<div class="stock-item">
+        <span class="si-icon">${s.icon}</span>
+        <div class="si-info">
+          <div class="si-name">${s.name}</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;">
+          <input type="number" id="sc-input-${s.id}" value="${s.amount}" min="0" step="0.5"
+            style="width:70px;border:2px solid var(--o300);border-radius:8px;padding:6px 8px;font-size:15px;font-weight:700;text-align:center;font-family:var(--font);color:var(--gray7);outline:none;background:#fffbf5;"
+            onfocus="this.select()">
+          <span style="font-size:12px;color:var(--gray5);min-width:28px;">${s.unit}</span>
+        </div>
+      </div>`;
+    }
+    const amtColor = s.amount<=0 ? 'var(--red400)' : s.amount<2 ? '#D97706' : 'var(--gray6)';
     return `<div class="stock-item">
       <span class="si-icon">${s.icon}</span>
       <div class="si-info">
         <div class="si-name">${s.name}${isPeriodic?'<span class="periodic-badge">🔄</span>':''}</div>
-        <div class="si-qty">${isPeriodic
-          ? (dailyCost>0
-              ? `<span style="color:#4F46E5;font-weight:600;">฿${fmt(Math.round(dailyCost*10)/10)}/วัน</span> · ซื้อล่าสุด ${s.lastPurchaseDate||'—'} (${s.estimatedDays||'?'} วัน)`
-              : `เป็นรอบ · ยังไม่มีข้อมูลการซื้อ`)
-          : `${s.amount}/${s.max} ${s.unit} ${pct<30?'<span class="tag red">ใกล้หมด</span>':''}`}</div>
+        ${isPeriodic
+          ? `<div class="si-qty">${dailyCost>0
+              ? `<span style="color:#4F46E5;font-weight:600;">฿${fmt(Math.round(dailyCost*10)/10)}/วัน</span> · ล่าสุด ${s.lastPurchaseDate||'—'}`
+              : 'ยังไม่มีข้อมูลการซื้อ'}</div>`
+          : ''}
       </div>
-      ${isPeriodic
-        ? `<div class="si-right"><div style="font-size:11px;color:var(--gray4);">${s.amount} ${s.unit}</div></div>`
-        : `<div class="si-right"><div class="si-bar"><div class="si-fill ${cls}" style="width:${pct}%"></div></div><div class="si-pct">${pct}%</div></div>`}
-      <button class="restock-btn" onclick="openRestock(${i})">➕ เติม</button>
+      <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
+        <span style="font-size:15px;font-weight:700;color:${amtColor};">${s.amount}</span>
+        <span style="font-size:11px;color:var(--gray4);">${s.unit}</span>
+      </div>
     </div>`;
   }).join('');
   if(role==='owner'){
@@ -2781,6 +2378,33 @@ function renderMenuPage() {
     </div>`).join('');
 }
 
+function updateRentHint() {
+  const el = document.getElementById('settings-rent-hint');
+  if(!el) return;
+  const rent = Number(document.getElementById('settings-rent')?.value) || shopSettings.dailyRent || 0;
+  const now = new Date();
+  const days = new Date(now.getFullYear(), now.getMonth()+1, 0).getDate();
+  el.textContent = rent > 0 ? `${rent}×${days} = ฿${(rent*days).toLocaleString()}/เดือนนี้` : '';
+}
+
+window.saveSettings = async function() {
+  const wages = Number(document.getElementById('settings-wages').value) || 0;
+  const rent  = Number(document.getElementById('settings-rent').value)  || 0;
+  const geminiKey = document.getElementById('settings-gemini-key')?.value.trim() || shopSettings.geminiApiKey || '';
+  shopSettings = { defaultWages: wages, dailyRent: rent, geminiApiKey: geminiKey };
+  updateRentHint();
+  try {
+    setSyncStatus(true);
+    await setDoc(doc(db,'settings','shop'), shopSettings);
+    setSyncStatus(false);
+    document.querySelectorAll('#settings-save-btn').forEach(btn => {
+      const orig = btn.textContent;
+      btn.textContent = '✓ บันทึกแล้ว';
+      setTimeout(() => btn.textContent = orig, 1500);
+    });
+    renderHome();
+  } catch(e) { alert('บันทึกไม่สำเร็จ: '+e.message); setSyncStatus(false); }
+};
 window.resetMenusStock = resetMenusStock;
 window.openAddMenu = function() { editMenuIndex=-1; ['nm-name','nm-price','nm-cost'].forEach(id=>document.getElementById(id).value=''); document.getElementById('nm-emoji').value='🐙'; openModal('modal-add-menu'); };
 window.openEditMenu = function(i) { editMenuIndex=i; const m=menus[i]; document.getElementById('nm-name').value=m.name; document.getElementById('nm-emoji').value=m.emoji; document.getElementById('nm-price').value=m.price; document.getElementById('nm-cost').value=m.cost; openModal('modal-add-menu'); };
@@ -2795,89 +2419,50 @@ window.confirmAddMenu = async function() {
     if(userUid!=='demo'){setSyncStatus(true);const r=await addDoc(collection(db,'menus'),item);menus.push({id:r.id,...item});setSyncStatus(false);}
     else menus.push({id:'m'+Date.now(),...item});
   }
-  closeModal('modal-add-menu'); renderMenuPage(); buildMenuGrid();
+  closeModal('modal-add-menu'); renderMenuPage();
 };
 window.deleteMenu = async function(i) {
   if(!confirm('ลบเมนู "'+menus[i].name+'"?')) return;
   if(userUid!=='demo'){setSyncStatus(true);await deleteDoc(doc(db,'menus',menus[i].id));setSyncStatus(false);}
-  menus.splice(i,1); renderMenuPage(); buildMenuGrid();
-};
-
-// ── IMAGE COMPRESS → BASE64 ──
-function compressImageToBase64(file, maxWidth=600, quality=0.7) {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    const url = URL.createObjectURL(file);
-    img.onload = () => {
-      URL.revokeObjectURL(url);
-      const scale = Math.min(1, maxWidth / img.width);
-      const w = Math.round(img.width * scale);
-      const h = Math.round(img.height * scale);
-      const canvas = document.createElement('canvas');
-      canvas.width = w; canvas.height = h;
-      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-      resolve(canvas.toDataURL('image/jpeg', quality));
-    };
-    img.onerror = reject;
-    img.src = url;
-  });
-}
-
-// ── SLIP MODAL VIEWER ──
-window.showSlipModal = function(recordId) {
-  const r = records.find(x=>x.id===recordId);
-  if(!r||!r.slipBase64) return;
-  let overlay = document.getElementById('slip-modal');
-  if(!overlay) {
-    overlay = document.createElement('div');
-    overlay.id = 'slip-modal';
-    overlay.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;';
-    overlay.onclick = ()=>overlay.remove();
-    document.body.appendChild(overlay);
-  }
-  overlay.innerHTML = `<div style="max-width:360px;width:100%;background:#fff;border-radius:20px;overflow:hidden;">
-    <div style="background:var(--o400);padding:12px 16px;display:flex;justify-content:space-between;align-items:center;">
-      <span style="color:#fff;font-weight:700;font-size:14px;">🧾 รูปสลิป</span>
-      <span style="color:#fff;font-size:20px;cursor:pointer;" onclick="document.getElementById('slip-modal').remove()">✕</span>
-    </div>
-    <img src="${r.slipBase64}" style="width:100%;display:block;" alt="slip">
-    <div style="padding:12px 16px;font-size:12px;color:var(--gray5);">฿${fmtDec(r.amount)} · ${r.time} น. · ${r.branchName}</div>
-  </div>`;
-  overlay.style.display='flex';
+  menus.splice(i,1); renderMenuPage();
 };
 
 // ── DAILY CLOSING HELPERS ──
 function getActualCostForDate(thaiDate) {
   const clos = dailyClosings.filter(dc => dc.date === thaiDate);
   if(!clos.length) return null;
-  const ballsMade = clos.reduce((s,dc) => s+(dc.ballsMade||0), 0);
-  const stockCost = clos.reduce((s,dc) => s+(dc.totalStockCost||0), 0);
+  const ballsMade    = clos.reduce((s,dc) => s+(dc.ballsMade||0), 0);
+  const stockCost    = clos.reduce((s,dc) => s+(dc.totalStockCost||0), 0);
   const periodicCost = clos.reduce((s,dc) => s+(dc.totalPeriodicCost||0), 0);
+  const wasteCost    = clos.reduce((s,dc) => s+(dc.wasteBalls||0)*COST_PER_BALL, 0);
+  const wages        = clos.reduce((s,dc) => s+(dc.wages||0), 0);
   return {
-    stockCost,
-    periodicCost,
+    stockCost, periodicCost, wages,
     periodicItems: clos.flatMap(dc => dc.periodicItems||[]),
     wasteBalls:    clos.reduce((s,dc) => s+(dc.wasteBalls||0), 0),
-    wasteCost:     clos.reduce((s,dc) => s+(dc.wasteBalls||0)*COST_PER_BALL, 0),
+    wasteCost,
     stockUsed:     clos.flatMap(dc => dc.stockUsed||[]),
     ballsMade,
     costPerBall:   ballsMade > 0 ? (stockCost+periodicCost)/ballsMade : 0,
+    totalCost:     stockCost + periodicCost + wasteCost + wages,
   };
 }
 
 function getActualCostForDateList(thaiDates) {
   const relevant = dailyClosings.filter(dc => thaiDates.includes(dc.date));
   if(!relevant.length) return null;
-  const ballsMade = relevant.reduce((s,dc) => s+(dc.ballsMade||0), 0);
-  const stockCost = relevant.reduce((s,dc) => s+(dc.totalStockCost||0), 0);
+  const ballsMade    = relevant.reduce((s,dc) => s+(dc.ballsMade||0), 0);
+  const stockCost    = relevant.reduce((s,dc) => s+(dc.totalStockCost||0), 0);
   const periodicCost = relevant.reduce((s,dc) => s+(dc.totalPeriodicCost||0), 0);
+  const wasteCost    = relevant.reduce((s,dc) => s+(dc.wasteBalls||0)*COST_PER_BALL, 0);
+  const wages        = relevant.reduce((s,dc) => s+(dc.wages||0), 0);
   return {
-    stockCost,
-    periodicCost,
+    stockCost, periodicCost, wages,
     wasteBalls:  relevant.reduce((s,dc) => s+(dc.wasteBalls||0), 0),
-    wasteCost:   relevant.reduce((s,dc) => s+(dc.wasteBalls||0)*COST_PER_BALL, 0),
+    wasteCost,
     ballsMade,
     costPerBall: ballsMade > 0 ? (stockCost+periodicCost)/ballsMade : 0,
+    totalCost:   stockCost + periodicCost + wasteCost + wages,
     count:       [...new Set(relevant.map(dc=>dc.date))].length,
   };
 }
@@ -2892,6 +2477,17 @@ const CF_CATS = {
   '📦': {label:'บรรจุภัณฑ์', color:'#10B981'},
   '💰': {label:'อื่นๆ',      color:'#9CA3AF'},
 };
+const PACKAGING = [
+  {id:'p1', icon:'🛍️', name:'ถุง 4,6 ลูก',  unit:'แพ็ค', defaultPrice:57},
+  {id:'p2', icon:'🛍️', name:'ถุง 8 ลูก',    unit:'แพ็ค', defaultPrice:0},
+  {id:'p3', icon:'🛍️', name:'ถุง 10 ลูก',   unit:'แพ็ค', defaultPrice:57},
+  {id:'p4', icon:'📦',  name:'กล่อง 4 ลูก',  unit:'แพ็ค', defaultPrice:85},
+  {id:'p5', icon:'📦',  name:'กล่อง 6 ลูก',  unit:'แพ็ค', defaultPrice:130},
+  {id:'p6', icon:'📦',  name:'กล่อง 8 ลูก',  unit:'แพ็ค', defaultPrice:140},
+  {id:'p7', icon:'📦',  name:'กล่อง 10 ลูก', unit:'แพ็ค', defaultPrice:175},
+  {id:'p8', icon:'🥢',  name:'ไม้',           unit:'แพ็ค', defaultPrice:25},
+];
+let _aeItems = [];
 
 function cfSelectedDate() {
   const el = document.getElementById('cf-date-pick');
@@ -2935,15 +2531,13 @@ function renderCashflow() {
     <div class="cf-sum-card expense">
       <div class="cf-sum-val expense">฿${fmtDec(totalExpense)}</div>
       <div class="cf-sum-lbl">รายจ่าย</div>
-    </div>
-    <div class="cf-sum-card balance">
-      <div class="cf-sum-val ${balance>=0?'balance-pos':'balance-neg'}">฿${fmtDec(balance)}</div>
-      <div class="cf-sum-lbl">คงเหลือ</div>
     </div>`;
 
   // Income list
   const incEl = document.getElementById('cf-income-list');
   document.getElementById('cf-income-total').textContent = '฿'+fmtDec(totalIncome);
+  const expTotalEl = document.getElementById('cf-expense-total');
+  if(expTotalEl) expTotalEl.textContent = totalExpense>0 ? '-฿'+fmtDec(totalExpense) : '฿0';
   if(incEl) {
     if(!dayRecs.length) {
       incEl.innerHTML = '<div style="text-align:center;padding:10px 0;color:var(--gray4);font-size:12px;">ยังไม่มียอดขายวันนี้ — กด + รายรับ เพื่อกรอก</div>';
@@ -2973,18 +2567,202 @@ function renderCashflow() {
     } else {
       expEl.innerHTML = dayExp.map(e => {
         const cat = CF_CATS[e.cat] || CF_CATS['💰'];
+        const autoTag = e.autoFixed ? ' <span style="font-size:9px;background:#E0F2FE;color:#0284C7;padding:1px 5px;border-radius:8px;font-weight:700;">อัตโนมัติ</span>' : '';
         return `<div class="cf-expense-item">
           <div class="cf-cat-dot" style="background:${cat.color};"></div>
           <div class="cf-exp-info">
-            <div class="cf-exp-name">${e.cat||''} ${e.name}</div>
+            <div class="cf-exp-name">${e.cat||''} ${e.name}${autoTag}</div>
             <div class="cf-exp-meta">${cat.label}${e.note?' · '+e.note:''}</div>
           </div>
           <span class="cf-exp-amt">-฿${fmtDec(e.amount||0)}</span>
-          <button class="cf-del-btn" onclick="deleteExpense('${e.id}')">🗑</button>
+          ${e.autoFixed ? '' : `<button class="cf-del-btn" onclick="deleteExpense('${e.id}')">🗑</button>`}
         </div>`;
       }).join('');
     }
   }
+}
+
+window.scanReceiptImage = async function(input) {
+  const file = input.files[0]; if(!file) return;
+  const key = shopSettings.geminiApiKey;
+  if(!key) { alert('กรุณาใส่ Gemini API Key ในหน้า ⚙️ การจัดการ ก่อน'); input.value=''; return; }
+  const statusEl = document.getElementById('ae-scan-status');
+  statusEl.style.display=''; statusEl.textContent='🔍 กำลังอ่านสลิป...';
+  try {
+    // convert to base64
+    const base64 = await new Promise((res,rej)=>{
+      const r=new FileReader(); r.onload=e=>res(e.target.result.split(',')[1]); r.onerror=rej; r.readAsDataURL(file);
+    });
+    // build prompt — asks Gemini to extract items matching stock list
+    const stockNames = stock.map(s=>`${s.name}(${s.unit})`).join(', ');
+    const prompt = `อ่านใบเสร็จ/สลิปนี้แล้วดึงรายการสินค้า ตอบเป็น JSON array เท่านั้น ห้ามมีข้อความอื่น:
+[{"name":"ชื่อที่ใกล้เคียงกับ: ${stockNames}","qty":จำนวน,"pricePerUnit":ราคาต่อหน่วย}]
+- pricePerUnit = ราคาต่อหน่วย (ถ้ามีเฉพาะราคารวมให้หาร qty)
+- ถ้าสินค้าไม่ตรงกับรายการเลย ให้ใส่ name ตามจริง
+- ตอบ JSON เท่านั้น ห้าม markdown`;
+    const resp = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`,
+      { method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ contents:[{ parts:[
+          { inline_data:{ mime_type: file.type, data: base64 } },
+          { text: prompt }
+        ]}]})
+      }
+    );
+    if(!resp.ok) throw new Error(`Gemini error ${resp.status}`);
+    const data = await resp.json();
+    const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    const jsonStr = text.replace(/```json|```/g,'').trim();
+    const items = JSON.parse(jsonStr);
+    if(!Array.isArray(items)||!items.length) throw new Error('ไม่พบรายการ');
+    // match to stock
+    let matched=0;
+    items.forEach(item=>{
+      const target = stock.find(s=>
+        s.name.includes(item.name) || item.name.includes(s.name) ||
+        levenshtein(s.name, item.name) <= 2
+      );
+      if(!target) return;
+      const cb = document.getElementById('ae-cb-'+target.id);
+      const qtyEl = document.getElementById('ae-qty-'+target.id);
+      const priceEl = document.getElementById('ae-price-'+target.id);
+      if(!cb) return;
+      cb.checked = true; toggleAeItem(target.id);
+      if(qtyEl) qtyEl.value = item.qty||1;
+      if(priceEl) priceEl.value = item.pricePerUnit||0;
+      matched++;
+    });
+    updateAeTotal();
+    statusEl.textContent = matched>0
+      ? `✅ พบ ${items.length} รายการ จับคู่ได้ ${matched} รายการ — ตรวจสอบก่อนบันทึก`
+      : `⚠️ พบ ${items.length} รายการ แต่ไม่ตรงกับสต็อก — กรอกมือ`;
+    statusEl.style.color = matched>0 ? 'var(--g600)' : '#D97706';
+  } catch(e) {
+    statusEl.textContent = '❌ อ่านไม่ได้: '+e.message;
+    statusEl.style.color = 'var(--red600)';
+  }
+  input.value = '';
+};
+
+window.togglePastePanel = function() {
+  const p = document.getElementById('ae-paste-panel');
+  p.style.display = p.style.display==='none' ? '' : 'none';
+  if(p.style.display!=='none') document.getElementById('ae-paste-text').focus();
+};
+
+async function callGeminiText(prompt) {
+  const key = shopSettings.geminiApiKey;
+  if(!key) throw new Error('ไม่มี API Key');
+  const resp = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`,
+    { method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ contents:[{ parts:[{ text: prompt }] }] }) }
+  );
+  if(!resp.ok) throw new Error(`Gemini error ${resp.status}`);
+  const data = await resp.json();
+  return data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+}
+
+function applyParsedItems(items, itemPool) {
+  let matched = 0;
+  items.forEach(item => {
+    const target = itemPool.find(s =>
+      s.name.includes(item.name) || item.name.includes(s.name) ||
+      levenshtein(s.name, item.name) <= 2
+    );
+    if(!target) return;
+    const cb = document.getElementById('ae-cb-'+target.id);
+    const qtyEl = document.getElementById('ae-qty-'+target.id);
+    const priceEl = document.getElementById('ae-price-'+target.id);
+    if(!cb) return;
+    cb.checked = true; toggleAeItem(target.id);
+    if(qtyEl) qtyEl.value = item.qty || 1;
+    if(priceEl) priceEl.value = item.pricePerUnit || 0;
+    matched++;
+  });
+  updateAeTotal();
+  return matched;
+}
+
+window.parseTextExpense = async function() {
+  const text = document.getElementById('ae-paste-text').value.trim();
+  if(!text) { alert('วางข้อความก่อน'); return; }
+  if(!shopSettings.geminiApiKey) { alert('กรุณาใส่ Gemini API Key ในหน้า ⚙️ ก่อน'); return; }
+  const statusEl = document.getElementById('ae-scan-status');
+  statusEl.style.display=''; statusEl.textContent='🤖 กำลังแปลงข้อความ...'; statusEl.style.color='var(--o600)';
+  const activeCat = document.querySelector('#ae-cat-chips .cf-cat-chip.active')?.dataset.cat || '🛒';
+  const pool = activeCat === '📦' ? PACKAGING : stock;
+  const poolNames = pool.map(s=>`${s.name}(${s.unit})`).join(', ');
+  const prompt = `ข้อความต่อไปนี้คือรายการสั่งซื้อสินค้าจาก LINE:
+"${text}"
+
+แปลงเป็น JSON array เท่านั้น ห้ามมีข้อความอื่น:
+[{"name":"ชื่อที่ใกล้เคียงกับ: ${poolNames}","qty":จำนวนที่ซื้อ,"pricePerUnit":ราคาต่อหน่วย}]
+- ถ้ามีเฉพาะราคารวม ให้ pricePerUnit = ราคารวม ÷ qty
+- ตัวเลขท้ายบรรทัดที่ไม่ใช่ quantity คือราคารวม
+- ตอบ JSON เท่านั้น`;
+  try {
+    const raw = await callGeminiText(prompt);
+    const jsonStr = raw.replace(/```json|```/g,'').trim();
+    const items = JSON.parse(jsonStr);
+    if(!Array.isArray(items)||!items.length) throw new Error('ไม่พบรายการ');
+    const matched = applyParsedItems(items, pool);
+    statusEl.textContent = matched>0
+      ? `✅ พบ ${items.length} รายการ จับคู่ได้ ${matched} — ตรวจสอบก่อนบันทึก`
+      : `⚠️ พบ ${items.length} รายการ แต่ไม่ตรงกับสต็อก`;
+    statusEl.style.color = matched>0 ? 'var(--g600)' : '#D97706';
+    document.getElementById('ae-paste-panel').style.display='none';
+  } catch(e) {
+    statusEl.textContent='❌ แปลงไม่ได้: '+e.message;
+    statusEl.style.color='var(--red600)';
+  }
+};
+
+function levenshtein(a,b){
+  const m=a.length,n=b.length,dp=Array.from({length:m+1},(_,i)=>Array.from({length:n+1},(_,j)=>i||j));
+  for(let i=1;i<=m;i++) for(let j=1;j<=n;j++) dp[i][j]=a[i-1]===b[j-1]?dp[i-1][j-1]:1+Math.min(dp[i-1][j],dp[i][j-1],dp[i-1][j-1]);
+  return dp[m][n];
+}
+
+function buildAeItemList(items) {
+  _aeItems = items;
+  document.getElementById('ae-stock-list').innerHTML = items.map(s => `
+    <div class="ae-stock-row" id="ae-row-${s.id}">
+      <input type="checkbox" class="ae-stock-cb" id="ae-cb-${s.id}" onchange="toggleAeItem('${s.id}')">
+      <span style="font-size:16px;">${s.icon}</span>
+      <span class="ae-stock-name">${s.name}</span>
+      <div class="ae-stock-inputs">
+        <input type="number" id="ae-qty-${s.id}" placeholder="0" min="0" step="0.5" disabled oninput="updateAeTotal()" style="width:50px;">
+        <span class="ae-stock-row-sub">${s.unit}</span>
+        <span class="ae-stock-row-sub">×</span>
+        <input type="number" id="ae-price-${s.id}" placeholder="฿" min="0" step="1" disabled oninput="updateAeTotal()" style="width:68px;">
+      </div>
+    </div>`).join('');
+  updateAeTotal();
+}
+
+window.toggleAeItem = function(id) {
+  const cb    = document.getElementById('ae-cb-'+id);
+  const qty   = document.getElementById('ae-qty-'+id);
+  const price = document.getElementById('ae-price-'+id);
+  const row   = document.getElementById('ae-row-'+id);
+  qty.disabled = price.disabled = !cb.checked;
+  row.classList.toggle('picked', cb.checked);
+  if(cb.checked) qty.focus();
+  else { qty.value = ''; price.value = ''; }
+  updateAeTotal();
+};
+
+function updateAeTotal() {
+  let total = 0;
+  _aeItems.forEach(s => {
+    const cb    = document.getElementById('ae-cb-'+s.id);
+    const qty   = parseFloat(document.getElementById('ae-qty-'+s.id)?.value)||0;
+    const price = parseFloat(document.getElementById('ae-price-'+s.id)?.value)||0;
+    if(cb?.checked) total += qty * price;
+  });
+  const el = document.getElementById('ae-stock-total');
+  if(el) { el.textContent = '฿'+fmt(total); el.style.color = total>0?'var(--red400)':'var(--gray4)'; }
 }
 
 window.openAddExpense = function() {
@@ -2993,33 +2771,91 @@ window.openAddExpense = function() {
   document.getElementById('ae-name').value = '';
   document.getElementById('ae-amount').value = '';
   document.getElementById('ae-note').value = '';
-  // reset category chips
   document.querySelectorAll('#ae-cat-chips .cf-cat-chip').forEach((c,i) => c.classList.toggle('active', i===0));
+  document.getElementById('ae-stock-panel').style.display = '';
+  document.getElementById('ae-manual-panel').style.display = 'none';
+  document.getElementById('ae-presets').style.display = 'none';
+  document.getElementById('ae-presets').innerHTML = '';
+  document.getElementById('ae-paste-panel').style.display = 'none';
+  document.getElementById('ae-paste-text').value = '';
+  document.getElementById('ae-scan-status').style.display = 'none';
+  buildAeItemList(stock);
   openModal('modal-add-expense');
 };
 
+const AE_PRESETS = {
+  '💡': ['ค่าไฟ', 'ค่าแก๊ส'],
+};
 window.selectExpenseCat = function(el) {
   document.querySelectorAll('#ae-cat-chips .cf-cat-chip').forEach(c => c.classList.remove('active'));
   el.classList.add('active');
+  const cat = el.dataset.cat;
+  const showPanel = cat === '🛒' || cat === '📦';
+  document.getElementById('ae-stock-panel').style.display = showPanel ? '' : 'none';
+  document.getElementById('ae-manual-panel').style.display = showPanel ? 'none' : '';
+  const presetsEl = document.getElementById('ae-presets');
+  const presets = AE_PRESETS[cat] || [];
+  if(presets.length && !showPanel) {
+    presetsEl.style.display = 'flex';
+    presetsEl.innerHTML = presets.map(p =>
+      `<button type="button" onclick="document.getElementById('ae-name').value='${p}';document.getElementById('ae-amount').focus();" style="border:1.5px solid var(--o300);background:#fff;color:var(--o600);font-size:12px;padding:4px 12px;border-radius:20px;cursor:pointer;font-family:var(--font);">${p}</button>`
+    ).join('');
+  } else {
+    presetsEl.style.display = 'none';
+    presetsEl.innerHTML = '';
+  }
+  if(!showPanel) document.getElementById('ae-name').value = '';
+  if(cat === '🛒') buildAeItemList(stock);
+  else if(cat === '📦') buildAeItemList(PACKAGING);
 };
 
 window.confirmAddExpense = async function() {
-  const name   = document.getElementById('ae-name').value.trim();
-  const amount = parseFloat(document.getElementById('ae-amount').value)||0;
-  const note   = document.getElementById('ae-note').value.trim();
-  const isoDate= document.getElementById('ae-date').value;
-  if(!name) { alert('กรอกชื่อรายการด้วย'); return; }
-  if(amount <= 0) { alert('กรอกจำนวนเงินด้วย'); return; }
   const activeChip = document.querySelector('#ae-cat-chips .cf-cat-chip.active');
   const cat = activeChip ? activeChip.dataset.cat : '💰';
-  const thaiDs = cfISOToThai(isoDate);
+  const isoDate = document.getElementById('ae-date').value;
+  const note    = document.getElementById('ae-note').value.trim();
+  const thaiDs  = cfISOToThai(isoDate);
+
+  let name, amount, items = [];
+
+  if(cat === '🛒' || cat === '📦') {
+    items = _aeItems.map(s => {
+      const cb       = document.getElementById('ae-cb-'+s.id);
+      const qty      = parseFloat(document.getElementById('ae-qty-'+s.id)?.value)||0;
+      const unitPrice= parseFloat(document.getElementById('ae-price-'+s.id)?.value)||0;
+      return (cb?.checked && qty > 0 && unitPrice > 0)
+        ? {id:s.id, name:s.name, icon:s.icon, unit:s.unit, qty, unitPrice, totalPrice:qty*unitPrice}
+        : null;
+    }).filter(Boolean);
+    if(!items.length) { alert('ติ๊กรายการ ใส่จำนวน และราคา อย่างน้อย 1 รายการ'); return; }
+    amount = items.reduce((s,i) => s+i.totalPrice, 0);
+    name   = items.map(i => `${i.name} ${i.qty}${i.unit}`).join(', ');
+  } else {
+    name   = document.getElementById('ae-name').value.trim();
+    amount = parseFloat(document.getElementById('ae-amount').value)||0;
+    if(!name)      { alert('กรอกชื่อรายการด้วย'); return; }
+    if(amount <= 0){ alert('กรอกจำนวนเงินด้วย'); return; }
+  }
+
   try {
     setSyncStatus(true);
     await addDoc(collection(db,'cash_expenses'), {
-      date: thaiDs, name, amount, cat, note,
+      date: thaiDs, name, amount, cat, note, items,
       branchId: userBranch, uid: userUid,
       ts: serverTimestamp(),
     });
+    // อัปเดต stock amount เฉพาะ 🛒 (บรรจุภัณฑ์ไม่มีใน stock)
+    if(cat === '🛒' && userUid !== 'demo') {
+      for(const item of items) {
+        const s = stock.find(st => st.id === item.id);
+        if(!s) continue;
+        const newAmt = Math.min(s.max, s.amount + item.qty);
+        const updates = { amount: newAmt, costPerUnit: item.unitPrice };
+        Object.assign(s, updates);
+        await updateDoc(doc(db,'stock',s.id), updates);
+      }
+      renderStock(); renderAlerts();
+    }
     setSyncStatus(false);
     closeModal('modal-add-expense');
   } catch(e) { console.error(e); setSyncStatus(false); alert('บันทึกไม่สำเร็จ: '+e.message); }
@@ -3034,6 +2870,11 @@ window.deleteExpense = async function(id) {
   } catch(e) { console.error(e); setSyncStatus(false); }
 };
 
+window.selectFlour = function(el) {
+  document.querySelectorAll('.flour-chip').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+};
+
 window.openAddIncome = function() {
   const isoDate = cfSelectedDate();
   document.getElementById('ai-date').value = isoDate;
@@ -3043,10 +2884,7 @@ window.openAddIncome = function() {
   const brSel = document.getElementById('ai-branch');
   brSel.innerHTML = BRANCHES.map(b=>`<option value="${b.id}">${b.name}</option>`).join('');
   brSel.value = userBranch;
-  // menu chips
-  document.getElementById('ai-menu-grid').innerHTML = menus.map((m,i)=>`
-    <div class="menu-chip" data-idx="${i}" onclick="this.classList.toggle('sel')"
-      style="font-size:11px;padding:4px 9px;">${m.icon} ${m.name}</div>`).join('');
+  document.querySelectorAll('.flour-chip').forEach(c=>c.classList.remove('sel'));
   openModal('modal-add-income');
 };
 
@@ -3058,8 +2896,9 @@ window.confirmAddIncome = async function() {
   const isoDate   = document.getElementById('ai-date').value;
   const [yr,mo,dy]= isoDate.split('-').map(Number);
   const thaiDs    = `${dy}/${mo}/${yr+543}`;
-  const selectedMenus = [...document.querySelectorAll('#ai-menu-grid .menu-chip.sel')]
-    .map(c => menus[c.dataset.idx].name);
+  const flourChip = document.querySelector('.flour-chip.sel');
+  const flourUsed = flourChip ? flourChip.dataset.val : '';
+  const selectedMenus = flourUsed ? [`แป้ง ${flourUsed} ถุง`] : [];
   const now = new Date();
   const rec = {
     amount: amt,
@@ -3136,6 +2975,7 @@ window.openDailyClosing = function(prefillThaiDate) {
   dcBalls.oninput = () => { dcBalls.dataset.manualEdit = dcBalls.value ? 'yes' : ''; };
   document.getElementById('dc-balls-hint').textContent = '';
   document.getElementById('dc-waste-balls').value = '';
+  document.getElementById('dc-wages').value = shopSettings.defaultWages || '';
   document.getElementById('dc-note').value = '';
   document.getElementById('dc-cost-preview').style.display = 'none';
   openModal('modal-daily-closing');
@@ -3222,11 +3062,11 @@ window.updateDcPreview = function() {
   });
   const waste = Number(document.getElementById('dc-waste-balls')?.value)||0;
   const wasteCost = waste * COST_PER_BALL;
+  const wages = Number(document.getElementById('dc-wages')?.value)||0;
   const ballsMade = Number(document.getElementById('dc-balls-made')?.value)||0;
-  const grandTotal = dailyTotal + periodicTotal + wasteCost;
+  const grandTotal = dailyTotal + periodicTotal + wasteCost + wages;
   const costPerBall = (ballsMade > 0 && (dailyTotal+periodicTotal) > 0)
     ? (dailyTotal+periodicTotal) / ballsMade : 0;
-  // hint next to balls-made input
   const hint = document.getElementById('dc-balls-hint');
   if(hint) hint.textContent = costPerBall > 0 ? `→ ต้นทุน ฿${costPerBall.toFixed(2)}/ลูก` : '';
   const preview = document.getElementById('dc-cost-preview');
@@ -3238,6 +3078,7 @@ window.updateDcPreview = function() {
       ${dailyRows.map(r=>`<div style="font-size:11px;color:var(--gray6);margin-bottom:2px;">• ${r}</div>`).join('')}
       ${periodicRows.map(r=>`<div style="font-size:11px;color:#4F46E5;margin-bottom:2px;">• ${r}</div>`).join('')}
       ${wasteCost>0?`<div style="font-size:11px;color:var(--gray6);margin-bottom:2px;">• ของทิ้ง ${waste} ลูก ≈ ฿${fmt(wasteCost)}</div>`:''}
+      ${wages>0?`<div style="font-size:11px;color:#059669;margin-bottom:2px;">• ค่าแรง ฿${fmt(wages)}</div>`:''}
       <div style="border-top:1px solid var(--o100);margin-top:6px;padding-top:6px;font-size:12px;font-weight:700;color:var(--o600);">รวมต้นทุนทั้งหมด ฿${fmt(grandTotal)}${costPerBall>0?` · <span style="color:#0EA5E9;">฿${costPerBall.toFixed(2)}/ลูก</span>`:''}</div>`;
   } else {
     preview.style.display = 'none';
@@ -3252,6 +3093,7 @@ window.confirmDailyClosing = async function() {
   const branchId = document.getElementById('dc-branch-sel').value;
   const wasteBalls = Number(document.getElementById('dc-waste-balls').value)||0;
   const ballsMade  = Number(document.getElementById('dc-balls-made').value)||0;
+  const wages      = Number(document.getElementById('dc-wages').value)||0;
   const note = document.getElementById('dc-note').value.trim();
 
   const stockUsed = [];
@@ -3274,8 +3116,8 @@ window.confirmDailyClosing = async function() {
     }
   });
 
-  if(!stockUsed.length && !periodicItems.length && !wasteBalls && !note){
-    alert('กรอกวัตถุดิบที่ใช้ หรือจำนวนของทิ้ง อย่างน้อย 1 รายการ');return;
+  if(!stockUsed.length && !periodicItems.length && !wasteBalls && !wages && !note){
+    alert('กรอกข้อมูลอย่างน้อย 1 อย่าง (วัตถุดิบ / ค่าแรง / ของทิ้ง)');return;
   }
 
   const btn = document.querySelector('#modal-daily-closing .save-btn');
@@ -3288,10 +3130,21 @@ window.confirmDailyClosing = async function() {
       stockUsed, totalStockCost,
       periodicItems, totalPeriodicCost,
       wasteBalls, wasteCost:wasteBalls*COST_PER_BALL,
-      ballsMade,
+      ballsMade, wages,
       costPerBall: (ballsMade>0 && totalIngredientCost>0) ? totalIngredientCost/ballsMade : 0,
       note, ts:serverTimestamp(), createdBy:userUid, createdByName:userName,
     });
+    // หักสต็อกที่ใช้จริง
+    if(userUid !== 'demo') {
+      for(const used of stockUsed) {
+        const s = stock.find(st => st.id === used.stockId);
+        if(!s) continue;
+        const newAmt = Math.max(0, s.amount - used.qty);
+        s.amount = newAmt;
+        await updateDoc(doc(db,'stock',s.id), { amount: newAmt });
+      }
+      renderStock(); renderAlerts();
+    }
     setSyncStatus(false);
     closeModal('modal-daily-closing');
   } catch(e) {
