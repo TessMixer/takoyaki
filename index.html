@@ -810,6 +810,12 @@ textarea.form-input{resize:none;font-size:12px;}
       <input class="form-input" type="number" id="ns-balls-per-unit" placeholder="0" min="0" style="max-width:90px;">
       <span class="form-unit">ลูก/หน่วย</span>
     </div>
+    <div class="form-label">แสดงในรายจ่าย (หมวดหมู่)</div>
+    <div class="cf-cat-chips" id="ns-expcat-chips">
+      <button type="button" class="cf-cat-chip active" data-val="🛒" onclick="selectStockExpCat('ns',this)">🛒 ซื้อของ</button>
+      <button type="button" class="cf-cat-chip" data-val="📦" onclick="selectStockExpCat('ns',this)">📦 บรรจุภัณฑ์</button>
+      <button type="button" class="cf-cat-chip" data-val="" onclick="selectStockExpCat('ns',this)">— ไม่แสดง</button>
+    </div>
     <div class="form-label">ประเภทการใช้</div>
     <select class="form-input" id="ns-type" onchange="toggleNsPeriodicFields()">
       <option value="daily">📅 รายวัน (แป้ง, ไข่, ปลาหมึก ฯลฯ)</option>
@@ -839,6 +845,12 @@ textarea.form-input{resize:none;font-size:12px;}
     <div class="form-row">
       <input class="form-input" type="number" id="es-balls-per-unit" placeholder="0" min="0" style="max-width:90px;">
       <span class="form-unit">ลูก/หน่วย</span>
+    </div>
+    <div class="form-label">แสดงในรายจ่าย (หมวดหมู่)</div>
+    <div class="cf-cat-chips" id="es-expcat-chips">
+      <button type="button" class="cf-cat-chip active" data-val="🛒" onclick="selectStockExpCat('es',this)">🛒 ซื้อของ</button>
+      <button type="button" class="cf-cat-chip" data-val="📦" onclick="selectStockExpCat('es',this)">📦 บรรจุภัณฑ์</button>
+      <button type="button" class="cf-cat-chip" data-val="" onclick="selectStockExpCat('es',this)">— ไม่แสดง</button>
     </div>
     <div class="form-label">ประเภทการใช้</div>
     <select class="form-input" id="es-type" onchange="toggleEsPeriodicFields()">
@@ -1986,6 +1998,14 @@ window.confirmRestock = async function() {
   closeModal('modal-restock'); renderStock(); renderAlerts();
 };
 
+window.selectStockExpCat = function(prefix, el) {
+  document.querySelectorAll(`#${prefix}-expcat-chips .cf-cat-chip`).forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+};
+function getStockExpCat(prefix) {
+  return document.querySelector(`#${prefix}-expcat-chips .cf-cat-chip.active`)?.dataset.val ?? '🛒';
+}
+
 window.confirmAddStock = async function() {
   const name=document.getElementById('ns-name').value.trim();
   if(!name) return alert('กรอกชื่อวัตถุดิบ');
@@ -1998,6 +2018,7 @@ window.confirmAddStock = async function() {
     costPerUnit:Number(document.getElementById('ns-cost').value)||0,
     ballsPerUnit:Number(document.getElementById('ns-balls-per-unit').value)||0,
     type,
+    expCat: getStockExpCat('ns'),
     estimatedDays:type==='periodic'?(Number(document.getElementById('ns-est-days').value)||7):null,
   };
   if(userUid!=='demo'){setSyncStatus(true);const r=await addDoc(collection(db,'stock'),item);stock.push({id:r.id,...item});setSyncStatus(false);}
@@ -2018,6 +2039,11 @@ window.openEditStock = function(i) {
   if(esType){ esType.value = s.type||'daily'; toggleEsPeriodicFields(); }
   const esEstDays = document.getElementById('es-est-days');
   if(esEstDays) esEstDays.value = s.estimatedDays||7;
+  // set expCat chips
+  const expCat = s.expCat ?? '🛒';
+  document.querySelectorAll('#es-expcat-chips .cf-cat-chip').forEach(c => {
+    c.classList.toggle('active', c.dataset.val === expCat);
+  });
   openModal('modal-edit-stock');
 };
 window.confirmEditStock = async function() {
@@ -2032,6 +2058,7 @@ window.confirmEditStock = async function() {
     ballsPerUnit: Number(document.getElementById('es-balls-per-unit').value)||0,
     type,
     estimatedDays: type==='periodic' ? (Number(document.getElementById('es-est-days').value)||s.estimatedDays||7) : null,
+    expCat: getStockExpCat('es'),
   };
   Object.assign(s, updates);
   if(userUid!=='demo'){ setSyncStatus(true); await updateDoc(doc(db,'stock',s.id), updates); setSyncStatus(false); }
@@ -2594,7 +2621,11 @@ window.scanReceiptImage = async function(input) {
       const r=new FileReader(); r.onload=e=>res(e.target.result.split(',')[1]); r.onerror=rej; r.readAsDataURL(file);
     });
     // build prompt — asks Gemini to extract items matching stock list
-    const stockNames = stock.map(s=>`${s.name}(${s.unit})`).join(', ');
+    const activeScanCat = document.querySelector('#ae-cat-chips .cf-cat-chip.active')?.dataset.cat || '🛒';
+    const scanPool = activeScanCat === '📦'
+      ? [...PACKAGING, ...stock.filter(s=>s.expCat==='📦')]
+      : stock.filter(s=>(s.expCat??'🛒')==='🛒');
+    const stockNames = scanPool.map(s=>`${s.name}(${s.unit})`).join(', ');
     const prompt = `อ่านใบเสร็จ/สลิปนี้แล้วดึงรายการสินค้า ตอบเป็น JSON array เท่านั้น ห้ามมีข้อความอื่น:
 [{"name":"ชื่อที่ใกล้เคียงกับ: ${stockNames}","qty":จำนวน,"pricePerUnit":ราคาต่อหน่วย}]
 - pricePerUnit = ราคาต่อหน่วย (ถ้ามีเฉพาะราคารวมให้หาร qty)
@@ -2618,7 +2649,7 @@ window.scanReceiptImage = async function(input) {
     // match to stock
     let matched=0;
     items.forEach(item=>{
-      const target = stock.find(s=>
+      const target = scanPool.find(s=>
         s.name.includes(item.name) || item.name.includes(s.name) ||
         levenshtein(s.name, item.name) <= 2
       );
@@ -2708,7 +2739,9 @@ window.parseTextExpense = function() {
   const statusEl = document.getElementById('ae-scan-status');
   statusEl.style.display=''; statusEl.textContent='⚙️ กำลังแปลง...'; statusEl.style.color='var(--o600)';
   const activeCat = document.querySelector('#ae-cat-chips .cf-cat-chip.active')?.dataset.cat || '🛒';
-  const pool = activeCat === '📦' ? PACKAGING : stock;
+  const pool = activeCat === '📦'
+    ? [...PACKAGING, ...stock.filter(s=>s.expCat==='📦')]
+    : stock.filter(s=>(s.expCat??'🛒')==='🛒');
   try {
     const items = parseExpenseTextLocally(text);
     if(!items.length) throw new Error('ไม่พบรายการ (ต้องมีตัวเลขในแต่ละบรรทัด)');
@@ -2785,7 +2818,7 @@ window.openAddExpense = function() {
   document.getElementById('ae-paste-panel').style.display = 'none';
   document.getElementById('ae-paste-text').value = '';
   document.getElementById('ae-scan-status').style.display = 'none';
-  buildAeItemList(stock);
+  buildAeItemList(stock.filter(s=>(s.expCat??'🛒')==='🛒'));
   openModal('modal-add-expense');
 };
 
@@ -2811,8 +2844,8 @@ window.selectExpenseCat = function(el) {
     presetsEl.innerHTML = '';
   }
   if(!showPanel) document.getElementById('ae-name').value = '';
-  if(cat === '🛒') buildAeItemList(stock);
-  else if(cat === '📦') buildAeItemList(PACKAGING);
+  if(cat === '🛒') buildAeItemList(stock.filter(s=>(s.expCat??'🛒')==='🛒'));
+  else if(cat === '📦') buildAeItemList([...PACKAGING, ...stock.filter(s=>s.expCat==='📦')]);
 };
 
 window.confirmAddExpense = async function() {
