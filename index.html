@@ -2874,8 +2874,35 @@ window.selectExpenseCat = function(el) {
     presetsEl.innerHTML = '';
   }
   if(!showPanel) document.getElementById('ae-name').value = '';
-  if(cat === '🛒') buildAeItemList(stock.filter(s=>(s.expCat??'🛒')==='🛒'));
-  else if(cat === '📦') buildAeItemList([...PACKAGING, ...stock.filter(s=>s.expCat==='📦')]);
+  if(cat === '🛒' || cat === '📦') {
+    // save checked state before rebuild
+    const saved = {};
+    (_aeItems||[]).forEach(s => {
+      const cb = document.getElementById('ae-cb-'+s.id);
+      if(cb?.checked) saved[s.id] = {
+        item: s,
+        qty:   parseFloat(document.getElementById('ae-qty-'+s.id)?.value)||0,
+        price: parseFloat(document.getElementById('ae-price-'+s.id)?.value)||0,
+      };
+    });
+    // build new category pool, excluding already-saved items (avoid duplicates)
+    const newPool = cat === '📦'
+      ? [...PACKAGING, ...stock.filter(s=>s.expCat==='📦')]
+      : stock.filter(s=>(s.expCat??'🛒')==='🛒');
+    const savedIds = new Set(Object.keys(saved));
+    const savedItems = Object.values(saved).map(v=>v.item);
+    buildAeItemList([...savedItems, ...newPool.filter(s=>!savedIds.has(s.id))]);
+    // restore checked state + values
+    Object.entries(saved).forEach(([id,state]) => {
+      const cb = document.getElementById('ae-cb-'+id); if(!cb) return;
+      cb.checked = true; toggleAeItem(id);
+      const qEl = document.getElementById('ae-qty-'+id);
+      const pEl = document.getElementById('ae-price-'+id);
+      if(qEl) qEl.value = state.qty;
+      if(pEl) pEl.value = state.price;
+    });
+    updateAeTotal();
+  }
 };
 
 window.confirmAddExpense = async function() {
