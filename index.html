@@ -925,7 +925,7 @@ textarea.form-input{resize:none;font-size:12px;}
       </div>
       <div id="ae-paste-panel" style="display:none;margin-bottom:8px;">
         <textarea id="ae-paste-text" rows="4" placeholder="วางข้อความจาก LINE เช่น:&#10;มายอง 4 ถุง 184&#10;แป้ง 10 ถุง 1250&#10;ซอส 1 แกลลอน 600" style="width:100%;border:1.5px solid var(--o300);border-radius:10px;padding:8px;font-size:12px;font-family:var(--font);resize:vertical;box-sizing:border-box;"></textarea>
-        <button type="button" onclick="parseTextExpense()" style="width:100%;margin-top:6px;background:var(--o400);color:#fff;border:none;border-radius:10px;padding:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font);">🤖 AI แปลงข้อความ</button>
+        <button type="button" onclick="parseTextExpense()" style="width:100%;margin-top:6px;background:var(--o400);color:#fff;border:none;border-radius:10px;padding:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font);">⚡ แปลงข้อความ</button>
       </div>
       <div id="ae-scan-status" style="display:none;font-size:11px;color:var(--o600);padding:6px 8px;background:var(--o50);border-radius:8px;margin-bottom:6px;text-align:center;"></div>
       <div id="ae-stock-list" style="max-height:260px;overflow-y:auto;"></div>
@@ -2601,7 +2601,7 @@ window.scanReceiptImage = async function(input) {
 - ถ้าสินค้าไม่ตรงกับรายการเลย ให้ใส่ name ตามจริง
 - ตอบ JSON เท่านั้น ห้าม markdown`;
     const resp = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`,
       { method:'POST', headers:{'Content-Type':'application/json'},
         body: JSON.stringify({ contents:[{ parts:[
           { inline_data:{ mime_type: file.type, data: base64 } },
@@ -2654,7 +2654,7 @@ async function callGeminiText(prompt) {
   const key = shopSettings.geminiApiKey;
   if(!key) throw new Error('ไม่มี API Key');
   const resp = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`,
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`,
     { method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({ contents:[{ parts:[{ text: prompt }] }] }) }
   );
@@ -2684,28 +2684,34 @@ function applyParsedItems(items, itemPool) {
   return matched;
 }
 
-window.parseTextExpense = async function() {
+function parseExpenseTextLocally(text) {
+  const lines = text.split('\n').map(l=>l.trim()).filter(l=>l.length>0);
+  const items = [];
+  for(const line of lines) {
+    const nums = (line.match(/\d+\.?\d*/g)||[]).map(Number);
+    if(nums.length < 2) continue;
+    const qty = nums[0];
+    const totalPrice = nums[nums.length-1];
+    const pricePerUnit = qty > 0 ? totalPrice/qty : totalPrice;
+    const nameMatch = line.match(/^([^\d]+)/);
+    if(!nameMatch) continue;
+    const name = nameMatch[1].trim();
+    if(!name) continue;
+    items.push({name, qty, pricePerUnit});
+  }
+  return items;
+}
+
+window.parseTextExpense = function() {
   const text = document.getElementById('ae-paste-text').value.trim();
   if(!text) { alert('วางข้อความก่อน'); return; }
-  if(!shopSettings.geminiApiKey) { alert('กรุณาใส่ Gemini API Key ในหน้า ⚙️ ก่อน'); return; }
   const statusEl = document.getElementById('ae-scan-status');
-  statusEl.style.display=''; statusEl.textContent='🤖 กำลังแปลงข้อความ...'; statusEl.style.color='var(--o600)';
+  statusEl.style.display=''; statusEl.textContent='⚙️ กำลังแปลง...'; statusEl.style.color='var(--o600)';
   const activeCat = document.querySelector('#ae-cat-chips .cf-cat-chip.active')?.dataset.cat || '🛒';
   const pool = activeCat === '📦' ? PACKAGING : stock;
-  const poolNames = pool.map(s=>`${s.name}(${s.unit})`).join(', ');
-  const prompt = `ข้อความต่อไปนี้คือรายการสั่งซื้อสินค้าจาก LINE:
-"${text}"
-
-แปลงเป็น JSON array เท่านั้น ห้ามมีข้อความอื่น:
-[{"name":"ชื่อที่ใกล้เคียงกับ: ${poolNames}","qty":จำนวนที่ซื้อ,"pricePerUnit":ราคาต่อหน่วย}]
-- ถ้ามีเฉพาะราคารวม ให้ pricePerUnit = ราคารวม ÷ qty
-- ตัวเลขท้ายบรรทัดที่ไม่ใช่ quantity คือราคารวม
-- ตอบ JSON เท่านั้น`;
   try {
-    const raw = await callGeminiText(prompt);
-    const jsonStr = raw.replace(/```json|```/g,'').trim();
-    const items = JSON.parse(jsonStr);
-    if(!Array.isArray(items)||!items.length) throw new Error('ไม่พบรายการ');
+    const items = parseExpenseTextLocally(text);
+    if(!items.length) throw new Error('ไม่พบรายการ (ต้องมีตัวเลขในแต่ละบรรทัด)');
     const matched = applyParsedItems(items, pool);
     statusEl.textContent = matched>0
       ? `✅ พบ ${items.length} รายการ จับคู่ได้ ${matched} — ตรวจสอบก่อนบันทึก`
@@ -2713,7 +2719,7 @@ window.parseTextExpense = async function() {
     statusEl.style.color = matched>0 ? 'var(--g600)' : '#D97706';
     document.getElementById('ae-paste-panel').style.display='none';
   } catch(e) {
-    statusEl.textContent='❌ แปลงไม่ได้: '+e.message;
+    statusEl.textContent='❌ '+e.message;
     statusEl.style.color='var(--red600)';
   }
 };
