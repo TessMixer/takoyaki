@@ -2620,11 +2620,12 @@ window.scanReceiptImage = async function(input) {
     const base64 = await new Promise((res,rej)=>{
       const r=new FileReader(); r.onload=e=>res(e.target.result.split(',')[1]); r.onerror=rej; r.readAsDataURL(file);
     });
-    // build prompt — asks Gemini to extract items matching stock list
+    // build prompt — use full pool so items from any category can be recognised
     const activeScanCat = document.querySelector('#ae-cat-chips .cf-cat-chip.active')?.dataset.cat || '🛒';
-    const scanPool = activeScanCat === '📦'
+    const scanCurrentPool = activeScanCat === '📦'
       ? [...PACKAGING, ...stock.filter(s=>s.expCat==='📦')]
       : stock.filter(s=>(s.expCat??'🛒')==='🛒');
+    const scanPool = [...stock, ...PACKAGING];
     const stockNames = scanPool.map(s=>`${s.name}(${s.unit})`).join(', ');
     const prompt = `อ่านใบเสร็จ/สลิปนี้แล้วดึงรายการสินค้า ตอบเป็น JSON array เท่านั้น ห้ามมีข้อความอื่น:
 [{"name":"ชื่อที่ใกล้เคียงกับ: ${stockNames}","qty":จำนวน,"pricePerUnit":ราคาต่อหน่วย}]
@@ -2646,7 +2647,13 @@ window.scanReceiptImage = async function(input) {
     const jsonStr = text.replace(/```json|```/g,'').trim();
     const items = JSON.parse(jsonStr);
     if(!Array.isArray(items)||!items.length) throw new Error('ไม่พบรายการ');
-    // match to stock
+    // rebuild list with matched items first so they're always in the DOM
+    const scanMatchedIds = new Set();
+    items.forEach(item => { const t = findBestMatch(item.name, scanPool); if(t) scanMatchedIds.add(t.id); });
+    const scanMatchedItems = scanPool.filter(s => scanMatchedIds.has(s.id));
+    const scanRestItems = scanCurrentPool.filter(s => !scanMatchedIds.has(s.id));
+    buildAeItemList([...scanMatchedItems, ...scanRestItems]);
+    // now tick them
     let matched=0;
     items.forEach(item=>{
       const target = findBestMatch(item.name, scanPool);
@@ -2754,13 +2761,21 @@ window.parseTextExpense = function() {
   const statusEl = document.getElementById('ae-scan-status');
   statusEl.style.display=''; statusEl.textContent='⚙️ กำลังแปลง...'; statusEl.style.color='var(--o600)';
   const activeCat = document.querySelector('#ae-cat-chips .cf-cat-chip.active')?.dataset.cat || '🛒';
-  const pool = activeCat === '📦'
+  const currentPool = activeCat === '📦'
     ? [...PACKAGING, ...stock.filter(s=>s.expCat==='📦')]
     : stock.filter(s=>(s.expCat??'🛒')==='🛒');
+  // always search full pool so items from other categories (e.g. ไม้ in 📦) get ticked too
+  const fullPool = [...stock, ...PACKAGING];
   try {
     const items = parseExpenseTextLocally(text);
     if(!items.length) throw new Error('ไม่พบรายการ (ต้องมีตัวเลขในแต่ละบรรทัด)');
-    const matched = applyParsedItems(items, pool);
+    // pre-scan to find which items will match, then rebuild list with them at the top
+    const matchedIds = new Set();
+    items.forEach(item => { const t = findBestMatch(item.name, fullPool); if(t) matchedIds.add(t.id); });
+    const matchedItems = fullPool.filter(s => matchedIds.has(s.id));
+    const restItems = currentPool.filter(s => !matchedIds.has(s.id));
+    buildAeItemList([...matchedItems, ...restItems]);
+    const matched = applyParsedItems(items, fullPool);
     statusEl.textContent = matched>0
       ? `✅ พบ ${items.length} รายการ จับคู่ได้ ${matched} — ตรวจสอบก่อนบันทึก`
       : `⚠️ พบ ${items.length} รายการ แต่ไม่ตรงกับสต็อก`;
