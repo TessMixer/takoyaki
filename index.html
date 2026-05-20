@@ -258,7 +258,22 @@ textarea.form-input{resize:none;font-size:12px;}
 .rp-stat-box{background:var(--white);border-radius:var(--r-md);padding:13px 12px;box-shadow:var(--shadow);}
 .rp-stat-num{font-size:18px;font-weight:700;color:var(--gray7);}
 .rp-stat-lbl{font-size:10px;color:var(--gray4);margin-top:2px;}
-.rp-chart-wrap{max-height:310px;overflow-y:auto;padding-right:2px;}
+.rp-chart-wrap{padding-right:2px;}
+/* ── VERTICAL BAR CHART ── */
+.vchart-outer{overflow-x:auto;padding-bottom:2px;}
+.vchart-inner{display:flex;align-items:flex-end;gap:4px;height:160px;padding:0 2px;min-width:max-content;}
+.vchart-col{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;}
+.vchart-bars{display:flex;gap:2px;align-items:flex-end;}
+.vchart-bar{width:9px;border-radius:2px 2px 0 0;min-height:2px;}
+.vchart-bar.rev{background:var(--o400);}
+.vchart-bar.rev.hi{background:var(--o600);}
+.vchart-bar.exp{background:var(--red400);opacity:.75;}
+.vchart-lbl{font-size:8px;color:var(--gray4);margin-top:3px;line-height:1;}
+.vchart-legend{display:flex;gap:12px;margin-top:8px;justify-content:flex-end;padding-right:4px;}
+.vchart-legend-item{font-size:10px;color:var(--gray5);display:flex;align-items:center;gap:4px;}
+.vchart-legend-dot{width:9px;height:9px;border-radius:2px;display:inline-block;}
+.vchart-legend-dot.rev{background:var(--o400);}
+.vchart-legend-dot.exp{background:var(--red400);opacity:.75;}
 .cpb-hero{text-align:center;padding:10px 0 14px;border-bottom:1px solid var(--gray1);margin-bottom:11px;}
 .cpb-hero-val{font-size:30px;font-weight:700;color:var(--o600);line-height:1.1;}
 .cpb-hero-lbl{font-size:11px;color:var(--gray4);margin-top:3px;}
@@ -1773,7 +1788,9 @@ window.renderReport = function renderReport() {
     for(let day=1;day<=daysInMonth;day++){
       const ds=`${day}/${_rpM}/${_rpY}`;
       const isToday=(day===now.getDate()&&_rpM===todayThaiMonth&&_rpY===todayThaiYear);
-      chartData.push({lbl:String(day),val:recs.filter(r=>r.date===ds).reduce((s,r)=>s+r.amount,0),hi:isToday});
+      const val=recs.filter(r=>r.date===ds).reduce((s,r)=>s+r.amount,0);
+      const exp=cashExpenses.filter(e=>e.date===ds).reduce((s,e)=>s+(e.amount||0),0);
+      chartData.push({lbl:String(day),val,exp,hi:isToday});
     }
     periodLabel=_thaiMonthNames[_rpM-1]+' '+_rpY; stripDays=daysInMonth;
     filteredRecs=recs.filter(r=>{const p=r.date.split('/');return Number(p[1])===_rpM&&Number(p[2])===_rpY;});
@@ -1781,7 +1798,8 @@ window.renderReport = function renderReport() {
     _rpY=Number(document.getElementById('rp-year-pick')?.value)||todayThaiYear;
     for(let m=1;m<=12;m++){
       const val=recs.filter(r=>{const p=r.date.split('/');return Number(p[1])===m&&Number(p[2])===_rpY;}).reduce((s,r)=>s+r.amount,0);
-      chartData.push({lbl:_thaiMonthNames[m-1],val,hi:m===todayThaiMonth&&_rpY===todayThaiYear});
+      const exp=cashExpenses.filter(e=>{const p=e.date.split('/');return Number(p[1])===m&&Number(p[2])===_rpY;}).reduce((s,e)=>s+(e.amount||0),0);
+      chartData.push({lbl:_thaiMonthNames[m-1].substring(0,3),val,exp,hi:m===todayThaiMonth&&_rpY===todayThaiYear});
     }
     periodLabel='ปี '+_rpY; stripDays=365;
     filteredRecs=recs.filter(r=>{const p=r.date.split('/');return Number(p[2])===_rpY;});
@@ -1790,11 +1808,28 @@ window.renderReport = function renderReport() {
   const grandTotal=chartData.reduce((s,d)=>s+d.val,0);
   document.getElementById('rp-main-stat').innerHTML=`<div class="rp-main-card"><div class="rp-main-lbl">${periodLabel}</div><div class="rp-main-val">฿${fmt(grandTotal)}</div></div>`;
   document.getElementById('rp-sub-stats').innerHTML=`<div class="rp-stat-grid"><div class="rp-stat-box"><div class="rp-stat-num">฿${fmt(stripDays?grandTotal/stripDays:0)}</div><div class="rp-stat-lbl">เฉลี่ย/วัน</div></div><div class="rp-stat-box"><div class="rp-stat-num">฿${filteredRecs.length?fmt(grandTotal/filteredRecs.length):0}</div><div class="rp-stat-lbl">เฉลี่ย/order</div></div></div>`;
-  const maxV=Math.max(...chartData.map(d=>d.val),1);
-  document.getElementById('report-chart').innerHTML=chartData.map(d=>`
-    <div class="bar-row"><span class="bar-day" style="width:${reportPeriod==='year'?32:22}px">${d.lbl}</span>
-    <div class="bar-track"><div class="bar-fill${d.hi?' today':''}" style="width:${Math.round(d.val/maxV*100)}%"></div></div>
-    <span class="bar-amt" style="width:54px;">฿${fmt(d.val)}</span></div>`).join('');
+  const maxV=Math.max(...chartData.map(d=>Math.max(d.val,d.exp||0)),1);
+  const BAR_H=150;
+  document.getElementById('report-chart').innerHTML=`
+    <div class="vchart-outer">
+      <div class="vchart-inner">
+        ${chartData.map(d=>{
+          const rH=Math.max(Math.round((d.val||0)/maxV*BAR_H),d.val>0?2:0);
+          const eH=Math.max(Math.round((d.exp||0)/maxV*BAR_H),d.exp>0?2:0);
+          return `<div class="vchart-col">
+            <div class="vchart-bars">
+              <div class="vchart-bar rev${d.hi?' hi':''}" style="height:${rH}px" title="รายรับ ฿${fmt(d.val)}"></div>
+              <div class="vchart-bar exp" style="height:${eH}px" title="รายจ่าย ฿${fmt(d.exp||0)}"></div>
+            </div>
+            <div class="vchart-lbl">${d.lbl}</div>
+          </div>`;
+        }).join('')}
+      </div>
+      <div class="vchart-legend">
+        <div class="vchart-legend-item"><span class="vchart-legend-dot rev"></span>รายรับ</div>
+        <div class="vchart-legend-item"><span class="vchart-legend-dot exp"></span>รายจ่าย</div>
+      </div>
+    </div>`;
   if(role==='owner'){
     const periodDates=[...new Set(filteredRecs.map(r=>r.date))];
     const actualPeriod=getActualCostForDateList(periodDates);
