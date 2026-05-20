@@ -2730,7 +2730,7 @@ function applyParsedItems(items, itemPool) {
     if(!cb) return;
     cb.checked = true; toggleAeItem(target.id);
     if(qtyEl) qtyEl.value = item.qty || 1;
-    if(priceEl) priceEl.value = item.pricePerUnit || 0;
+    if(priceEl) priceEl.value = item.totalPrice || ((item.pricePerUnit||0) * (item.qty||1));
     matched++;
   });
   updateAeTotal();
@@ -2741,16 +2741,23 @@ function parseExpenseTextLocally(text) {
   const lines = text.split('\n').map(l=>l.trim()).filter(l=>l.length>0);
   const items = [];
   for(const line of lines) {
-    const nums = (line.match(/\d+\.?\d*/g)||[]).map(Number);
-    if(nums.length < 2) continue;
-    const qty = nums[0];
-    const totalPrice = nums[nums.length-1];
-    const pricePerUnit = qty > 0 ? totalPrice/qty : totalPrice;
-    const nameMatch = line.match(/^([^\d]+)/);
-    if(!nameMatch) continue;
-    const name = nameMatch[1].trim();
-    if(!name) continue;
-    items.push({name, qty, pricePerUnit});
+    const numMatches = [...line.matchAll(/\d+\.?\d*/g)];
+    if(numMatches.length < 2) continue;
+    const totalPrice = parseFloat(numMatches[numMatches.length-1][0]);
+    // when 3+ numbers the item name itself may contain numbers (e.g. "ถุง 4,6" / "กล่อง 4")
+    // so qty = second-to-last number, name = text up to that number's position
+    let qty, name;
+    if(numMatches.length >= 3) {
+      const qtyMatch = numMatches[numMatches.length-2];
+      qty = parseFloat(qtyMatch[0]);
+      name = line.substring(0, qtyMatch.index).trimEnd();
+    } else {
+      qty = parseFloat(numMatches[0][0]);
+      name = line.replace(/\d.*$/, '').trim();
+    }
+    if(!name || qty <= 0) continue;
+    const pricePerUnit = totalPrice / qty;
+    items.push({name, qty, pricePerUnit, totalPrice});
   }
   return items;
 }
