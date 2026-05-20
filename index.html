@@ -2649,10 +2649,7 @@ window.scanReceiptImage = async function(input) {
     // match to stock
     let matched=0;
     items.forEach(item=>{
-      const target = scanPool.find(s=>
-        s.name.includes(item.name) || item.name.includes(s.name) ||
-        levenshtein(s.name, item.name) <= 2
-      );
+      const target = findBestMatch(item.name, scanPool);
       if(!target) return;
       const cb = document.getElementById('ae-cb-'+target.id);
       const qtyEl = document.getElementById('ae-qty-'+target.id);
@@ -2694,13 +2691,31 @@ async function callGeminiText(prompt) {
   return data.candidates?.[0]?.content?.parts?.[0]?.text || '';
 }
 
+function findBestMatch(itemName, pool) {
+  // 1. exact
+  let t = pool.find(s => s.name === itemName);
+  if(t) return t;
+  // 2. parsed name contains stock name ("มายองเนส" in "มายองเนส ..." → but more useful: stock is "ไม้" and parsed is "ไม้เสียบ")
+  //    only when stock name is ≥2 chars to avoid noise
+  t = pool.find(s => s.name.length >= 2 && itemName.includes(s.name));
+  if(t) return t;
+  // 3. stock name contains parsed name ("ยำสาหร่าย" contains "สาหร่าย") — only when parsed ≥3 chars
+  if(itemName.length >= 3) {
+    t = pool.find(s => s.name.includes(itemName));
+    if(t) return t;
+  }
+  // 4. levenshtein — strict: allow 1 edit for short names, 2 for longer
+  t = pool.find(s => {
+    const maxLen = Math.max(s.name.length, itemName.length);
+    return levenshtein(s.name, itemName) <= (maxLen <= 4 ? 1 : 2);
+  });
+  return t || null;
+}
+
 function applyParsedItems(items, itemPool) {
   let matched = 0;
   items.forEach(item => {
-    const target = itemPool.find(s =>
-      s.name.includes(item.name) || item.name.includes(s.name) ||
-      levenshtein(s.name, item.name) <= 2
-    );
+    const target = findBestMatch(item.name, itemPool);
     if(!target) return;
     const cb = document.getElementById('ae-cb-'+target.id);
     const qtyEl = document.getElementById('ae-qty-'+target.id);
