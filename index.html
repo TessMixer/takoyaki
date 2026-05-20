@@ -209,6 +209,10 @@ textarea.form-input{resize:none;font-size:12px;}
 .emp-time{font-size:9px;color:var(--gray4);margin-top:2px;}
 .checkin-btn{background:var(--g50);border:1.5px solid var(--g100);color:var(--g600);border-radius:50px;padding:6px 12px;font-size:10px;font-weight:700;font-family:var(--font);cursor:pointer;}
 .checkout-btn{background:var(--red50);border:1.5px solid #F09595;color:var(--red600);border-radius:50px;padding:6px 12px;font-size:10px;font-weight:700;font-family:var(--font);cursor:pointer;}
+.big-checkin-btn{width:100%;padding:18px;font-size:20px;font-weight:800;border-radius:var(--r);border:none;cursor:pointer;font-family:var(--font);transition:opacity .15s;letter-spacing:.5px;}
+.big-checkin-btn.in{background:var(--g400);color:#fff;}
+.big-checkin-btn.out{background:var(--red400);color:#fff;}
+.big-checkin-btn:active{opacity:.8;}
 
 /* ── MENU PAGE ── */
 .menu-item{display:flex;align-items:center;padding:11px 0;border-bottom:1px solid var(--gray1);gap:11px;}
@@ -434,16 +438,10 @@ textarea.form-input{resize:none;font-size:12px;}
         <div class="owner-only">
           <div id="alert-container"></div>
           <div class="stat-row">
-            <div class="stat-card orange">
+            <div class="stat-card orange" style="flex:1;">
               <div class="stat-icon">💰</div>
               <div class="stat-val big" id="ov-revenue">฿0</div>
               <div class="stat-lbl">รายได้วันนี้ (รวม)</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-icon">🛒</div>
-              <div class="stat-val big" id="ov-orders">0</div>
-              <div class="stat-lbl">ออร์เดอร์รวม</div>
-              <div class="stat-change" id="ov-change">—</div>
             </div>
           </div>
           <div class="stat-row three">
@@ -471,29 +469,6 @@ textarea.form-input{resize:none;font-size:12px;}
             <div class="card-header"><div class="card-title"><span class="ct-icon">📊</span> ยอดขาย 7 วัน</div></div>
             <div id="home-chart"></div>
           </div>
-          <div class="card">
-            <div class="card-header"><div class="card-title"><span class="ct-icon">💹</span> กำไร-ต้นทุนวันนี้</div></div>
-            <div class="profit-row"><span class="pr-label">รายได้รวม</span><span class="pr-val income" id="pf-revenue">฿0</span></div>
-            <div class="profit-row"><span class="pr-label" id="pf-cost-lbl">ต้นทุนวัตถุดิบ (35%)</span><span class="pr-val cost" id="pf-cost">฿0</span></div>
-            <div class="profit-row"><span class="pr-label" id="pf-labor-lbl">ค่าแรงโดยประมาณ</span><span class="pr-val cost" id="pf-labor">฿0</span></div>
-            <div class="profit-row" id="pf-periodic-row" style="display:none;"><span class="pr-label" id="pf-periodic-lbl">ต้นทุนคงที่/วัน <span class="periodic-badge">🔄</span></span><span class="pr-val cost" id="pf-periodic">฿0</span></div>
-            <div class="profit-row" id="pf-wages-row" style="display:none;"><span class="pr-label" id="pf-wages-lbl">ค่าแรง</span><span class="pr-val cost" id="pf-wages">฿0</span></div>
-            <div class="profit-row" id="pf-rent-row" style="display:none;"><span class="pr-label">ค่าเช่าตลาด/วัน</span><span class="pr-val cost" id="pf-rent">฿0</span></div>
-            <div class="profit-row"><span class="pr-label"><strong>กำไรสุทธิ</strong></span><span class="pr-val profit" id="pf-net">฿0</span></div>
-          </div>
-          <div class="card owner-only">
-            <div class="card-header"><div class="card-title"><span class="ct-icon">🔢</span> ต้นทุนวัตถุดิบ/กล่อง (เฉลี่ย)</div></div>
-            <div id="cpb-content"><div class="empty-state"><div class="empty-icon">📦</div>บันทึกปิดวันเพื่อดูข้อมูล</div></div>
-          </div>
-          <div class="card owner-only">
-            <div class="card-header">
-              <div class="card-title"><span class="ct-icon">📋</span> ต้นทุน-กำไรจริงวันนี้</div>
-              <button class="card-action" onclick="openDailyClosing()">+ บันทึก</button>
-            </div>
-            <div id="daily-closing-today-content">
-              <div class="empty-state"><div class="empty-icon">📋</div>ยังไม่ได้บันทึกต้นทุนจริงวันนี้</div>
-            </div>
-          </div>
         </div>
         <div class="staff-only">
           <!-- greeting card -->
@@ -509,21 +484,13 @@ textarea.form-input{resize:none;font-size:12px;}
               <div class="empty-state"><div class="empty-icon">👷</div>กำลังโหลดข้อมูล...</div>
             </div>
           </div>
-          <div class="stat-row">
-            <div class="stat-card orange">
-              <div class="stat-icon">💴</div>
-              <div class="stat-val big" id="st-my-revenue">฿0</div>
-              <div class="stat-lbl">ยอดขายวันนี้</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-icon">🧾</div>
-              <div class="stat-val big" id="st-my-orders">0</div>
-              <div class="stat-lbl">ออร์เดอร์วันนี้</div>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-header"><div class="card-title"><span class="ct-icon">📋</span> รายการล่าสุด</div></div>
-            <div id="staff-history-list"><div class="empty-state"><div class="empty-icon">🧾</div>ยังไม่มีรายการ</div></div>
+          <div style="display:flex;gap:10px;margin-top:4px;">
+            <button onclick="openAddIncome()" style="flex:1;background:var(--g400);color:#fff;border:none;border-radius:var(--r);padding:18px 0;font-size:18px;font-weight:800;font-family:var(--font);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
+              <span style="font-size:22px;">+</span> รายรับ
+            </button>
+            <button onclick="openAddExpense()" style="flex:1;background:var(--red400);color:#fff;border:none;border-radius:var(--r);padding:18px 0;font-size:18px;font-weight:800;font-family:var(--font);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
+              <span style="font-size:22px;">+</span> รายจ่าย
+            </button>
           </div>
         </div>
       </div>
@@ -549,8 +516,8 @@ textarea.form-input{resize:none;font-size:12px;}
         <div class="card owner-only">
           <div class="card-header"><div class="card-title"><span class="ct-icon">💹</span> สรุปกำไร</div></div>
           <div class="profit-row"><span class="pr-label" id="rp-lbl-revenue">รายได้</span><span class="pr-val income" id="rp-revenue">฿0</span></div>
-          <div class="profit-row"><span class="pr-label">ต้นทุนวัตถุดิบ</span><span class="pr-val cost" id="rp-cost">฿0</span></div>
-          <div class="profit-row"><span class="pr-label" id="rp-lbl-labor">ต้นทุนค่าแรง</span><span class="pr-val cost" id="rp-labor">฿0</span></div>
+          <div class="profit-row"><span class="pr-label" id="rp-lbl-cost">ต้นทุนวัตถุดิบ</span><span class="pr-val cost" id="rp-cost">฿0</span></div>
+          <div class="profit-row" id="rp-labor-row" style="display:none;"><span class="pr-label" id="rp-lbl-labor">ต้นทุนอื่น</span><span class="pr-val cost" id="rp-labor">฿0</span></div>
           <div class="profit-row" id="rp-wages-row" style="display:none;"><span class="pr-label" id="rp-lbl-wages">ค่าแรง</span><span class="pr-val cost" id="rp-wages">฿0</span></div>
           <div class="profit-row" id="rp-rent-row" style="display:none;"><span class="pr-label" id="rp-lbl-rent">ค่าเช่าตลาด</span><span class="pr-val cost" id="rp-rent">฿0</span></div>
           <div class="profit-row" id="rp-expense-row" style="display:none;"><span class="pr-label" id="rp-lbl-expense">รายจ่ายอื่น</span><span class="pr-val cost" id="rp-expense">฿0</span></div>
@@ -558,6 +525,10 @@ textarea.form-input{resize:none;font-size:12px;}
           <div id="rp-cost-per-ball-row" style="display:none;margin-top:6px;padding-top:8px;border-top:1px solid var(--gray1);">
             <div class="profit-row"><span class="pr-label">ต้นทุน/ลูก เฉลี่ย <span style="font-size:9px;background:#E0F2FE;color:#0284C7;padding:1px 5px;border-radius:8px;font-weight:700;">🔵 จริง</span></span><span class="pr-val" style="color:#0284C7;font-weight:700;" id="rp-cost-per-ball">—</span></div>
           </div>
+        </div>
+        <div class="card owner-only">
+          <div class="card-header"><div class="card-title"><span class="ct-icon">🔢</span> ต้นทุนวัตถุดิบ/กล่อง (เฉลี่ย)</div></div>
+          <div id="cpb-content"><div class="empty-state"><div class="empty-icon">📦</div>บันทึกปิดวันเพื่อดูข้อมูล</div></div>
         </div>
       </div>
     </div>
@@ -586,6 +557,7 @@ textarea.form-input{resize:none;font-size:12px;}
           <div class="card-header">
             <div class="card-title"><span class="ct-icon">📦</span> สต็อกวัตถุดิบ</div>
             <div style="display:flex;gap:6px;">
+              <button class="card-action owner-only" id="stock-sync-btn" onclick="syncStockFromExpenses()">🔄 ซิงค์ราคา</button>
               <button class="card-action" id="stock-count-btn" onclick="toggleStockCountMode()">🔢 นับสต็อก</button>
               <button class="card-action" onclick="openModal('modal-add-stock')">+ เพิ่ม</button>
             </div>
@@ -828,6 +800,7 @@ textarea.form-input{resize:none;font-size:12px;}
     <div class="form-label">แสดงในรายจ่าย (หมวดหมู่)</div>
     <div class="cf-cat-chips" id="ns-expcat-chips">
       <button type="button" class="cf-cat-chip active" data-val="🛒" onclick="selectStockExpCat('ns',this)">🛒 ซื้อของ</button>
+      <button type="button" class="cf-cat-chip" data-val="🥩" onclick="selectStockExpCat('ns',this)">🥩 ใส้</button>
       <button type="button" class="cf-cat-chip" data-val="📦" onclick="selectStockExpCat('ns',this)">📦 บรรจุภัณฑ์</button>
       <button type="button" class="cf-cat-chip" data-val="" onclick="selectStockExpCat('ns',this)">— ไม่แสดง</button>
     </div>
@@ -864,6 +837,7 @@ textarea.form-input{resize:none;font-size:12px;}
     <div class="form-label">แสดงในรายจ่าย (หมวดหมู่)</div>
     <div class="cf-cat-chips" id="es-expcat-chips">
       <button type="button" class="cf-cat-chip active" data-val="🛒" onclick="selectStockExpCat('es',this)">🛒 ซื้อของ</button>
+      <button type="button" class="cf-cat-chip" data-val="🥩" onclick="selectStockExpCat('es',this)">🥩 ใส้</button>
       <button type="button" class="cf-cat-chip" data-val="📦" onclick="selectStockExpCat('es',this)">📦 บรรจุภัณฑ์</button>
       <button type="button" class="cf-cat-chip" data-val="" onclick="selectStockExpCat('es',this)">— ไม่แสดง</button>
     </div>
@@ -932,10 +906,10 @@ textarea.form-input{resize:none;font-size:12px;}
     <div class="form-label">หมวดหมู่</div>
     <div class="cf-cat-chips" id="ae-cat-chips">
       <button class="cf-cat-chip active" data-cat="🛒" onclick="selectExpenseCat(this)">🛒 ซื้อของ</button>
+      <button class="cf-cat-chip" data-cat="🥩" onclick="selectExpenseCat(this)">🥩 ใส้</button>
+      <button class="cf-cat-chip" data-cat="📦" onclick="selectExpenseCat(this)">📦 บรรจุภัณฑ์</button>
       <button class="cf-cat-chip" data-cat="🚗" onclick="selectExpenseCat(this)">🚗 ค่าเดินทาง</button>
       <button class="cf-cat-chip" data-cat="💡" onclick="selectExpenseCat(this)">💡 ค่าสาธารณูปโภค</button>
-      <button class="cf-cat-chip" data-cat="🔧" onclick="selectExpenseCat(this)">🔧 ซ่อมบำรุง</button>
-      <button class="cf-cat-chip" data-cat="📦" onclick="selectExpenseCat(this)">📦 บรรจุภัณฑ์</button>
       <button class="cf-cat-chip" data-cat="💰" onclick="selectExpenseCat(this)">💰 อื่นๆ</button>
     </div>
     <!-- stock items checklist (🛒 only) -->
@@ -1166,6 +1140,27 @@ async function loadFirestoreData() {
       if(document.getElementById('page-stock')?.classList.contains('active')) renderStock();
     }));
 
+    // PACKAGING — seed ถ้ายังไม่มี
+    const pkSnap = await getDoc(doc(db,'_meta','packaging_seeded'));
+    if(!pkSnap.exists() && !stock.some(s=>s.expCat==='📦')) {
+      await seedPackaging();
+    } else if(!pkSnap.exists()) {
+      await setDoc(doc(db,'_meta','packaging_seeded'), { at: serverTimestamp() });
+    }
+
+    // MIGRATE ใส้ expCat — อัปเดตครั้งเดียวสำหรับ existing users
+    const fillingMeta = await getDoc(doc(db,'_meta','filling_cat_migrated'));
+    if(!fillingMeta.exists()) {
+      const fillingNames = ['หมึก','ปูอัด','ใส้กรอก','ชีท','ยำสาหร่าย'];
+      for(const s of stock) {
+        if(fillingNames.includes(s.name) && s.expCat !== '🥩') {
+          s.expCat = '🥩';
+          if(userUid !== 'demo') await updateDoc(doc(db,'stock',s.id), { expCat: '🥩' });
+        }
+      }
+      if(userUid !== 'demo') await setDoc(doc(db,'_meta','filling_cat_migrated'), { at: serverTimestamp() });
+    }
+
     // EMPLOYEES
     const eSnap = await getDocs(collection(db,'employees'));
     if (eSnap.empty && !alreadySeeded) { await seedEmployees(); }
@@ -1284,11 +1279,19 @@ function loadDemoData() {
     {id:'s3', icon:'🥛',name:'นม',          unit:'กระป๋องเล็ก',  amount:0,max:10, costPerUnit:35},
     {id:'s4', icon:'🫙',name:'มายองเนส',    unit:'ถุง',          amount:0,max:3,  costPerUnit:64},
     {id:'s5', icon:'🍶',name:'ซอส',         unit:'แกลลอน',       amount:0,max:2,  costPerUnit:600, type:'periodic', estimatedDays:14},
-    {id:'s6', icon:'🐙',name:'หมึก',        unit:'กก.',          amount:0,max:5,  costPerUnit:59},
-    {id:'s7', icon:'🦀',name:'ปูอัด',       unit:'แพ็ค',         amount:0,max:10, costPerUnit:0},
-    {id:'s8', icon:'🌭',name:'ใส้กรอก',     unit:'แพ็ค',         amount:0,max:5,  costPerUnit:0},
-    {id:'s9', icon:'🧀',name:'ชีท',         unit:'กก.',         amount:0,max:20, costPerUnit:0},
-    {id:'s10',icon:'🌿',name:'ยำสาหร่าย',   unit:'ถุง',          amount:0,max:5,  costPerUnit:0},
+    {id:'s6', icon:'🐙',name:'หมึก',        unit:'กก.',          amount:0,max:5,  costPerUnit:59,  expCat:'🥩'},
+    {id:'s7', icon:'🦀',name:'ปูอัด',       unit:'แพ็ค',         amount:0,max:10, costPerUnit:0,   expCat:'🥩'},
+    {id:'s8', icon:'🌭',name:'ใส้กรอก',     unit:'แพ็ค',         amount:0,max:5,  costPerUnit:0,   expCat:'🥩'},
+    {id:'s9', icon:'🧀',name:'ชีท',         unit:'กก.',         amount:0,max:20, costPerUnit:0,   expCat:'🥩'},
+    {id:'s10',icon:'🌿',name:'ยำสาหร่าย',   unit:'ถุง',          amount:0,max:5,  costPerUnit:0,   expCat:'🥩'},
+    {id:'p1', icon:'🛍️', name:'ถุง 4,6 ลูก',  unit:'แพ็ค', amount:0, max:10, costPerUnit:57,  expCat:'📦'},
+    {id:'p2', icon:'🛍️', name:'ถุง 8 ลูก',    unit:'แพ็ค', amount:0, max:10, costPerUnit:0,   expCat:'📦'},
+    {id:'p3', icon:'🛍️', name:'ถุง 10 ลูก',   unit:'แพ็ค', amount:0, max:10, costPerUnit:57,  expCat:'📦'},
+    {id:'p4', icon:'📦',  name:'กล่อง 4 ลูก',  unit:'แพ็ค', amount:0, max:5,  costPerUnit:85,  expCat:'📦'},
+    {id:'p5', icon:'📦',  name:'กล่อง 6 ลูก',  unit:'แพ็ค', amount:0, max:5,  costPerUnit:130, expCat:'📦'},
+    {id:'p6', icon:'📦',  name:'กล่อง 8 ลูก',  unit:'แพ็ค', amount:0, max:5,  costPerUnit:140, expCat:'📦'},
+    {id:'p7', icon:'📦',  name:'กล่อง 10 ลูก', unit:'แพ็ค', amount:0, max:5,  costPerUnit:175, expCat:'📦'},
+    {id:'p8', icon:'🥢',  name:'ไม้',           unit:'แพ็ค', amount:0, max:10, costPerUnit:25,  expCat:'📦'},
   ];
   employees = [
     {id:'e1',name:'น้องมิน',role:'พนักงานขาย',branch:'b1',checkedIn:false,checkinTime:null},
@@ -1326,13 +1329,27 @@ async function seedStock() {
     {icon:'🥛',name:'นม',          unit:'กระป๋องเล็ก', amount:0,max:10, costPerUnit:35},
     {icon:'🫙',name:'มายองเนส',    unit:'ถุง',         amount:0,max:3,  costPerUnit:64},
     {icon:'🍶',name:'ซอส',         unit:'แกลลอน',      amount:0,max:2,  costPerUnit:600, type:'periodic', estimatedDays:14},
-    {icon:'🐙',name:'หมึก',        unit:'กก.',         amount:0,max:5,  costPerUnit:59},
-    {icon:'🦀',name:'ปูอัด',       unit:'แพ็ค',        amount:0,max:10, costPerUnit:0},
-    {icon:'🌭',name:'ใส้กรอก',     unit:'แพ็ค',        amount:0,max:5,  costPerUnit:0},
-    {icon:'🧀',name:'ชีท',         unit:'กก.',        amount:0,max:20, costPerUnit:0},
-    {icon:'🌿',name:'ยำสาหร่าย',   unit:'ถุง',         amount:0,max:5,  costPerUnit:0},
+    {icon:'🐙',name:'หมึก',        unit:'กก.',         amount:0,max:5,  costPerUnit:59,  expCat:'🥩'},
+    {icon:'🦀',name:'ปูอัด',       unit:'แพ็ค',        amount:0,max:10, costPerUnit:0,   expCat:'🥩'},
+    {icon:'🌭',name:'ใส้กรอก',     unit:'แพ็ค',        amount:0,max:5,  costPerUnit:0,   expCat:'🥩'},
+    {icon:'🧀',name:'ชีท',         unit:'กก.',        amount:0,max:20, costPerUnit:0,   expCat:'🥩'},
+    {icon:'🌿',name:'ยำสาหร่าย',   unit:'ถุง',         amount:0,max:5,  costPerUnit:0,   expCat:'🥩'},
   ];
   for (const s of seed) { const r = await addDoc(collection(db,'stock'),s); stock.push({id:r.id,...s}); }
+}
+async function seedPackaging() {
+  const seed = [
+    {icon:'🛍️', name:'ถุง 4,6 ลูก',  unit:'แพ็ค', amount:0, max:10, costPerUnit:57,  expCat:'📦'},
+    {icon:'🛍️', name:'ถุง 8 ลูก',    unit:'แพ็ค', amount:0, max:10, costPerUnit:0,   expCat:'📦'},
+    {icon:'🛍️', name:'ถุง 10 ลูก',   unit:'แพ็ค', amount:0, max:10, costPerUnit:57,  expCat:'📦'},
+    {icon:'📦',  name:'กล่อง 4 ลูก',  unit:'แพ็ค', amount:0, max:5,  costPerUnit:85,  expCat:'📦'},
+    {icon:'📦',  name:'กล่อง 6 ลูก',  unit:'แพ็ค', amount:0, max:5,  costPerUnit:130, expCat:'📦'},
+    {icon:'📦',  name:'กล่อง 8 ลูก',  unit:'แพ็ค', amount:0, max:5,  costPerUnit:140, expCat:'📦'},
+    {icon:'📦',  name:'กล่อง 10 ลูก', unit:'แพ็ค', amount:0, max:5,  costPerUnit:175, expCat:'📦'},
+    {icon:'🥢',  name:'ไม้',           unit:'แพ็ค', amount:0, max:10, costPerUnit:25,  expCat:'📦'},
+  ];
+  for(const p of seed) { const r = await addDoc(collection(db,'stock'),p); stock.push({id:r.id,...p}); }
+  await setDoc(doc(db,'_meta','packaging_seeded'), { at: serverTimestamp() });
 }
 let _resetting = false;
 async function resetMenusStock() {
@@ -1390,7 +1407,6 @@ const NAV_OWNER = [
 ];
 const NAV_STAFF = [
   {id:'home',icon:'🏠',label:'หน้าหลัก'},
-  {id:'report',icon:'📊',label:'รายงาน'},
   {id:'stock',icon:'📦',label:'สต็อก'},
   {id:'checkin-log',icon:'🕐',label:'การเข้างาน'},
 ];
@@ -1415,7 +1431,7 @@ window.switchPage = async function(name, el) {
   const pg=document.getElementById('page-'+name); if(pg) pg.classList.add('active');
   el.classList.add('active');
   setPageTitle(name);
-  if(name==='report') { initReportPicker(); renderReport(); }
+  if(name==='report') { initReportPicker(); renderReport(); renderCostPerBall(); }
   if(name==='checkin-log') renderCheckinLog();
   if(name==='stock') renderStock();
   if(name==='menu') { renderBranchMgmt(); await renderStaff(); renderMenuPage(); }
@@ -1459,60 +1475,13 @@ async function renderHome() {
   const openBranches=BRANCHES.filter(b=>b.open).length;
   if(role==='owner') {
     document.getElementById('ov-revenue').textContent='฿'+fmt(rev);
-    document.getElementById('ov-orders').textContent=orders;
-    const yesterday=new Date(); yesterday.setDate(yesterday.getDate()-1);
-    const yds=yesterday.toLocaleDateString('th-TH');
-    const ydOrders=records.filter(r=>r.date===yds).length;
-    const changeEl=document.getElementById('ov-change');
-    if(ydOrders>0){const diff=Math.round((orders-ydOrders)/ydOrders*100);changeEl.textContent=(diff>=0?'+':'')+diff+'% vs เมื่อวาน';changeEl.style.color=diff>=0?'var(--g600)':'var(--red600)';}
-    else changeEl.textContent=orders>0?'วันแรกที่มีออร์เดอร์':'—';
     document.getElementById('ov-profit').textContent='฿'+fmt(profit);
     document.getElementById('ov-staff-in').textContent=checkedIn;
     document.getElementById('ov-branches').textContent=openBranches+'/'+BRANCHES.length;
-    const actualToday = getActualCostForDate(today());
-    const dailyRent = shopSettings.dailyRent || 0;
-    const realCost = (actualToday ? actualToday.totalCost : cost) + dailyRent;
-    const realProfit = rev - realCost;
-    document.getElementById('pf-revenue').textContent='฿'+fmtDec(rev);
-    if(actualToday) {
-      document.getElementById('pf-cost-lbl').innerHTML='ต้นทุนวัตถุดิบจริง <span class="actual-tag">✓ จริง</span>';
-      document.getElementById('pf-cost').textContent=rev>0?'-฿'+fmtDec(actualToday.stockCost):'฿0';
-      document.getElementById('pf-labor-lbl').textContent=actualToday.wasteBalls>0?`ของทิ้ง (${actualToday.wasteBalls} ลูก)`:'ของทิ้ง';
-      document.getElementById('pf-labor').textContent=actualToday.wasteBalls>0?'-฿'+fmtDec(actualToday.wasteCost):'฿0';
-      const periodicRow=document.getElementById('pf-periodic-row');
-      if((actualToday.periodicCost||0)>0){
-        periodicRow.style.display='';
-        document.getElementById('pf-periodic-lbl').innerHTML='ต้นทุนคงที่/วัน <span class="periodic-badge">🔄</span>';
-        document.getElementById('pf-periodic').textContent='-฿'+fmtDec(actualToday.periodicCost);
-      } else { periodicRow.style.display='none'; }
-      const wagesRow=document.getElementById('pf-wages-row');
-      if((actualToday.wages||0)>0){
-        wagesRow.style.display='';
-        document.getElementById('pf-wages').textContent='-฿'+fmtDec(actualToday.wages);
-      } else { wagesRow.style.display='none'; }
-      const rentRow=document.getElementById('pf-rent-row');
-      if(dailyRent>0){
-        rentRow.style.display='';
-        document.getElementById('pf-rent').textContent='-฿'+fmtDec(dailyRent);
-      } else { rentRow.style.display='none'; }
-    } else {
-      document.getElementById('pf-cost-lbl').innerHTML='ต้นทุนวัตถุดิบ (35%) <span class="est-tag">ประมาณ</span>';
-      document.getElementById('pf-labor-lbl').textContent='ค่าแรงโดยประมาณ';
-      document.getElementById('pf-cost').textContent=rev>0?'-฿'+fmtDec(cost):'฿0';
-      document.getElementById('pf-labor').textContent=rev>0?'-฿'+fmt(labor):'฿0';
-      document.getElementById('pf-periodic-row').style.display='none';
-    }
-    document.getElementById('pf-net').textContent='฿'+fmtDec(realProfit);
     renderAlerts(); renderBranchList(); renderHomeChart();
-    renderDailyClosingCard();
-    renderCostPerBall();
   } else {
     document.getElementById('staff-greeting-name').textContent = userName;
     document.getElementById('staff-greeting-branch').textContent = getBranch(userBranch).name;
-
-    const myRev = todayRevenue();
-    document.getElementById('st-my-revenue').textContent = '฿'+fmt(myRev);
-    document.getElementById('st-my-orders').textContent = todayRecords().length;
 
     const empContent = document.getElementById('my-emp-content');
     // Read own checkin status from users collection
@@ -1521,30 +1490,26 @@ async function renderHome() {
       const me = snap.exists() ? snap.data() : {};
       const b = getBranch(me.branch||userBranch);
       empContent.innerHTML = `
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
-          <div class="emp-avatar" style="width:46px;height:46px;font-size:16px;">${(me.name||userName).slice(0,2)}</div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;">
+          <div class="emp-avatar" style="width:52px;height:52px;font-size:18px;">${(me.name||userName).slice(0,2)}</div>
           <div>
-            <div style="font-size:15px;font-weight:700;">${me.name||userName}</div>
+            <div style="font-size:16px;font-weight:700;">${me.name||userName}</div>
             <div style="font-size:12px;color:var(--gray4);">${me.role==='owner'?'👑 Admin':'👷 พนักงาน'} · ${b.name}</div>
           </div>
         </div>
-        <div style="display:flex;align-items:center;justify-content:space-between;background:var(--gray1);border-radius:var(--r-sm);padding:12px 14px;">
-          <div>
-            <div style="font-size:13px;font-weight:700;color:${me.checkedIn?'var(--g600)':'var(--gray6)'};">
-              ${me.checkedIn ? '✅ กำลังทำงาน' : '⏸ ยังไม่ได้เช็คอิน'}
-            </div>
-            <div style="font-size:11px;color:var(--gray4);margin-top:3px;">
-              ${me.checkedIn && me.checkinTime ? 'เช็คอินเวลา '+me.checkinTime+' น.' : 'กดปุ่มเพื่อเริ่มกะทำงาน'}
-            </div>
+        <div style="text-align:center;margin-bottom:18px;">
+          <div style="font-size:42px;margin-bottom:4px;">${me.checkedIn ? '🟢' : '⚪'}</div>
+          <div style="font-size:16px;font-weight:700;color:${me.checkedIn?'var(--g600)':'var(--gray5)'};">
+            ${me.checkedIn ? 'กำลังทำงาน' : 'ยังไม่ได้เช็คอิน'}
           </div>
-          <button class="${me.checkedIn?'checkout-btn':'checkin-btn'}" onclick="staffCheckinToggle('${userUid}')">
-            ${me.checkedIn ? 'เช็คเอาท์' : 'เช็คอิน'}
-          </button>
-        </div>`;
+          ${me.checkedIn && me.checkinTime ? `<div style="font-size:12px;color:var(--gray4);margin-top:4px;">เช็คอินตั้งแต่ ${me.checkinTime} น.</div>` : ''}
+        </div>
+        <button class="big-checkin-btn ${me.checkedIn?'out':'in'}" onclick="staffCheckinToggle('${userUid}')">
+          ${me.checkedIn ? '🔴  เช็คเอาท์' : '🟢  เช็คอิน'}
+        </button>`;
     } catch(e) {
       empContent.innerHTML = `<div class="empty-state"><div class="empty-icon">⚠️</div>โหลดข้อมูลไม่ได้: ${e.message}</div>`;
     }
-    renderStaffHistoryList();
   }
 }
 
@@ -1600,56 +1565,97 @@ function renderBranchList() {
 function renderHomeChart() {
   const days=['จ','อ','พ','พฤ','ศ','ส','อา'];
   const now=new Date(); const todayIdx=(now.getDay()===0)?6:now.getDay()-1;
-  // สร้าง array ข้อมูลยอดขายแต่ละวันในสัปดาห์นี้ (จ-อา) จาก records จริง
-  const data=Array(7).fill(0);
+  const revData=Array(7).fill(0);
+  const expData=Array(7).fill(0);
+  const todayBase=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+  const parseThaiDate=ds=>{const p=ds.split('/');return p.length<3?null:new Date(Number(p[2])-543,Number(p[1])-1,Number(p[0]));};
   records.forEach(r=>{
     if(!r.date) return;
-    // หาว่า record นี้อยู่วันไหนของสัปดาห์ปัจจุบัน
-    const parts=r.date.split('/');
-    if(parts.length<3) return;
-    // แปลง Buddhist year → Gregorian
-    const recDate=new Date(Number(parts[2])-543, Number(parts[1])-1, Number(parts[0]));
-    const diff=Math.round((recDate-new Date(now.getFullYear(),now.getMonth(),now.getDate()))/(86400000));
-    if(diff>0||diff<-6) return; // เฉพาะ 7 วันล่าสุด
-    const dayIdx=(recDate.getDay()===0)?6:recDate.getDay()-1;
-    data[dayIdx]+=r.amount;
+    const d=parseThaiDate(r.date); if(!d) return;
+    const diff=Math.round((d-todayBase)/86400000);
+    if(diff>0||diff<-6) return;
+    revData[(d.getDay()===0)?6:d.getDay()-1]+=r.amount;
   });
-  const maxV=Math.max(...data,1);
-  document.getElementById('home-chart').innerHTML=data.map((v,i)=>`
-    <div class="bar-row">
-      <span class="bar-day">${days[i]}</span>
-      <div class="bar-track"><div class="bar-fill${i===todayIdx?' today':''}" style="width:${Math.round(v/maxV*100)}%"></div></div>
-      <span class="bar-amt">฿${fmt(v)}</span>
-    </div>`).join('');
+  cashExpenses.forEach(e=>{
+    if(!e.date) return;
+    const d=parseThaiDate(e.date); if(!d) return;
+    const diff=Math.round((d-todayBase)/86400000);
+    if(diff>0||diff<-6) return;
+    expData[(d.getDay()===0)?6:d.getDay()-1]+=(e.amount||0);
+  });
+  const maxV=Math.max(...revData,...expData,1);
+  const BAR_H=120;
+  document.getElementById('home-chart').innerHTML=`
+    <div class="vchart-outer">
+      <div class="vchart-inner" style="height:${BAR_H}px;justify-content:space-around;width:100%;">
+        ${days.map((lbl,i)=>{
+          const rH=Math.max(Math.round(revData[i]/maxV*BAR_H),revData[i]>0?2:0);
+          const eH=Math.max(Math.round(expData[i]/maxV*BAR_H),expData[i]>0?2:0);
+          return `<div class="vchart-col">
+            <div class="vchart-bars">
+              <div class="vchart-bar rev${i===todayIdx?' hi':''}" style="height:${rH}px;width:13px;" title="รายรับ ฿${fmt(revData[i])}"></div>
+              <div class="vchart-bar exp" style="height:${eH}px;width:13px;" title="รายจ่าย ฿${fmt(expData[i])}"></div>
+            </div>
+            <div class="vchart-lbl" style="font-size:10px;">${lbl}</div>
+          </div>`;
+        }).join('')}
+      </div>
+      <div class="vchart-legend">
+        <div class="vchart-legend-item"><span class="vchart-legend-dot rev"></span>รายรับ</div>
+        <div class="vchart-legend-item"><span class="vchart-legend-dot exp"></span>รายจ่าย</div>
+      </div>
+    </div>`;
 }
 
 function renderCostPerBall() {
   const el = document.getElementById('cpb-content');
   if(!el) return;
-  // คำนวณจาก daily_closing: เฉลี่ย (stockCost + periodicCost) / ballsMade
-  const valid = dailyClosings.filter(dc => (dc.ballsMade||0) > 0 && (dc.totalStockCost||0) > 0);
-  if(!valid.length) {
-    el.innerHTML='<div class="empty-state"><div class="empty-icon">📦</div>บันทึกปิดวันเพื่อดูข้อมูล</div>';
+
+  // หา stock item ที่มี ballsPerUnit (แป้ง)
+  const flourItem = stock.find(s => (s.ballsPerUnit||0) > 0);
+  const bpu = flourItem ? (flourItem.ballsPerUnit||175) : 175;
+
+  // รวบรวมการซื้อวัตถุดิบ (cat 🛒) ที่มี items
+  const ingExps = cashExpenses.filter(e => e.cat==='🛒' && Array.isArray(e.items) && e.items.length > 0);
+  if(!ingExps.length) {
+    el.innerHTML='<div class="empty-state"><div class="empty-icon">📦</div>ยังไม่มีข้อมูลการซื้อวัตถุดิบ</div>';
     return;
   }
-  const totalB = valid.reduce((s,dc)=>s+(dc.ballsMade||0),0);
-  const totalC = valid.reduce((s,dc)=>s+(dc.totalStockCost||0)+(dc.totalPeriodicCost||0),0);
-  const cpb = totalC / totalB;
+
+  let totalBalls = 0;
+  let totalCost  = 0;
+  for(const exp of ingExps) {
+    for(const item of exp.items) {
+      // ถ้าเป็นแป้ง (หรือ item ที่มี ballsPerUnit) ให้คำนวณลูก
+      const s = stock.find(st => st.id === item.id);
+      const itemBpu = s ? (s.ballsPerUnit||0) : (item.id === (flourItem&&flourItem.id) ? bpu : 0);
+      if(itemBpu > 0) totalBalls += (item.qty||0) * itemBpu;
+      totalCost += (item.totalPrice||0);
+    }
+  }
+
+  if(totalBalls <= 0) {
+    el.innerHTML='<div class="empty-state"><div class="empty-icon">🌾</div>ไม่พบข้อมูลแป้งในรายการซื้อ<br><span style="font-size:11px;color:var(--gray4);">ตั้งค่า "ลูกที่ได้ต่อหน่วย" ในสต็อก</span></div>';
+    return;
+  }
+
+  const cpb = totalCost / totalBalls;
   const BOX_SIZES = [4, 6, 8, 11];
   el.innerHTML=`
     <div class="cpb-hero">
       <div class="cpb-hero-val">฿${cpb.toFixed(2)}</div>
-      <div class="cpb-hero-lbl">ต้นทุนวัตถุดิบต่อ 1 ลูก</div>
+      <div class="cpb-hero-lbl">ต้นทุนวัตถุดิบต่อ 1 ลูก (เฉลี่ย)</div>
     </div>
     <div class="cpb-grid">
       ${BOX_SIZES.map(n=>`<div class="cpb-box"><div class="cpb-size">กล่อง ${n} ลูก</div><div class="cpb-cost">฿${(cpb*n).toFixed(2)}</div></div>`).join('')}
     </div>
-    <div class="cpb-src">จาก ${valid.length} วันที่ปิดบัญชี · ${totalB.toLocaleString()} ลูก</div>`;
+    <div class="cpb-src">จาก ${ingExps.length} ครั้งที่ซื้อ · แป้ง ${Math.round(totalBalls/bpu)} ถุง · ~${totalBalls.toLocaleString()} ลูก</div>`;
 }
 
 function renderStaffHistoryList() {
   const recs=todayRecords().slice(0,5);
   const el=document.getElementById('staff-history-list');
+  if(!el) return;
   if(!recs.length){el.innerHTML='<div class="empty-state"><div class="empty-icon">🧾</div>ยังไม่มีรายการ</div>';return;}
   el.innerHTML=recs.map(r=>`
     <div class="history-item">
@@ -1726,7 +1732,7 @@ window.renderReport = function renderReport() {
     const isToday=dateVal===now.toISOString().split('T')[0];
     periodLabel=`${dy} ${_thaiMonthNames[mo-1]} ${ty}`; stripDays=1;
     document.getElementById('rp-main-stat').innerHTML=`<div class="rp-main-card"><div class="rp-main-lbl">${isToday?'วันนี้':periodLabel}</div><div class="rp-main-val">฿${fmt(grandTotal)}</div></div>`;
-    document.getElementById('rp-sub-stats').innerHTML=`<div class="rp-stat-grid"><div class="rp-stat-box"><div class="rp-stat-num">${filteredRecs.length}</div><div class="rp-stat-lbl">ออร์เดอร์</div></div><div class="rp-stat-box"><div class="rp-stat-num">฿${filteredRecs.length?fmt(grandTotal/filteredRecs.length):0}</div><div class="rp-stat-lbl">เฉลี่ย/order</div></div></div>`;
+    document.getElementById('rp-sub-stats').innerHTML='';
     document.getElementById('report-chart').innerHTML=filteredRecs.length
       ? filteredRecs.map(r=>`<div class="profit-row" style="gap:8px;padding:6px 0;border-bottom:1px solid var(--gray1);">
           <span class="pr-label" style="flex:1;">${getBranch(r.branchId).name||'—'}</span>
@@ -1744,29 +1750,33 @@ window.renderReport = function renderReport() {
       const wasteCost = actualDay ? actualDay.wasteCost : 0;
       const labor = (costSrc==='estimate'&&grandTotal>0) ? 487 : 0;
       const otherExpense = dayExps.filter(e=>!e.autoFixed&&e.cat!=='🛒').reduce((s,e)=>s+(e.amount||0),0);
-      const wagesCost = actualDay ? (actualDay.wages||0) : 0;
+      const hasCheckin = checkinLogs.some(l => l.date === thaiDs && l.type === 'checkin');
+      const wagesCost = actualDay
+        ? (actualDay.wages || (hasCheckin ? shopSettings.defaultWages||0 : 0))
+        : (hasCheckin ? shopSettings.defaultWages||0 : 0);
       const rentCost = shopSettings.dailyRent || 0;
       const net = grandTotal - cost - periodicCost - wasteCost - labor - wagesCost - rentCost - otherExpense;
       document.getElementById('rp-lbl-revenue').textContent='รายได้ ('+periodLabel+')';
       document.getElementById('rp-revenue').textContent='฿'+fmtDec(grandTotal);
+      const laborRowEl = document.getElementById('rp-labor-row');
       if(costSrc==='closing') {
-        document.getElementById('rp-lbl-labor').innerHTML='ต้นทุนวัตถุดิบจริง <span class="actual-tag">✓ จริง</span>';
+        document.getElementById('rp-lbl-cost').innerHTML='ต้นทุนวัตถุดิบจริง <span class="actual-tag">✓ จริง</span>';
         document.getElementById('rp-cost').textContent=grandTotal>0?'-฿'+fmtDec(cost):'฿0';
         let laborHtml='';
         if(periodicCost>0) laborHtml+=`-฿${fmtDec(periodicCost)} <span style="font-size:10px;color:var(--gray4);">(คงที่/วัน 🔄)</span>`;
         if(actualDay.wasteBalls>0) laborHtml+=(laborHtml?' + ':'')+`-฿${fmtDec(wasteCost)} <span style="font-size:10px;color:var(--gray4);">(ของทิ้ง ${actualDay.wasteBalls} ลูก)</span>`;
-        document.getElementById('rp-labor').innerHTML=laborHtml||'฿0';
+        if(laborHtml){laborRowEl.style.display='';document.getElementById('rp-lbl-labor').textContent='ต้นทุนอื่น';document.getElementById('rp-labor').innerHTML=laborHtml;}else{laborRowEl.style.display='none';}
       } else if(costSrc==='purchase') {
-        document.getElementById('rp-lbl-labor').innerHTML='ต้นทุนวัตถุดิบ <span style="font-size:10px;background:var(--g50);color:var(--g600);padding:1px 5px;border-radius:8px;font-weight:700;">🛒 จากซื้อของ</span>';
+        document.getElementById('rp-lbl-cost').innerHTML='ต้นทุนวัตถุดิบ <span style="font-size:10px;background:var(--g50);color:var(--g600);padding:1px 5px;border-radius:8px;font-weight:700;">🛒 จากซื้อของ</span>';
         document.getElementById('rp-cost').textContent=grandTotal>0?'-฿'+fmtDec(cost):'฿0';
-        document.getElementById('rp-labor').textContent='฿0';
+        laborRowEl.style.display='none';
       } else {
-        document.getElementById('rp-lbl-labor').innerHTML='ต้นทุนวัตถุดิบ <span class="est-tag">~ 35%</span>';
+        document.getElementById('rp-lbl-cost').innerHTML='ต้นทุนวัตถุดิบ <span class="est-tag">~ 35%</span>';
         document.getElementById('rp-cost').textContent=grandTotal>0?'-฿'+fmtDec(cost):'฿0';
-        document.getElementById('rp-labor').textContent=grandTotal>0?'-฿'+fmt(labor):'฿0';
+        if(grandTotal>0){laborRowEl.style.display='';document.getElementById('rp-lbl-labor').textContent='ค่าแรง (ประมาณ)';document.getElementById('rp-labor').textContent='-฿'+fmt(labor);}else{laborRowEl.style.display='none';}
       }
       const wagesRow=document.getElementById('rp-wages-row');
-      if(wagesCost>0){wagesRow.style.display='';document.getElementById('rp-lbl-wages').textContent='ค่าแรง';document.getElementById('rp-wages').textContent='-฿'+fmtDec(wagesCost);}else{wagesRow.style.display='none';}
+      if(wagesCost>0){wagesRow.style.display='';document.getElementById('rp-lbl-wages').textContent='ค่าแรง (มีเช็คอิน)';document.getElementById('rp-wages').textContent='-฿'+fmtDec(wagesCost);}else{wagesRow.style.display='none';}
       const rentRow=document.getElementById('rp-rent-row');
       if(rentCost>0){rentRow.style.display='';document.getElementById('rp-lbl-rent').textContent='ค่าเช่าตลาด/วัน';document.getElementById('rp-rent').textContent='-฿'+fmtDec(rentCost);}else{rentRow.style.display='none';}
       const expRow=document.getElementById('rp-expense-row');
@@ -1807,7 +1817,7 @@ window.renderReport = function renderReport() {
 
   const grandTotal=chartData.reduce((s,d)=>s+d.val,0);
   document.getElementById('rp-main-stat').innerHTML=`<div class="rp-main-card"><div class="rp-main-lbl">${periodLabel}</div><div class="rp-main-val">฿${fmt(grandTotal)}</div></div>`;
-  document.getElementById('rp-sub-stats').innerHTML=`<div class="rp-stat-grid"><div class="rp-stat-box"><div class="rp-stat-num">฿${fmt(stripDays?grandTotal/stripDays:0)}</div><div class="rp-stat-lbl">เฉลี่ย/วัน</div></div><div class="rp-stat-box"><div class="rp-stat-num">฿${filteredRecs.length?fmt(grandTotal/filteredRecs.length):0}</div><div class="rp-stat-lbl">เฉลี่ย/order</div></div></div>`;
+  document.getElementById('rp-sub-stats').innerHTML=`<div class="rp-stat-grid"><div class="rp-stat-box"><div class="rp-stat-num">฿${fmt(stripDays?grandTotal/stripDays:0)}</div><div class="rp-stat-lbl">เฉลี่ย/วัน</div></div></div>`;
   const maxV=Math.max(...chartData.map(d=>Math.max(d.val,d.exp||0)),1);
   const BAR_H=150;
   document.getElementById('report-chart').innerHTML=`
@@ -1845,31 +1855,37 @@ window.renderReport = function renderReport() {
     const periodicCost=actualPeriod?(actualPeriod.periodicCost||0):0;
     const wasteCost=actualPeriod?actualPeriod.wasteCost:0;
     const labor=(costSrc==='estimate'&&grandTotal>0)?487*stripDays:0;
-    const wagesCost=actualPeriod?(actualPeriod.wages||0):0;
+    const checkinDays = new Set(checkinLogs.filter(l => {
+      if(l.type !== 'checkin') return false;
+      const p = l.date.split('/');
+      return _rpM ? (Number(p[1])===_rpM && Number(p[2])===_rpY) : Number(p[2])===_rpY;
+    }).map(l=>l.date)).size;
+    const wagesCost=actualPeriod?(actualPeriod.wages||(shopSettings.defaultWages||0)*checkinDays):(shopSettings.defaultWages||0)*checkinDays;
     const rentCost=(shopSettings.dailyRent||0)*stripDays;
     // รายจ่ายอื่น: ไม่รวม 🛒 (นับเป็นต้นทุนวัตถุดิบแล้ว) และ autoFixed
     const otherExpense=allPeriodExps.filter(e=>!e.autoFixed&&e.cat!=='🛒').reduce((s,e)=>s+(e.amount||0),0);
     const net=grandTotal-cost-periodicCost-wasteCost-labor-wagesCost-rentCost-otherExpense;
     document.getElementById('rp-lbl-revenue').textContent='รายได้ ('+periodLabel+')';
     document.getElementById('rp-revenue').textContent='฿'+fmtDec(grandTotal);
+    const laborRowEl2 = document.getElementById('rp-labor-row');
     if(costSrc==='closing'){
-      document.getElementById('rp-lbl-labor').innerHTML=`ต้นทุนวัตถุดิบจริง (${actualPeriod.count} วัน) <span class="actual-tag">✓ จริง</span>`;
+      document.getElementById('rp-lbl-cost').innerHTML=`ต้นทุนวัตถุดิบจริง (${actualPeriod.count} วัน) <span class="actual-tag">✓ จริง</span>`;
       document.getElementById('rp-cost').textContent=grandTotal>0?'-฿'+fmtDec(cost):'฿0';
       let laborHtml='';
       if(periodicCost>0) laborHtml+=`-฿${fmtDec(periodicCost)} <span style="font-size:10px;color:var(--gray4);">(คงที่/วัน 🔄)</span>`;
       if(actualPeriod.wasteBalls>0) laborHtml+=(laborHtml?' + ':'')+`-฿${fmtDec(wasteCost)} <span style="font-size:10px;color:var(--gray4);">(ของทิ้ง ${actualPeriod.wasteBalls} ลูก)</span>`;
-      document.getElementById('rp-labor').innerHTML=laborHtml||'฿0';
+      if(laborHtml){laborRowEl2.style.display='';document.getElementById('rp-lbl-labor').textContent='ต้นทุนอื่น';document.getElementById('rp-labor').innerHTML=laborHtml;}else{laborRowEl2.style.display='none';}
     } else if(costSrc==='purchase'){
-      document.getElementById('rp-lbl-labor').innerHTML='ต้นทุนวัตถุดิบ <span style="font-size:10px;background:var(--g50);color:var(--g600);padding:1px 5px;border-radius:8px;font-weight:700;">🛒 จากซื้อของ</span>';
+      document.getElementById('rp-lbl-cost').innerHTML='ต้นทุนวัตถุดิบ <span style="font-size:10px;background:var(--g50);color:var(--g600);padding:1px 5px;border-radius:8px;font-weight:700;">🛒 จากซื้อของ</span>';
       document.getElementById('rp-cost').textContent=grandTotal>0?'-฿'+fmtDec(cost):'฿0';
-      document.getElementById('rp-labor').textContent='฿0';
+      laborRowEl2.style.display='none';
     } else {
-      document.getElementById('rp-lbl-labor').innerHTML='ต้นทุนวัตถุดิบ <span class="est-tag">~ 35%</span>';
+      document.getElementById('rp-lbl-cost').innerHTML='ต้นทุนวัตถุดิบ <span class="est-tag">~ 35%</span>';
       document.getElementById('rp-cost').textContent=grandTotal>0?'-฿'+fmtDec(cost):'฿0';
-      document.getElementById('rp-labor').textContent=grandTotal>0?'-฿'+fmt(labor):'฿0';
+      if(grandTotal>0){laborRowEl2.style.display='';document.getElementById('rp-lbl-labor').textContent='ค่าแรง (ประมาณ)';document.getElementById('rp-labor').textContent='-฿'+fmt(labor);}else{laborRowEl2.style.display='none';}
     }
     const wagesRow2=document.getElementById('rp-wages-row');
-    if(wagesCost>0){wagesRow2.style.display='';document.getElementById('rp-lbl-wages').textContent=`ค่าแรง (${actualPeriod.count} วัน)`;document.getElementById('rp-wages').textContent='-฿'+fmtDec(wagesCost);}else{wagesRow2.style.display='none';}
+    if(wagesCost>0){wagesRow2.style.display='';document.getElementById('rp-lbl-wages').textContent=`ค่าแรง (${checkinDays} วันที่เช็คอิน)`;document.getElementById('rp-wages').textContent='-฿'+fmtDec(wagesCost);}else{wagesRow2.style.display='none';}
     const rentRow2=document.getElementById('rp-rent-row');
     if(rentCost>0){rentRow2.style.display='';document.getElementById('rp-lbl-rent').textContent=`ค่าเช่าตลาด (${stripDays} วัน)`;document.getElementById('rp-rent').textContent='-฿'+fmtDec(rentCost);}else{rentRow2.style.display='none';}
     const expRow=document.getElementById('rp-expense-row');
@@ -1929,15 +1945,15 @@ function renderStock() {
   const empty=stock.filter(s=>s.amount<=0);
   const sa=document.getElementById('stock-alerts');
   sa.innerHTML=empty.length?`<div class="alert-banner"><div class="alert-pulse"></div><div class="alert-text">⚠️ ${empty.map(s=>s.name).join(', ')} หมดแล้ว!</div></div>`:'';
-  document.getElementById('stock-list').innerHTML=stock.map((s,i)=>{
+  const ingredients = stock.filter(s => (s.expCat||'🛒') !== '📦');
+  const packaging = stock.filter(s => s.expCat === '📦');
+  const renderItem = (s, i) => {
     const isPeriodic=(s.type||'daily')==='periodic';
     const dailyCost=getDailyCostForPeriodic(s);
     if(stockCountMode) {
       return `<div class="stock-item">
         <span class="si-icon">${s.icon}</span>
-        <div class="si-info">
-          <div class="si-name">${s.name}</div>
-        </div>
+        <div class="si-info"><div class="si-name">${s.name}</div></div>
         <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;">
           <input type="number" id="sc-input-${s.id}" value="${s.amount}" min="0" step="0.5"
             style="width:70px;border:2px solid var(--o300);border-radius:8px;padding:6px 8px;font-size:15px;font-weight:700;text-align:center;font-family:var(--font);color:var(--gray7);outline:none;background:#fffbf5;"
@@ -1962,7 +1978,10 @@ function renderStock() {
         <span style="font-size:11px;color:var(--gray4);">${s.unit}</span>
       </div>
     </div>`;
-  }).join('');
+  };
+  document.getElementById('stock-list').innerHTML =
+    ingredients.map(renderItem).join('') +
+    (packaging.length ? `<div style="margin:10px 0 6px;padding:6px 0 2px;border-top:1px solid var(--gray2);font-size:11px;font-weight:700;color:var(--gray4);letter-spacing:.5px;">📦 บรรจุภัณฑ์</div>` + packaging.map(renderItem).join('') : '');
   if(role==='owner'){
     const cl=document.getElementById('cost-list');
     if(cl) cl.innerHTML=stock.map((s,i)=>`
@@ -1974,6 +1993,73 @@ function renderStock() {
       </div>`).join('');
   }
 }
+
+window.syncStockFromExpenses = async function() {
+  // รวบรวมการซื้อทุกหมวดที่มี items (🛒 🥩 📦)
+  const allCats = new Set(['🛒','🥩','📦']);
+  const purchases = cashExpenses
+    .filter(e => allCats.has(e.cat) && Array.isArray(e.items) && e.items.length > 0)
+    .sort((a, b) => {
+      if(a.ts && b.ts) return b.ts.seconds - a.ts.seconds;
+      const parseDate = d => { const p = d.split('/'); return new Date(Number(p[2])-543, Number(p[1])-1, Number(p[0])); };
+      return parseDate(b.date) - parseDate(a.date);
+    });
+
+  // สร้าง map: id→stock และ name→stock สำหรับ lookup
+  const stockById   = Object.fromEntries(stock.map(s=>[s.id, s]));
+  const stockByName = Object.fromEntries(stock.map(s=>[s.name, s]));
+
+  // หาราคาล่าสุด + รวม qty ทั้งหมดที่เคยซื้อ (key = stock.id จริง)
+  const latestPrice = {}; // stockId → {unitPrice, date}
+  const totalQty    = {}; // stockId → totalQty
+  for(const exp of purchases) {
+    for(const item of exp.items) {
+      // match by ID ก่อน ถ้าไม่เจอให้ match by name (กรณี p1/p2 เก่า)
+      const s = stockById[item.id] || stockByName[item.name];
+      if(!s) continue;
+      const sid = s.id;
+      if(!latestPrice[sid]) latestPrice[sid] = { unitPrice: item.unitPrice||0, date: exp.date };
+      totalQty[sid] = (totalQty[sid]||0) + (item.qty||0);
+    }
+  }
+
+  if(!Object.keys(latestPrice).length) { alert('ไม่พบข้อมูลการซื้อ'); return; }
+
+  const btn = document.getElementById('stock-sync-btn');
+  if(btn) { btn.textContent = '⏳ กำลังซิงค์...'; btn.disabled = true; }
+
+  try {
+    setSyncStatus(true);
+    for(const s of stock) {
+      const lp  = latestPrice[s.id];
+      const tq  = totalQty[s.id] || 0;
+      if(!lp) continue;
+      const updates = {};
+      if(lp.unitPrice > 0 && s.costPerUnit !== lp.unitPrice) {
+        s.costPerUnit = lp.unitPrice;
+        s.lastPurchaseDate = lp.date;
+        updates.costPerUnit = lp.unitPrice;
+        updates.lastPurchaseDate = lp.date;
+      }
+      // อัปเดต amount เฉพาะรายการที่ยังเป็น 0 (ยังไม่เคย set)
+      if(s.amount === 0 && tq > 0) {
+        s.amount = tq;
+        updates.amount = tq;
+      }
+      if(Object.keys(updates).length && userUid !== 'demo') {
+        await updateDoc(doc(db,'stock',s.id), updates);
+      }
+    }
+    setSyncStatus(false);
+    renderStock();
+    if(btn) { btn.textContent = '✅ ซิงค์แล้ว'; setTimeout(()=>{ btn.textContent='🔄 ซิงค์ราคา'; btn.disabled=false; }, 2000); }
+  } catch(e) {
+    setSyncStatus(false);
+    console.error(e);
+    alert('ซิงค์ไม่สำเร็จ: '+e.message);
+    if(btn) { btn.textContent = '🔄 ซิงค์ราคา'; btn.disabled = false; }
+  }
+};
 
 function getDailyCostForPeriodic(s) {
   if((s.type||'daily')!=='periodic'||!s.lastPurchaseCost||!s.estimatedDays) return 0;
@@ -2535,7 +2621,7 @@ const CF_CATS = {
   '🛒': {label:'ซื้อของ',   color:'#F59E0B'},
   '🚗': {label:'ค่าเดินทาง', color:'#6366F1'},
   '💡': {label:'สาธารณูปโภค',color:'#0EA5E9'},
-  '🔧': {label:'ซ่อมบำรุง', color:'#EF4444'},
+  '🥩': {label:'ใส้',        color:'#F97316'},
   '📦': {label:'บรรจุภัณฑ์', color:'#10B981'},
   '💰': {label:'อื่นๆ',      color:'#9CA3AF'},
 };
@@ -2658,9 +2744,9 @@ window.scanReceiptImage = async function(input) {
     // build prompt — use full pool so items from any category can be recognised
     const activeScanCat = document.querySelector('#ae-cat-chips .cf-cat-chip.active')?.dataset.cat || '🛒';
     const scanCurrentPool = activeScanCat === '📦'
-      ? [...PACKAGING, ...stock.filter(s=>s.expCat==='📦')]
+      ? stock.filter(s=>s.expCat==='📦')
       : stock.filter(s=>(s.expCat??'🛒')==='🛒');
-    const scanPool = [...stock, ...PACKAGING];
+    const scanPool = [...stock];
     const stockNames = scanPool.map(s=>`${s.name}(${s.unit})`).join(', ');
     const prompt = `อ่านใบเสร็จ/สลิปนี้แล้วดึงรายการสินค้า ตอบเป็น JSON array เท่านั้น ห้ามมีข้อความอื่น:
 [{"name":"ชื่อที่ใกล้เคียงกับ: ${stockNames}","qty":จำนวน,"pricePerUnit":ราคาต่อหน่วย}]
@@ -2676,11 +2762,37 @@ window.scanReceiptImage = async function(input) {
         ]}]})
       }
     );
-    if(!resp.ok) throw new Error(`Gemini error ${resp.status}`);
-    const data = await resp.json();
-    const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
-    const jsonStr = text.replace(/```json|```/g,'').trim();
-    const items = JSON.parse(jsonStr);
+    if(resp.status === 429) {
+      // countdown 30 วิก่อน retry
+      const scanBtn = document.querySelector('label[for="ae-slip-input"]') || document.querySelector('[onclick*="scanReceiptImage"]');
+      for(let i=30; i>0; i--) {
+        statusEl.textContent = `⏳ API limit — รอ ${i} วินาที...`;
+        statusEl.style.color = '#D97706';
+        await new Promise(r => setTimeout(r, 1000));
+      }
+      statusEl.textContent = '🔍 กำลังลองใหม่...';
+      statusEl.style.color = 'var(--gray5)';
+      const resp2 = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`,
+        { method:'POST', headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({ contents:[{ parts:[
+            { inline_data:{ mime_type: file.type, data: base64 } },
+            { text: prompt }
+          ]}]})
+        }
+      );
+      if(!resp2.ok) throw new Error(resp2.status === 429 ? 'API limit เกิน กรุณารอแล้วลองใหม่' : `Gemini error ${resp2.status}`);
+      var retryData = await resp2.json();
+      var retryText = retryData.candidates?.[0]?.content?.parts?.[0]?.text || '';
+      var retryJson = retryText.replace(/```json|```/g,'').trim();
+      var items = JSON.parse(retryJson);
+    } else {
+      if(!resp.ok) throw new Error(`Gemini error ${resp.status}`);
+      const data = await resp.json();
+      const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+      const jsonStr = text.replace(/```json|```/g,'').trim();
+      var items = JSON.parse(jsonStr);
+    }
     if(!Array.isArray(items)||!items.length) throw new Error('ไม่พบรายการ');
     // rebuild list with matched items first so they're always in the DOM
     const scanMatchedIds = new Set();
@@ -2728,6 +2840,17 @@ async function callGeminiText(prompt) {
     { method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({ contents:[{ parts:[{ text: prompt }] }] }) }
   );
+  if(resp.status === 429) {
+    await new Promise(r => setTimeout(r, 5000));
+    const resp2 = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`,
+      { method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ contents:[{ parts:[{ text: prompt }] }] }) }
+    );
+    if(!resp2.ok) throw new Error(resp2.status === 429 ? 'API limit เกิน ลองใหม่อีกครู่' : `Gemini error ${resp2.status}`);
+    const data2 = await resp2.json();
+    return data2.candidates?.[0]?.content?.parts?.[0]?.text || '';
+  }
   if(!resp.ok) throw new Error(`Gemini error ${resp.status}`);
   const data = await resp.json();
   return data.candidates?.[0]?.content?.parts?.[0]?.text || '';
@@ -2804,10 +2927,10 @@ window.parseTextExpense = function() {
   statusEl.style.display=''; statusEl.textContent='⚙️ กำลังแปลง...'; statusEl.style.color='var(--o600)';
   const activeCat = document.querySelector('#ae-cat-chips .cf-cat-chip.active')?.dataset.cat || '🛒';
   const currentPool = activeCat === '📦'
-    ? [...PACKAGING, ...stock.filter(s=>s.expCat==='📦')]
+    ? stock.filter(s=>s.expCat==='📦')
     : stock.filter(s=>(s.expCat??'🛒')==='🛒');
   // always search full pool so items from other categories (e.g. ไม้ in 📦) get ticked too
-  const fullPool = [...stock, ...PACKAGING];
+  const fullPool = [...stock];
   try {
     const items = parseExpenseTextLocally(text);
     if(!items.length) throw new Error('ไม่พบรายการ (ต้องมีตัวเลขในแต่ละบรรทัด)');
@@ -2900,7 +3023,7 @@ window.selectExpenseCat = function(el) {
   document.querySelectorAll('#ae-cat-chips .cf-cat-chip').forEach(c => c.classList.remove('active'));
   el.classList.add('active');
   const cat = el.dataset.cat;
-  const showPanel = cat === '🛒' || cat === '📦';
+  const showPanel = cat === '🛒' || cat === '📦' || cat === '🥩';
   document.getElementById('ae-stock-panel').style.display = showPanel ? '' : 'none';
   document.getElementById('ae-manual-panel').style.display = showPanel ? 'none' : '';
   const presetsEl = document.getElementById('ae-presets');
@@ -2915,7 +3038,7 @@ window.selectExpenseCat = function(el) {
     presetsEl.innerHTML = '';
   }
   if(!showPanel) document.getElementById('ae-name').value = '';
-  if(cat === '🛒' || cat === '📦') {
+  if(cat === '🛒' || cat === '📦' || cat === '🥩') {
     // save checked state before rebuild
     const saved = {};
     (_aeItems||[]).forEach(s => {
@@ -2928,8 +3051,10 @@ window.selectExpenseCat = function(el) {
     });
     // build new category pool, excluding already-saved items (avoid duplicates)
     const newPool = cat === '📦'
-      ? [...PACKAGING, ...stock.filter(s=>s.expCat==='📦')]
-      : stock.filter(s=>(s.expCat??'🛒')==='🛒');
+      ? stock.filter(s=>s.expCat==='📦')
+      : cat === '🥩'
+        ? stock.filter(s=>s.expCat==='🥩')
+        : stock.filter(s=>(s.expCat??'🛒')==='🛒');
     const savedIds = new Set(Object.keys(saved));
     const savedItems = Object.values(saved).map(v=>v.item);
     buildAeItemList([...savedItems, ...newPool.filter(s=>!savedIds.has(s.id))]);
@@ -2955,7 +3080,7 @@ window.confirmAddExpense = async function() {
 
   let name, amount, items = [];
 
-  if(cat === '🛒' || cat === '📦') {
+  if(cat === '🛒' || cat === '📦' || cat === '🥩') {
     items = _aeItems.map(s => {
       const cb       = document.getElementById('ae-cb-'+s.id);
       const qty      = parseFloat(document.getElementById('ae-qty-'+s.id)?.value)||0;
@@ -2982,8 +3107,8 @@ window.confirmAddExpense = async function() {
       branchId: userBranch, uid: userUid,
       ts: serverTimestamp(),
     });
-    // อัปเดต stock amount เฉพาะ 🛒 (บรรจุภัณฑ์ไม่มีใน stock)
-    if(cat === '🛒' && userUid !== 'demo') {
+    // อัปเดต stock amount สำหรับ 🛒 และ 🥩 (บรรจุภัณฑ์มีใน stock แล้ว แต่ไม่นับจำนวน)
+    if((cat === '🛒' || cat === '🥩' || cat === '📦') && userUid !== 'demo') {
       for(const item of items) {
         const s = stock.find(st => st.id === item.id);
         if(!s) continue;
