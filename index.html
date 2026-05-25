@@ -2291,15 +2291,26 @@ function renderStock() {
       }).join('');
       sparkHtml = `<div class="sparkline" title="ประวัติราคา">${bars}</div>`;
     }
+    const daysLeft = estimateDaysRemaining(s);
+    const daysBg  = daysLeft===null?'':daysLeft<=1?'var(--red50)':daysLeft<=4?'var(--r50)':'var(--g50)';
+    const daysClr = daysLeft===null?'':daysLeft<=1?'var(--red600)':daysLeft<=4?'var(--r600)':'var(--g600)';
+    const daysTag = daysLeft!==null
+      ? `<span style="font-size:10px;padding:1px 7px;border-radius:10px;font-weight:700;background:${daysBg};color:${daysClr};margin-left:5px;">~${daysLeft}วัน</span>`
+      : '';
+    // periodic: แสดง ฿/วัน + วันที่เหลือ
+    const periodicSubline = isPeriodic
+      ? `<div class="si-qty">${dailyCost>0
+          ? `<span style="color:#4F46E5;font-weight:600;">฿${fmt(Math.round(dailyCost*10)/10)}/วัน</span>` +
+            (daysLeft!==null ? ` · <span style="color:${daysClr};font-weight:700;">เหลือ~${daysLeft}วัน</span>` : ` · ล่าสุด ${s.lastPurchaseDate||'—'}`)
+          : 'ยังไม่มีข้อมูลการซื้อ'}</div>`
+      : `<div class="si-qty" style="display:flex;align-items:center;gap:4px;">
+          ${daysLeft!==null?`<span style="color:${daysClr};font-size:10px;font-weight:700;">~${daysLeft} วัน</span>`:''}
+         </div>`;
     return `<div class="stock-item">
       <span class="si-icon">${s.icon}</span>
       <div class="si-info">
         <div class="si-name">${s.name}${isPeriodic?'<span class="periodic-badge">🔄</span>':''}${sparkHtml}</div>
-        ${isPeriodic
-          ? `<div class="si-qty">${dailyCost>0
-              ? `<span style="color:#4F46E5;font-weight:600;">฿${fmt(Math.round(dailyCost*10)/10)}/วัน</span> · ล่าสุด ${s.lastPurchaseDate||'—'}`
-              : 'ยังไม่มีข้อมูลการซื้อ'}</div>`
-          : ''}
+        ${periodicSubline}
       </div>
       <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
         <span style="font-size:15px;font-weight:700;color:${amtColor};">${s.amount}</span>
@@ -2388,6 +2399,39 @@ function getDailyCostForPeriodic(s) {
   return s.lastPurchaseCost / s.estimatedDays;
 }
 
+function _parseThaiDate(ds) {
+  if(!ds) return null;
+  const p = ds.split('/');
+  return p.length < 3 ? null : new Date(Number(p[2])-543, Number(p[1])-1, Number(p[0]));
+}
+
+// คำนวณประมาณวันที่เหลือก่อนหมด — คืน null ถ้าไม่มีข้อมูลพอ
+function estimateDaysRemaining(s) {
+  if((s.type||'daily') === 'periodic') {
+    if(!s.lastPurchaseDate || !s.estimatedDays) return null;
+    const lastBuy = _parseThaiDate(s.lastPurchaseDate);
+    if(!lastBuy) return null;
+    const daysSince = Math.round((Date.now() - lastBuy) / 86400000);
+    return Math.max(0, s.estimatedDays - daysSince);
+  }
+  // daily — ประเมินจากประวัติการซื้อใน cashExpenses
+  const purchases = cashExpenses
+    .filter(e => RAW_MAT_CATS.has(e.cat) && Array.isArray(e.items))
+    .flatMap(e => e.items
+      .filter(i => i.id === s.id || i.name === s.name)
+      .map(i => ({date: e.date, qty: i.qty||0})))
+    .filter(p => p.qty > 0)
+    .sort((a,b) => (_parseThaiDate(a.date)||0) - (_parseThaiDate(b.date)||0));
+  if(purchases.length < 2) return null;
+  const totalQty   = purchases.reduce((sum,p) => sum+p.qty, 0);
+  const firstDate  = _parseThaiDate(purchases[0].date);
+  const lastDate   = _parseThaiDate(purchases[purchases.length-1].date);
+  const spanDays   = Math.max(1, Math.round((lastDate - firstDate) / 86400000));
+  const dailyUsage = totalQty / spanDays;
+  if(dailyUsage <= 0) return null;
+  return Math.round(s.amount / dailyUsage);
+}
+
 window.updateRestockDailyCost = function() {
   const s = stock[restockStockIdx]; if(!s) return;
   const qty = Number(document.getElementById('restock-amount')?.value)||0;
@@ -2444,6 +2488,14 @@ window.confirmRestock = async function() {
 window.selectStockExpCat = function(prefix, el) {
   document.querySelectorAll(`#${prefix}-expcat-chips .cf-cat-chip`).forEach(c=>c.classList.remove('active'));
   el.classList.add('active');
+  // 📦 = บรรจุภัณฑ์ → auto-switch เป็น periodic + แนะนำ 20 วัน
+  const typeEl = document.getElementById(`${prefix}-type`);
+  if(typeEl && el.dataset.val === '📦') {
+    typeEl.value = 'periodic';
+    if(prefix==='ns') toggleNsPeriodicFields(); else toggleEsPeriodicFields();
+    const daysEl = document.getElementById(`${prefix}-est-days`);
+    if(daysEl && !daysEl.value) daysEl.value = 20;
+  }
 };
 function getStockExpCat(prefix) {
   return document.querySelector(`#${prefix}-expcat-chips .cf-cat-chip.active`)?.dataset.val ?? '🛒';
