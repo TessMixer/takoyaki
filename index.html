@@ -1830,7 +1830,8 @@ window.exportReportCSV = function() {
     const dayRev  = records.filter(r=>r.date===thaiDs).reduce((s,r)=>s+r.amount,0);
     const dayExps = cashExpenses.filter(e=>e.date===thaiDs);
     const rawCost = dayExps.filter(e=>RAW_MAT_CATS.has(e.cat)).reduce((s,e)=>s+(e.amount||0),0);
-    const wages   = dayExps.filter(e=>e.autoFixed&&e.name&&e.name.includes('ค่าแรง')).reduce((s,e)=>s+(e.amount||0),0) || (shopSettings.defaultWages||0);
+    const hasCheckin = checkinLogs.some(l=>l.date===thaiDs&&l.type==='checkin');
+    const wages = hasCheckin ? (shopSettings.defaultWages||0) : 0;
     const rent    = shopSettings.dailyRent || 0;
     const other   = dayExps.filter(e=>!e.autoFixed&&!RAW_MAT_CATS.has(e.cat)).reduce((s,e)=>s+(e.amount||0),0);
     const net     = dayRev - rawCost - wages - rent - other;
@@ -2905,7 +2906,8 @@ function getActualCostForDate(thaiDate) {
   const ballsMade    = clos.reduce((s,dc) => s+(dc.ballsMade||0), 0);
   const stockCost    = clos.reduce((s,dc) => s+(dc.totalStockCost||0), 0);
   const periodicCost = clos.reduce((s,dc) => s+(dc.totalPeriodicCost||0), 0);
-  const wasteCost    = clos.reduce((s,dc) => s+(dc.wasteBalls||0)*COST_PER_BALL, 0);
+  // ใช้ costPerBall จากการบันทึกจริง (ถ้ามี) แทน COST_PER_BALL fixed
+  const wasteCost    = clos.reduce((s,dc) => s+(dc.wasteBalls||0)*(dc.costPerBall||COST_PER_BALL), 0);
   const wages        = clos.reduce((s,dc) => s+(dc.wages||0), 0);
   return {
     stockCost, periodicCost, wages,
@@ -2925,7 +2927,7 @@ function getActualCostForDateList(thaiDates) {
   const ballsMade    = relevant.reduce((s,dc) => s+(dc.ballsMade||0), 0);
   const stockCost    = relevant.reduce((s,dc) => s+(dc.totalStockCost||0), 0);
   const periodicCost = relevant.reduce((s,dc) => s+(dc.totalPeriodicCost||0), 0);
-  const wasteCost    = relevant.reduce((s,dc) => s+(dc.wasteBalls||0)*COST_PER_BALL, 0);
+  const wasteCost    = relevant.reduce((s,dc) => s+(dc.wasteBalls||0)*(dc.costPerBall||COST_PER_BALL), 0);
   const wages        = relevant.reduce((s,dc) => s+(dc.wages||0), 0);
   return {
     stockCost, periodicCost, wages,
@@ -3714,12 +3716,12 @@ window.updateDcPreview = function() {
     if(cb?.checked){ const c=getDailyCostForPeriodic(s); periodicTotal+=c; periodicRows.push(`${s.icon} ${s.name} ฿${fmt(Math.round(c*10)/10)}/วัน`); }
   });
   const waste = Number(document.getElementById('dc-waste-balls')?.value)||0;
-  const wasteCost = waste * COST_PER_BALL;
   const wages = Number(document.getElementById('dc-wages')?.value)||0;
   const ballsMade = Number(document.getElementById('dc-balls-made')?.value)||0;
-  const grandTotal = dailyTotal + periodicTotal + wasteCost + wages;
   const costPerBall = (ballsMade > 0 && (dailyTotal+periodicTotal) > 0)
     ? (dailyTotal+periodicTotal) / ballsMade : 0;
+  const wasteCost = waste * (costPerBall > 0 ? costPerBall : COST_PER_BALL);
+  const grandTotal = dailyTotal + periodicTotal + wasteCost + wages;
   const hint = document.getElementById('dc-balls-hint');
   if(hint) hint.textContent = costPerBall > 0 ? `→ ต้นทุน ฿${costPerBall.toFixed(2)}/ลูก` : '';
   const preview = document.getElementById('dc-cost-preview');
@@ -3782,9 +3784,10 @@ window.confirmDailyClosing = async function() {
       date:thaiDate, branchId, branchName:getBranch(branchId).name,
       stockUsed, totalStockCost,
       periodicItems, totalPeriodicCost,
-      wasteBalls, wasteCost:wasteBalls*COST_PER_BALL,
-      ballsMade, wages,
+      wasteBalls,
       costPerBall: (ballsMade>0 && totalIngredientCost>0) ? totalIngredientCost/ballsMade : 0,
+      wasteCost: wasteBalls * ((ballsMade>0 && totalIngredientCost>0) ? totalIngredientCost/ballsMade : COST_PER_BALL),
+      ballsMade, wages,
       note, ts:serverTimestamp(), createdBy:userUid, createdByName:userName,
     });
     // หักสต็อกที่ใช้จริง
